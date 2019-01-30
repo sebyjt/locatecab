@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'Login.dart';
 void main()
 {
   runApp(MaterialApp(
@@ -7,8 +9,14 @@ void main()
   ));
 }
 class Splash  extends StatelessWidget {
+  Duration duration=const Duration(seconds: 5);
   @override
   Widget build(BuildContext context) {
+
+    Timer(duration,(){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>new Login()));
+    }
+    );
     var height=MediaQuery.of(context).size.height;
     var width=MediaQuery.of(context).size.width;
     return Scaffold(
