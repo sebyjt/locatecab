@@ -15,7 +15,7 @@ class Splash  extends StatelessWidget {
       body: Container(
         height: height,
         width: width,
-        color: Color(0xffffd500),
+        color: Color(0xffffa200),
         child:new Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -27,7 +27,7 @@ class Splash  extends StatelessWidget {
                     TextStyle(
                       color: Color(0xfffd4a44),
                       fontSize: 22.0,
-
+                      fontWeight: FontWeight.bold
                     ),))
             ],
           ),
