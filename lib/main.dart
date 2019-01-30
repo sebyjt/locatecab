@@ -31,10 +31,11 @@ class Splash  extends StatelessWidget {
               Image.asset("Assets/logo.png",height: 100,width: 100,),
               Padding(
                 padding: EdgeInsets.only(top: 50.0),
-                  child:Text("LocateCab Ajce",style:
+                  child:Text("LocateCab AJCE",style:
                     TextStyle(
                       color: Color(0xfffd4a44),
-                      fontSize: 22.0,
+                        fontSize: 22.0,
+                      fontFamily: 'Gothic',
                       fontWeight: FontWeight.bold
                     ),))
             ],
