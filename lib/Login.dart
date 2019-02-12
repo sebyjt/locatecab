@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Landing.dart';
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -27,6 +28,7 @@ class _LoginState extends State<Login> {
          ),
          onPressed: (){
            //action
+           Navigator.push(context, MaterialPageRoute(builder: (context)=>new Landing()));
          }),)
     ],
   )
