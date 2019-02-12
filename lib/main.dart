@@ -34,7 +34,7 @@ class _SplashState extends State<Splash> {
       body: Container(
           height: height,
           width: width,
-          color: Color(0xffffa200),
+          color: Colors.white,
           child:new Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

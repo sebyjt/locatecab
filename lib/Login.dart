@@ -16,15 +16,20 @@ class _LoginState extends State<Login> {
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
       Image.asset("Assets/logo.png",height: 100.0,width: 100.0,),
-     new Padding(padding: EdgeInsets.only(top:50.0),child:  RaisedButton(
+     new Padding(padding: EdgeInsets.only(top:50.0,left: 20.0,right: 20.0),child:  RaisedButton(
          color: Colors.orangeAccent,
          shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)) ,
-         child: Text(""
+         child: new Row(
+           crossAxisAlignment: CrossAxisAlignment.center,
+           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+           children:[
+           new Image.asset("Assets/g.png",height:50.0,width:50.0,),
+           Text(""
              "Sign in with Amal Jyothi Mail",
            style: TextStyle(
-               fontSize: 20.0,
-               color: Colors.red
-           ),
+               fontSize:15.0,
+               color: Colors.white
+           ))],
          ),
          onPressed: (){
            //action
