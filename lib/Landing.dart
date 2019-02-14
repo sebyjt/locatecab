@@ -1,38 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 class Landing extends StatefulWidget {
   @override
   _LandingState createState() => _LandingState();
 }
 
 class _LandingState extends State<Landing> {
+  GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-          drawer: Drawer(),
-          appBar: AppBar(
-            leading: GestureDetector(child:Icon(Icons.navigate_before),onTap:(){ Navigator.pop(context);},),
-            backgroundColor: Colors.orangeAccent,
-            centerTitle:true,
-            elevation: 0.0,
-            title:  Text("Mark my Location",style: TextStyle(
-              color: Colors.white,fontFamily: 'Gothic',
-              fontWeight:FontWeight.bold
-            ),),
-            
-            actions: <Widget>[
-              Padding(padding: EdgeInsets.only(right: 10.0),child:
-              Icon(Icons.person,color: Colors.white,)
-              )
-            ],
+    return Scaffold(
+      drawer: Drawer(),
+      appBar: AppBar(
+        leading: GestureDetector(child:Icon(Icons.navigate_before),onTap:(){ Navigator.pop(context);},),
+        backgroundColor: Colors.orangeAccent,
+        centerTitle:true,
+        elevation: 0.0,
+        title:  Text("Mark my Location",style: TextStyle(
+          color: Colors.white,fontFamily: 'Gothic',
+          fontWeight:FontWeight.bold
+        ),),
+        
+        actions: <Widget>[
+          Padding(padding: EdgeInsets.only(right: 10.0),child:
+          Icon(Icons.person,color: Colors.white,)
+          )
+        ],
+
+      ),
+      body: new Column(
+        children: <Widget>[
+          new Container(
+            height: 50.0,
+            color: Colors.orangeAccent,
 
           ),
-        )
-      ],
-    );
+      new Expanded(child: MapsDemo(),)]));}
+
+  void _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController = controller;
+    });
   }
 }
+
+
 class Drawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -101,5 +114,75 @@ class Drawer extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+class MapsDemo extends StatefulWidget {
+  @override
+  State createState() => MapsDemoState();
+}
+
+class MapsDemoState extends State<MapsDemo> {
+  var currentlocation = {};
+  GoogleMapController mapController;
+  Position position;
+  TextEditingController controller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+    controller = new TextEditingController();
+  }
+
+  init() async {
+    position = await Geolocator()
+        .getCurrentPosition();
+    setState(() {
+      currentlocation["latitude"] = position.latitude;
+      currentlocation["longitude"] = position.longitude;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+     child: currentlocation.isEmpty
+          ? new Center(child: CircularProgressIndicator())
+          : new Stack(
+              children: <Widget>[
+                new Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: new GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(currentlocation["latitude"],
+                            currentlocation["longitude"]),
+                        zoom: 15.0),
+                    onMapCreated: _onMapCreated,
+                  ),
+                ),
+              
+
+
+                 
+              ],
+            ),
+    );
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController = controller;
+      mapController.addMarker(MarkerOptions(
+          position:
+              LatLng(currentlocation["latitude"], currentlocation["longitude"]),
+          infoWindowText: InfoWindowText("you are here", ""),
+          visible: true));
+    });
+  }
+
+  void gotocurrent() {
+    mapController.animateCamera(CameraUpdate.newLatLng(
+        LatLng(currentlocation["latitude"], currentlocation["longitude"])));
   }
 }
