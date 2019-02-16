@@ -15,7 +15,6 @@ class _LandingState extends State<Landing> {
     return Scaffold(
       drawer: Drawer(),
       appBar: AppBar(
-        leading: GestureDetector(child:Icon(Icons.navigate_before),onTap:(){ Navigator.pop(context);},),
         backgroundColor: Colors.orangeAccent,
         centerTitle:true,
         elevation: 0.0,
