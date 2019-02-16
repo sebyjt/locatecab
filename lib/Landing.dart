@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:locatecab/settings_page.dart';
+
 class Landing extends StatefulWidget {
   @override
   _LandingState createState() => _LandingState();
@@ -77,40 +79,29 @@ class Drawer extends StatelessWidget {
               ],
             ),),
           )]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-           
-            Image.asset("Assets/up.png",height: 30.0,width: 50.0,color: Colors.black,),
-            Text("Host")
-          ],),
-            Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-           
-            Image.asset("Assets/down.png",height: 30.0,width: 50.0,color: Colors.black,),
-            Text("Receiver")
-          ],),
-          new Divider(),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-           
-            Icon(Icons.settings),
-            Text("Settings")
-          ],),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-           
-            Icon(Icons.power_settings_new),
-            Text("Logout")
-          ],),
-          new Image.asset("Assets/ajce.png",height: 80.0,width: 80.0,)
+          ListTile(
+            title:  Text("Host", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
+            leading: Image.asset("Assets/up.png", height: 30, width: 30,color: Colors.black),
+          ),ListTile(
+            title:  Text("Receiver", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
+            leading: Image.asset("Assets/down.png", height: 30, width: 30,color: Colors.black),
+          ),
+          Divider(),
+          ListTile(
+            title:  Text("Settings", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
+            leading: Icon(Icons.settings, color: Colors.black,),
+            onTap:  () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Settings()),
+              );
+            },
+          ),
+          ListTile(
+            title:  Text("Logout", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
+            leading: Icon(Icons.power_settings_new, color: Colors.black,),
+          ),
+          Image.asset("Assets/ajce.png",height: 80.0,width: 80.0,)
         ],
       ),
     );
