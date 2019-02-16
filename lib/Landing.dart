@@ -83,7 +83,7 @@ class Drawer extends StatelessWidget {
             children: <Widget>[
            
             Image.asset("Assets/up.png",height: 30.0,width: 50.0,color: Colors.black,),
-            Text("Receiver")
+            Text("Host")
           ],),
             Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -108,7 +108,7 @@ class Drawer extends StatelessWidget {
             children: <Widget>[
            
             Icon(Icons.power_settings_new),
-            Text("Receiver")
+            Text("Logout")
           ],),
           new Image.asset("Assets/ajce.png",height: 80.0,width: 80.0,)
         ],
