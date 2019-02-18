@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'Landing.dart';
 class Login extends StatefulWidget {
   @override
@@ -6,6 +8,22 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<FirebaseUser> _handleSignIn() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final FirebaseUser user = await _auth.signInWithCredential(credential);
+    print("signed in " + user.displayName);
+    return user;
+  }
   @override
   Widget build(BuildContext context){
   return Scaffold(
@@ -34,7 +52,10 @@ class _LoginState extends State<Login> {
               ),
               onPressed: (){
                 //action
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>new Landing()));
+                //Navigator.push(context, MaterialPageRoute(builder: (context)=>new Landing()));
+                _handleSignIn()
+                    .then((FirebaseUser user) => print(user))
+                    .catchError((e) => print(e));
               }),)
         ],
       )
