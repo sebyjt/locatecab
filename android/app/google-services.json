@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "507680099282-mc5lg59okt812ns6hqn4mt46ttkqndg0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iodev.in.locatecab",
+            "certificate_hash": "59f4539a9ca1225af38145d0e422bc76c264c0d4"
+          }
+        },
+        {
           "client_id": "507680099282-uur5pq4jlkn6q8dig2k1rg9bhtlt3alf.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507680099282-uur5pq4jlkn6q8dig2k1rg9bhtlt3alf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "507680099282-0mtc27r1ne0j6nut24g2e1m4ujdjap97.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "in.iodev.locatecab"
+              }
+            }
+          ]
         },
         "ads_service": {
           "status": 2
