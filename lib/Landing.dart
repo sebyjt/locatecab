@@ -55,10 +55,31 @@ class _LandingState extends State<Landing> {
   }
 }
 
-class Drawer extends StatelessWidget {
-  GoogleSignIn _googleSignIn = GoogleSignIn();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+class Drawer extends StatefulWidget {
+  @override
+  DrawerState createState() {
+    return new DrawerState();
+  }
+}
 
+class DrawerState extends State<Drawer> {
+  GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser user;
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+
+}
+Future getUser() async{
+  user=await _auth.currentUser();
+  setState(() {
+
+  });
+}
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,36 +88,44 @@ class Drawer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Stack(children: [
-            new Image.asset("Assets/myava.jpg"),
-            Positioned(
-              bottom: 5.0,
-              child: Container(
-                width: MediaQuery.of(context).size.width * .6,
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Mareena Vathaloor",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          background: Paint()
-                            ..color = Colors.black.withAlpha(7777)),
-                    ),
-                    Text("mava@cs.ajce.in",
+          Container(
+            color: Colors.red,
+            child: Stack(children: [
+              new Image.network("${user.photoUrl}",fit: BoxFit.fill,width: double.infinity,),
+              Positioned(
+                bottom: 5.0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * .6,
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "${user.displayName}",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
+
+                            fontSize: 20.0,
                             background: Paint()
-                              ..color = Colors.black.withAlpha(7777),
-                            fontSize: 20.0))
-                  ],
+                              ..color = Colors.black.withAlpha(7777)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top:8.0),
+                        child: Text("${user.email}",
+                            style: TextStyle(
+                                color: Colors.white,
+                                background: Paint()
+                                  ..color = Colors.black.withAlpha(7777),
+                                fontSize: 20.0)),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ]),
+              )
+            ]),
+          ),
           ListTile(
             title: Text(
               "Host",

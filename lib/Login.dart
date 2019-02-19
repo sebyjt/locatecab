@@ -10,10 +10,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool loadFlag=false;
   GlobalKey<ScaffoldState> key = new GlobalKey();
   GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  FirebaseUser user;
   Future<FirebaseUser> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     print("cred " + googleUser.email);
@@ -35,8 +36,28 @@ class _LoginState extends State<Login> {
       _googleSignIn.signOut();
       return null;
     }
-  }
 
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+
+
+  }
+  Future getUser() async
+  {
+    user=await _auth.currentUser();
+    if(user!=null)
+    {
+      
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>new Landing()));
+    }
+    setState(() {
+      loadFlag=true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +96,7 @@ class _LoginState extends State<Login> {
                           style: TextStyle(fontSize: 15.0, color: Colors.white))
                     ],
                   ),
-                  onPressed: () {
+                  onPressed:loadFlag==true? () {
                     //action
 
                     _handleSignIn().then((FirebaseUser user) {
@@ -95,7 +116,7 @@ class _LoginState extends State<Login> {
                         });
                       }
                     }).catchError((e) => print(e));
-                  }),
+                  }:null),
             )
           ],
         )),
