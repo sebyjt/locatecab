@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:locatecab/Login.dart';
 import 'package:locatecab/settings_page.dart';
 
 class Landing extends StatefulWidget {
   @override
   _LandingState createState() => _LandingState();
+
 }
 
 class _LandingState extends State<Landing> {
@@ -48,6 +52,8 @@ class _LandingState extends State<Landing> {
 
 
 class Drawer extends StatelessWidget {
+  GoogleSignIn _googleSignIn = GoogleSignIn();
+  FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -99,6 +105,20 @@ class Drawer extends StatelessWidget {
           ListTile(
             title:  Text("Logout", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
             leading: Icon(Icons.power_settings_new, color: Colors.black,),
+            onTap: ()async
+            {
+               await _auth.signOut();
+               await _googleSignIn.signOut();
+
+               Navigator.pushAndRemoveUntil(
+                   context,
+                   MaterialPageRoute(
+                     builder: (BuildContext context) => Login(),
+                   ),
+                   ModalRoute.withName('/'));
+
+
+            },
           ),
           Image.asset("Assets/ajce.png",height: 80.0,width: 80.0,)
         ],
