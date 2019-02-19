@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
 import 'Landing.dart';
 class Login extends StatefulWidget {
   @override
@@ -8,25 +9,37 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  GlobalKey<ScaffoldState> key=new GlobalKey();
+  GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<FirebaseUser> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    print("cred " + googleUser.email);
+    if (googleUser.email.contains("ajce.in")||googleUser.email.contains("amaljyothi.ac.in"))
+    {
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
     );
+    print("cred " + googleUser.email);
 
     final FirebaseUser user = await _auth.signInWithCredential(credential);
     print("signed in " + user.displayName);
     return user;
+    }
+    else {
+      _googleSignIn.signOut();
+      return null;
+    }
+
   }
   @override
   Widget build(BuildContext context){
   return Scaffold(
+    key: key,
     body: Container(
       height: double.infinity,
       width: double.infinity,
@@ -52,9 +65,17 @@ class _LoginState extends State<Login> {
               ),
               onPressed: (){
                 //action
-                //Navigator.push(context, MaterialPageRoute(builder: (context)=>new Landing()));
+
                 _handleSignIn()
-                    .then((FirebaseUser user) => print(user))
+                    .then((FirebaseUser user) {
+                      if (user==null)
+                        key.currentState.showSnackBar(SnackBar(content: Text("Sign in with Amal Jyothi Credentials")));
+                      else {
+                        key.currentState.showSnackBar(SnackBar(content: Text("Signed in as " + user.displayName)));
+                        var duration=const Duration(seconds: 2);
+                        Timer(duration,(){Navigator.push(context, MaterialPageRoute(builder: (context) => new Landing()));
+
+                });}})
                     .catchError((e) => print(e));
               }),)
         ],
