@@ -3,45 +3,50 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:locatecab/Login.dart';
 import 'package:locatecab/settings_page.dart';
 
 class Landing extends StatefulWidget {
   @override
   _LandingState createState() => _LandingState();
-
 }
 
 class _LandingState extends State<Landing> {
   GoogleMapController mapController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
-      appBar: AppBar(
-        backgroundColor: Colors.orangeAccent,
-        centerTitle:true,
-        elevation: 0.0,
-        title:  Text("Mark my Location",style: TextStyle(
-          color: Colors.white,fontFamily: 'Gothic',
-          fontWeight:FontWeight.bold
-        ),),
-        
-        actions: <Widget>[
-          Padding(padding: EdgeInsets.only(right: 10.0),child:
-          Icon(Icons.person,color: Colors.white,)
-          )
-        ],
-
-      ),
-      body: new Column(
-        children: <Widget>[
+        drawer: Drawer(),
+        appBar: AppBar(
+          backgroundColor: Colors.orangeAccent,
+          centerTitle: true,
+          elevation: 0.0,
+          title: Text(
+            "Mark my Location",
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Gothic',
+                fontWeight: FontWeight.bold),
+          ),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 10.0),
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ))
+          ],
+        ),
+        body: new Column(children: <Widget>[
           new Container(
             height: 50.0,
             color: Colors.orangeAccent,
-
           ),
-      new Expanded(child: MapsDemo(),)]));}
+          new Expanded(
+            child: MapsDemo(),
+          )
+        ]));
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -50,52 +55,84 @@ class _LandingState extends State<Landing> {
   }
 }
 
-
 class Drawer extends StatelessWidget {
   GoogleSignIn _googleSignIn = GoogleSignIn();
   FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width*.6,
+      width: MediaQuery.of(context).size.width * .6,
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Stack(children: [new Image.asset("Assets/myava.jpg"),
-          Positioned( bottom: 5.0,
-                      child: Container(
-                      
-                        width: MediaQuery.of(context).size.width*.6,
-                        alignment: Alignment.bottomCenter,child: 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text("Mareena Vathaloor",style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  background: Paint()..color=Colors.black.withAlpha(7777)
-                ),),
-                Text("mava@cs.ajce.in",style: TextStyle(
-                  color: Colors.white,
-                   background: Paint()..color=Colors.black.withAlpha(7777),
-                  fontSize: 20.0)) 
-              ],
-            ),),
-          )]),
+          Stack(children: [
+            new Image.asset("Assets/myava.jpg"),
+            Positioned(
+              bottom: 5.0,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .6,
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Mareena Vathaloor",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          background: Paint()
+                            ..color = Colors.black.withAlpha(7777)),
+                    ),
+                    Text("mava@cs.ajce.in",
+                        style: TextStyle(
+                            color: Colors.white,
+                            background: Paint()
+                              ..color = Colors.black.withAlpha(7777),
+                            fontSize: 20.0))
+                  ],
+                ),
+              ),
+            )
+          ]),
           ListTile(
-            title:  Text("Host", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
-            leading: Image.asset("Assets/up.png", height: 30, width: 30,color: Colors.black),
-          ),ListTile(
-            title:  Text("Receiver", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
-            leading: Image.asset("Assets/down.png", height: 30, width: 30,color: Colors.black),
+            title: Text(
+              "Host",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff000000)),
+            ),
+            leading: Image.asset("Assets/up.png",
+                height: 30, width: 30, color: Colors.black),
+          ),
+          ListTile(
+            title: Text(
+              "Receiver",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff000000)),
+            ),
+            leading: Image.asset("Assets/down.png",
+                height: 30, width: 30, color: Colors.black),
           ),
           Divider(),
           ListTile(
-            title:  Text("Settings", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
-            leading: Icon(Icons.settings, color: Colors.black,),
-            onTap:  () {
+            title: Text(
+              "Settings",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff000000)),
+            ),
+            leading: Icon(
+              Icons.settings,
+              color: Colors.black,
+            ),
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Settings()),
@@ -103,29 +140,36 @@ class Drawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title:  Text("Logout", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.w400, color:  Color(0xff000000)),),
-            leading: Icon(Icons.power_settings_new, color: Colors.black,),
-            onTap: ()async
-            {
-               await _auth.signOut();
-               await _googleSignIn.signOut();
+            title: Text(
+              "Logout",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff000000)),
+            ),
+            leading: Icon(
+              Icons.power_settings_new,
+              color: Colors.black,
+            ),
+            onTap: () async {
+              await _auth.signOut();
+              await _googleSignIn.signOut();
 
-               Navigator.pushAndRemoveUntil(
-                   context,
-                   MaterialPageRoute(
-                     builder: (BuildContext context) => Login(),
-                   ),
-                   ModalRoute.withName('/'));
-
-
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/', (Route<dynamic> route) => false);
             },
           ),
-          Image.asset("Assets/ajce.png",height: 80.0,width: 80.0,)
+          Image.asset(
+            "Assets/ajce.png",
+            height: 80.0,
+            width: 80.0,
+          )
         ],
       ),
     );
   }
 }
+
 class MapsDemo extends StatefulWidget {
   @override
   State createState() => MapsDemoState();
@@ -136,6 +180,7 @@ class MapsDemoState extends State<MapsDemo> {
   GoogleMapController mapController;
   Position position;
   TextEditingController controller;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -145,8 +190,7 @@ class MapsDemoState extends State<MapsDemo> {
   }
 
   init() async {
-    position = await Geolocator()
-        .getCurrentPosition();
+    position = await Geolocator().getCurrentPosition();
     setState(() {
       currentlocation["latitude"] = position.latitude;
       currentlocation["longitude"] = position.longitude;
@@ -156,7 +200,7 @@ class MapsDemoState extends State<MapsDemo> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-     child: currentlocation.isEmpty
+      child: currentlocation.isEmpty
           ? new Center(child: CircularProgressIndicator())
           : new Stack(
               children: <Widget>[
@@ -171,10 +215,6 @@ class MapsDemoState extends State<MapsDemo> {
                     onMapCreated: _onMapCreated,
                   ),
                 ),
-              
-
-
-                 
               ],
             ),
     );
