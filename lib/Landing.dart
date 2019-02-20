@@ -21,7 +21,7 @@ class _LandingState extends State<Landing> {
           backgroundColor: Colors.orangeAccent,
           centerTitle: true,
           elevation: 0.0,
-          leading: IconButton(icon: Icon(Icons.navigate_before,size: 35.0,),onPressed: ()=>Navigator.of(context).pop(),),
+          //leading: IconButton(icon: Icon(Icons.navigate_before,size: 35.0,),onPressed: ()=>Navigator.of(context).pop(),),
           title: Text(
             "Mark my Location",
             style: TextStyle(
@@ -49,12 +49,12 @@ class _LandingState extends State<Landing> {
             )
           ]),
             new Container(
-              height: 200.0,
 
               child: new Card(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: new Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       TextField(
                         style: TextStyle(
@@ -151,44 +151,19 @@ class DrawerState extends State<Drawer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            color: Colors.red,
-            child: Stack(children: [
-              new Image.network("${user.photoUrl}",fit: BoxFit.fill,width: double.infinity,),
-              Positioned(
-                bottom: 5.0,
-                child: Container(
-                  width: MediaQuery.of(context).size.width * .6,
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color:  Colors.black.withAlpha(7777),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "${user.displayName}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-
-                              fontSize: 20.0,
-                             ),
-                        ),
-                        Text("${user.email}",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-
-
-                                fontSize: 20.0))
-                      ],
-                    ),
-                  ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [Colors.deepOrangeAccent,Colors.orangeAccent])
                 ),
-              )
-            ]),
+                height: MediaQuery.of(context).size.height * .3,
+                alignment: Alignment.center,
+                child: ListTile(
+            leading: ClipOval(child: Image.network("${user.photoUrl}",fit: BoxFit.fill,height: 40.0,width: 40.0,),),
+            title: Text("${user.displayName}"),
+            subtitle: Text("${user.email}"),
+
           ),
+              ),
           ListTile(
             title: Text(
               "Host",

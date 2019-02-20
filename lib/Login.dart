@@ -91,9 +91,8 @@ class _LoginState extends State<Login> {
                         width: 50.0,
                       ),
                       Text(
-                          ""
                           "Sign in with Amal Jyothi Mail",
-                          style: TextStyle(fontSize: 15.0, color: Colors.white))
+                          style: TextStyle( color: Colors.white))
                     ],
                   ),
                   onPressed:loadFlag==true? () {
