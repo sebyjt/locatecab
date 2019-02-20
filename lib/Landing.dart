@@ -114,8 +114,10 @@ class DrawerState extends State<Drawer> {
                       Padding(
                         padding: const EdgeInsets.only(top:8.0),
                         child: Text("${user.email}",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
+
                                 background: Paint()
                                   ..color = Colors.black.withAlpha(7777),
                                 fontSize: 20.0)),
@@ -198,6 +200,7 @@ class DrawerState extends State<Drawer> {
     );
   }
 }
+
 
 class MapsDemo extends StatefulWidget {
   @override
