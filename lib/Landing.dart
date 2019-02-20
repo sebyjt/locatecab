@@ -21,6 +21,7 @@ class _LandingState extends State<Landing> {
           backgroundColor: Colors.orangeAccent,
           centerTitle: true,
           elevation: 0.0,
+          leading: IconButton(icon: Icon(Icons.navigate_before,size: 35.0,),onPressed: ()=>Navigator.of(context).pop(),),
           title: Text(
             "Mark my Location",
             style: TextStyle(
@@ -37,14 +38,76 @@ class _LandingState extends State<Landing> {
                 ))
           ],
         ),
-        body: new Column(children: <Widget>[
-          new Container(
-            height: 50.0,
-            color: Colors.orangeAccent,
-          ),
-          new Expanded(
-            child: MapsDemo(),
-          )
+        body: Stack(
+          children: [new Column(children: <Widget>[
+            new Container(
+              height: 50.0,
+              color: Colors.orangeAccent,
+            ),
+            new Expanded(
+              child: MapsDemo(),
+            )
+          ]),
+            new Container(
+              height: 200.0,
+
+              child: new Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: new Column(
+                    children: <Widget>[
+                      TextField(
+                        style: TextStyle(
+                          fontSize: 25.0,
+                            color: Colors.black
+                        ),
+                        decoration: InputDecoration(
+                            labelStyle: TextStyle(
+                                fontSize: 15.0
+                            ),
+                          border: InputBorder.none,
+                          icon: Icon(Icons.location_on),
+                          labelText: "Current Location"
+                        ),
+                      ),
+
+                        TextField(
+                            style: TextStyle(
+                                fontSize: 25.0,
+                              color: Colors.black
+                            ),
+
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                            icon: Icon(Icons.location_on),
+                            labelStyle: TextStyle(
+                              fontSize: 15.0
+                            ),
+                            labelText: "Destination"
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ) ,
+            ),
+            new Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom:20.0),
+                child: Container(
+                  width: 250.0,
+                  height: 45.0,
+                  child: new RaisedButton(onPressed: (){},
+                    splashColor: Colors.red.withAlpha(700),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(70.0)),
+                  color: Colors.orangeAccent.withAlpha(700),
+                  child: Text("Set Location",style: TextStyle(
+                    color: Colors.white
+                  ),),),
+                ),
+              ),
+            )
         ]));
   }
 
@@ -97,32 +160,30 @@ class DrawerState extends State<Drawer> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * .6,
                   alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "${user.displayName}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
+                  child: Container(
+                    color:  Colors.black.withAlpha(7777),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "${user.displayName}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
 
-                            fontSize: 20.0,
-                            background: Paint()
-                              ..color = Colors.black.withAlpha(7777)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top:8.0),
-                        child: Text("${user.email}",
+                              fontSize: 20.0,
+                             ),
+                        ),
+                        Text("${user.email}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
 
-                                background: Paint()
-                                  ..color = Colors.black.withAlpha(7777),
-                                fontSize: 20.0)),
-                      )
-                    ],
+
+                                fontSize: 20.0))
+                      ],
+                    ),
                   ),
                 ),
               )
