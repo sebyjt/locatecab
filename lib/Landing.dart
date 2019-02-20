@@ -67,19 +67,19 @@ class DrawerState extends State<Drawer> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUser();
 
-}
-Future getUser() async{
-  user=await _auth.currentUser();
-  setState(() {
+  }
+  Future getUser() async{
+    user=await _auth.currentUser();
+    setState(() {
 
-  });
-}
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -232,20 +232,20 @@ class MapsDemoState extends State<MapsDemo> {
       child: currentlocation.isEmpty
           ? new Center(child: CircularProgressIndicator())
           : new Stack(
-              children: <Widget>[
-                new Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: new GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                        target: LatLng(currentlocation["latitude"],
-                            currentlocation["longitude"]),
-                        zoom: 15.0),
-                    onMapCreated: _onMapCreated,
-                  ),
-                ),
-              ],
+        children: <Widget>[
+          new Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: new GoogleMap(
+              initialCameraPosition: CameraPosition(
+                  target: LatLng(currentlocation["latitude"],
+                      currentlocation["longitude"]),
+                  zoom: 15.0),
+              onMapCreated: _onMapCreated,
             ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -254,7 +254,7 @@ class MapsDemoState extends State<MapsDemo> {
       mapController = controller;
       mapController.addMarker(MarkerOptions(
           position:
-              LatLng(currentlocation["latitude"], currentlocation["longitude"]),
+          LatLng(currentlocation["latitude"], currentlocation["longitude"]),
           infoWindowText: InfoWindowText("you are here", ""),
           visible: true));
     });
