@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "507680099282-k3qhf41o6qseltgc0apb02havsiohqvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iodev.in.locatecab",
+            "certificate_hash": "ccca13c0b9312c42ba4eb911a460d29fe4130d34"
+          }
+        },
+        {
+          "client_id": "507680099282-46isb07bd5kdiu7rsa1dv66dsak7ego3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iodev.in.locatecab",
+            "certificate_hash": "15599d76ee4ad584647a30870631e2911db4d80f"
+          }
+        },
+        {
           "client_id": "507680099282-uur5pq4jlkn6q8dig2k1rg9bhtlt3alf.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -40,11 +56,11 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "507680099282-uur5pq4jlkn6q8dig2k1rg9bhtlt3alf.apps.googleusercontent.com",
+              "client_id": "507680099282-cmnss6fo9qh5h8erpus9k6u4uukh296u.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "507680099282-0mtc27r1ne0j6nut24g2e1m4ujdjap97.apps.googleusercontent.com",
+              "client_id": "507680099282-l3vtvrnh5gdpcghjoonndv4bhcahu0i3.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "in.iodev.locatecab"
