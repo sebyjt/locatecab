@@ -117,6 +117,7 @@ class DrawerState extends State<Drawer> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
+
                                 background: Paint()
                                   ..color = Colors.black.withAlpha(7777),
                                 fontSize: 10.0)),
@@ -199,6 +200,7 @@ class DrawerState extends State<Drawer> {
     );
   }
 }
+
 
 class MapsDemo extends StatefulWidget {
   @override
