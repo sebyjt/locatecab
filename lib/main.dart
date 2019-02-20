@@ -5,6 +5,7 @@ void main()
 {
   runApp(MaterialApp(
     home: Login(),
+    theme: ThemeData(fontFamily: 'Montserrat'),
     debugShowCheckedModeBanner: false,
   ));
 }

@@ -107,18 +107,19 @@ class DrawerState extends State<Drawer> {
                         style: TextStyle(
                             color: Colors.white,
 
-                            fontSize: 20.0,
+                            fontSize: 15.0,
                             background: Paint()
                               ..color = Colors.black.withAlpha(7777)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top:8.0),
                         child: Text("${user.email}",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
                                 background: Paint()
                                   ..color = Colors.black.withAlpha(7777),
-                                fontSize: 20.0)),
+                                fontSize: 10.0)),
                       )
                     ],
                   ),
