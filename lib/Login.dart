@@ -10,11 +10,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool loadFlag=false;
+  bool loadFlag = false;
   GlobalKey<ScaffoldState> key = new GlobalKey();
   GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
+
   Future<FirebaseUser> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     print("cred " + googleUser.email);
@@ -36,28 +37,26 @@ class _LoginState extends State<Login> {
       _googleSignIn.signOut();
       return null;
     }
-
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUser();
-
-
   }
-  Future getUser() async
-  {
-    user=await _auth.currentUser();
-    if(user!=null)
-    {
-      
-      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>new Landing()));
+
+  Future getUser() async {
+    user = await _auth.currentUser();
+    if (user != null) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => new Landing()));
     }
     setState(() {
-      loadFlag=true;
+      loadFlag = true;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,32 +89,34 @@ class _LoginState extends State<Login> {
                         height: 50.0,
                         width: 50.0,
                       ),
-                      Text(
-                          "Sign in with Amal Jyothi Mail",
-                          style: TextStyle( color: Colors.white))
+                      Text("Sign in with Amal Jyothi Mail",
+                          style: TextStyle(color: Colors.white))
                     ],
                   ),
-                  onPressed:loadFlag==true? () {
-                    //action
+                  onPressed: loadFlag == true
+                      ? () {
+                          //action
 
-                    _handleSignIn().then((FirebaseUser user) {
-                      if (user == null)
-                        key.currentState.showSnackBar(SnackBar(
-                            content:
-                                Text("Sign in with Amal Jyothi Credentials")));
-                      else {
-                        key.currentState.showSnackBar(SnackBar(
-                            content: Text("Signed in as " + user.displayName)));
-                        var duration = const Duration(seconds: 2);
-                        Timer(duration, () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => new Landing()));
-                        });
-                      }
-                    }).catchError((e) => print(e));
-                  }:null),
+                          _handleSignIn().then((FirebaseUser user) {
+                            if (user == null)
+                              key.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Sign in with Amal Jyothi Credentials")));
+                            else {
+                              key.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Signed in as " + user.displayName)));
+                              var duration = const Duration(seconds: 2);
+                              Timer(duration, () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => new Landing()));
+                              });
+                            }
+                          }).catchError((e) => print(e));
+                        }
+                      : null),
             )
           ],
         )),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'Login.dart';
-void main()
-{
+
+void main() {
   runApp(MaterialApp(
     home: Login(),
     theme: ThemeData(fontFamily: 'Montserrat'),

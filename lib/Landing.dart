@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/settings_page.dart';
+import 'package:locatecab/r_confirm.dart';
 
 class Landing extends StatefulWidget {
   @override
@@ -38,8 +39,8 @@ class _LandingState extends State<Landing> {
                 ))
           ],
         ),
-        body: Stack(
-          children: [new Column(children: <Widget>[
+        body: Stack(children: [
+          new Column(children: <Widget>[
             new Container(
               height: 50.0,
               color: Colors.orangeAccent,
@@ -48,66 +49,60 @@ class _LandingState extends State<Landing> {
               child: MapsDemo(),
             )
           ]),
-            new Container(
-
-              child: new Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      TextField(
-                        style: TextStyle(
-                          fontSize: 25.0,
-                            color: Colors.black
-                        ),
-                        decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                                fontSize: 15.0
-                            ),
+          new Container(
+            child: new Card(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: new Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    TextField(
+                      style: TextStyle(fontSize: 25.0, color: Colors.black),
+                      decoration: InputDecoration(
+                          labelStyle: TextStyle(fontSize: 15.0),
                           border: InputBorder.none,
                           icon: Icon(Icons.location_on),
-                          labelText: "Current Location"
-                        ),
-                      ),
-
-                        TextField(
-                            style: TextStyle(
-                                fontSize: 25.0,
-                              color: Colors.black
-                            ),
-
-                        decoration: InputDecoration(
+                          labelText: "Current Location"),
+                    ),
+                    TextField(
+                      style: TextStyle(fontSize: 25.0, color: Colors.black),
+                      decoration: InputDecoration(
                           border: InputBorder.none,
-                            icon: Icon(Icons.location_on),
-                            labelStyle: TextStyle(
-                              fontSize: 15.0
-                            ),
-                            labelText: "Destination"
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ) ,
-            ),
-            new Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom:20.0),
-                child: Container(
-                  width: 250.0,
-                  height: 45.0,
-                  child: new RaisedButton(onPressed: (){},
-                    splashColor: Colors.red.withAlpha(700),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(70.0)),
-                  color: Colors.orangeAccent.withAlpha(700),
-                  child: Text("Set Location",style: TextStyle(
-                    color: Colors.white
-                  ),),),
+                          icon: Icon(Icons.location_on),
+                          labelStyle: TextStyle(fontSize: 15.0),
+                          labelText: "Destination"),
+                    )
+                  ],
                 ),
               ),
-            )
+            ),
+          ),
+          new Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Container(
+                width: 250.0,
+                height: 45.0,
+                child: new RaisedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ConfirmR()),
+                    );
+                  },
+                  splashColor: Colors.red.withAlpha(700),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(70.0)),
+                  color: Colors.orangeAccent.withAlpha(700),
+                  child: Text(
+                    "Set Location",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          )
         ]));
   }
 
@@ -130,19 +125,19 @@ class DrawerState extends State<Drawer> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUser();
-
   }
-  Future getUser() async{
-    user=await _auth.currentUser();
-    setState(() {
 
-    });
+  Future getUser() async {
+    user = await _auth.currentUser();
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,19 +146,25 @@ class DrawerState extends State<Drawer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [Colors.deepOrangeAccent,Colors.orangeAccent])
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.deepOrangeAccent, Colors.orangeAccent])),
+            height: MediaQuery.of(context).size.height * .3,
+            alignment: Alignment.center,
+            child: ListTile(
+              leading: ClipOval(
+                child: Image.network(
+                  "${user.photoUrl}",
+                  fit: BoxFit.fill,
+                  height: 40.0,
+                  width: 40.0,
                 ),
-                height: MediaQuery.of(context).size.height * .3,
-                alignment: Alignment.center,
-                child: ListTile(
-            leading: ClipOval(child: Image.network("${user.photoUrl}",fit: BoxFit.fill,height: 40.0,width: 40.0,),),
-            title: Text("${user.displayName}"),
-            subtitle: Text("${user.email}"),
-
-          ),
               ),
+              title: Text("${user.displayName}"),
+              subtitle: Text("${user.email}"),
+            ),
+          ),
           ListTile(
             title: Text(
               "Host",
@@ -237,7 +238,6 @@ class DrawerState extends State<Drawer> {
   }
 }
 
-
 class MapsDemo extends StatefulWidget {
   @override
   State createState() => MapsDemoState();
@@ -271,20 +271,20 @@ class MapsDemoState extends State<MapsDemo> {
       child: currentlocation.isEmpty
           ? new Center(child: CircularProgressIndicator())
           : new Stack(
-        children: <Widget>[
-          new Container(
-            height: double.infinity,
-            width: double.infinity,
-            child: new GoogleMap(
-              initialCameraPosition: CameraPosition(
-                  target: LatLng(currentlocation["latitude"],
-                      currentlocation["longitude"]),
-                  zoom: 15.0),
-              onMapCreated: _onMapCreated,
+              children: <Widget>[
+                new Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: new GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                        target: LatLng(currentlocation["latitude"],
+                            currentlocation["longitude"]),
+                        zoom: 15.0),
+                    onMapCreated: _onMapCreated,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -293,7 +293,7 @@ class MapsDemoState extends State<MapsDemo> {
       mapController = controller;
       mapController.addMarker(MarkerOptions(
           position:
-          LatLng(currentlocation["latitude"], currentlocation["longitude"]),
+              LatLng(currentlocation["latitude"], currentlocation["longitude"]),
           infoWindowText: InfoWindowText("you are here", ""),
           visible: true));
     });
