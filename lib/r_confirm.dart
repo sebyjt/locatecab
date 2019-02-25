@@ -42,7 +42,7 @@ class _ConfirmRState extends State<ConfirmR> {
                   alignment: Alignment.center),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 0.0),
+              padding: const EdgeInsets.only(top: 35.0),
               child: Container(
                 width: 250.0,
                 height: 45.0,
