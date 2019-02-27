@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/settings_page.dart';
 import 'package:locatecab/r_confirm.dart';
+import 'package:locatecab/Firstlogin.dart';
 
 class Landing extends StatefulWidget {
   @override
@@ -86,9 +87,13 @@ class _LandingState extends State<Landing> {
                 height: 45.0,
                 child: new RaisedButton(
                   onPressed: () {
-                    Navigator.push(
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ConfirmR()),
+                    );*/
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Firstlogin()),
                     );
                   },
                   splashColor: Colors.red.withAlpha(700),
