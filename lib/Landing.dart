@@ -91,10 +91,7 @@ class _LandingState extends State<Landing> {
                       context,
                       MaterialPageRoute(builder: (context) => ConfirmR()),
                     );*/
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Firstlogin()),
-                    );
+
                   },
                   splashColor: Colors.red.withAlpha(700),
                   shape: RoundedRectangleBorder(
@@ -172,17 +169,6 @@ class DrawerState extends State<Drawer> {
           ),
           ListTile(
             title: Text(
-              "Host",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff000000)),
-            ),
-            leading: Image.asset("Assets/up.png",
-                height: 30, width: 30, color: Colors.black),
-          ),
-          ListTile(
-            title: Text(
               "Receiver",
               style: TextStyle(
                   fontSize: 18,
@@ -192,6 +178,22 @@ class DrawerState extends State<Drawer> {
             leading: Image.asset("Assets/down.png",
                 height: 30, width: 30, color: Colors.black),
           ),
+          ListTile(
+            title: Text(
+              "Host",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff000000)),
+            ),
+            leading: Image.asset("Assets/up.png",
+                height: 30, width: 30, color: Colors.black),
+            onTap: (){Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Firstlogin()),
+            );},
+          ),
+
           Divider(),
           ListTile(
             title: Text(

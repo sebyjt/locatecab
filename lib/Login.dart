@@ -32,6 +32,8 @@ class _LoginState extends State<Login> {
 
       final FirebaseUser user = await _auth.signInWithCredential(credential);
       print("signed in " + user.displayName);
+      var token=await user.getIdToken(refresh: false);
+      print("token"+token.toString());
       return user;
     } else {
       _googleSignIn.signOut();
