@@ -20,9 +20,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   google_maps_flutter:
-  geolocator: 
+  geolocator:
   firebase_auth:
   google_sign_in:
+  cloud_firestore:
 
 
 
