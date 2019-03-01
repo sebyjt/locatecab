@@ -20,9 +20,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   google_maps_flutter:
-  geolocator: 1.6.3
-  firebase_auth: 0.7.0
-  google_sign_in: ^4.0.1+1
+  geolocator:
+  firebase_auth:
+  google_sign_in:
+  cloud_firestore:
+
 
 
 dev_dependencies:
@@ -61,6 +63,7 @@ flutter:
     - Assets/up.png
     - Assets/down.png
     - Assets/ajce.png
+    - Assets/movingcar.gif
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
