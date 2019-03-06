@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/settings_page.dart';
 import 'package:locatecab/r_confirm.dart';
+import 'package:locatecab/Firstlogin.dart';
 
 class Landing extends StatefulWidget {
   @override
@@ -86,10 +87,11 @@ class _LandingState extends State<Landing> {
                 height: 45.0,
                 child: new RaisedButton(
                   onPressed: () {
-                    Navigator.push(
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ConfirmR()),
-                    );
+                    );*/
+
                   },
                   splashColor: Colors.red.withAlpha(700),
                   shape: RoundedRectangleBorder(
@@ -167,17 +169,6 @@ class DrawerState extends State<Drawer> {
           ),
           ListTile(
             title: Text(
-              "Host",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff000000)),
-            ),
-            leading: Image.asset("Assets/up.png",
-                height: 30, width: 30, color: Colors.black),
-          ),
-          ListTile(
-            title: Text(
               "Receiver",
               style: TextStyle(
                   fontSize: 18,
@@ -187,6 +178,22 @@ class DrawerState extends State<Drawer> {
             leading: Image.asset("Assets/down.png",
                 height: 30, width: 30, color: Colors.black),
           ),
+          ListTile(
+            title: Text(
+              "Host",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff000000)),
+            ),
+            leading: Image.asset("Assets/up.png",
+                height: 30, width: 30, color: Colors.black),
+            onTap: (){Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Firstlogin()),
+            );},
+          ),
+
           Divider(),
           ListTile(
             title: Text(

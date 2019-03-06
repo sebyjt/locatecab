@@ -32,6 +32,8 @@ class _LoginState extends State<Login> {
 
       final FirebaseUser user = await _auth.signInWithCredential(credential);
       print("signed in " + user.displayName);
+      var token=await user.getIdToken(refresh: false);
+      print("token"+token.toString());
       return user;
     } else {
       _googleSignIn.signOut();
@@ -107,6 +109,8 @@ class _LoginState extends State<Login> {
                                   content: Text(
                                       "Signed in as " + user.displayName)));
                               var duration = const Duration(seconds: 2);
+
+
                               Timer(duration, () {
                                 Navigator.push(
                                     context,
