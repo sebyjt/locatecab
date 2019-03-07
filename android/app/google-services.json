@@ -47,14 +47,6 @@
           }
         },
         {
-          "client_id": "507680099282-04pghjom13g69rkv92f8q3frlmaj335q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "iodev.in.locatecab",
-            "certificate_hash": "5eb3521eb6feee358d97caffd0e6754bc9eeb58e"
-          }
-        },
-        {
           "client_id": "507680099282-uur5pq4jlkn6q8dig2k1rg9bhtlt3alf.apps.googleusercontent.com",
           "client_type": 3
         }
