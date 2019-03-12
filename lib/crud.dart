@@ -9,4 +9,8 @@ class CrudMethods {
    Future<void> addDataH(UserData) async {
      Firestore.instance.collection('hosts').add(UserData);
    }
+
+   Future<void> addDataR(UserData) async {
+     Firestore.instance.collection('receiver').add(UserData);
+   }
 }
