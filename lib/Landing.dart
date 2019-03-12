@@ -87,11 +87,10 @@ class _LandingState extends State<Landing> {
                 height: 45.0,
                 child: new RaisedButton(
                   onPressed: () {
-                    /*Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => ConfirmR()),
-                    );*/
-
+                    );
                   },
                   splashColor: Colors.red.withAlpha(700),
                   shape: RoundedRectangleBorder(
