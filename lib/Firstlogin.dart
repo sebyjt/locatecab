@@ -10,8 +10,8 @@ class Firstlogin extends StatefulWidget {
 
 
 class _FirstloginState extends State<Firstlogin> {
-  TextEditingController controller;
-  CrudMethods crud;
+  TextEditingController controller1, controller2, controller3;
+  CrudMethods cruduser, crudhost;
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
 
@@ -22,8 +22,11 @@ class _FirstloginState extends State<Firstlogin> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller=new TextEditingController();
-    crud=new CrudMethods();
+    controller1=new TextEditingController();
+    controller2=new TextEditingController();
+    controller3=new TextEditingController();
+    cruduser=new CrudMethods();
+    crudhost=new CrudMethods();
     getUser();
   }
   @override
@@ -48,7 +51,7 @@ class _FirstloginState extends State<Firstlogin> {
                 child: TextField(
                     keyboardType: TextInputType.number,
                     decoration: new InputDecoration(labelText: "Contact no"),
-                    controller: controller,
+                    controller: controller1,
                 ),
               ),
               Padding(
@@ -57,6 +60,7 @@ class _FirstloginState extends State<Firstlogin> {
                 child: TextField(
                   keyboardType: TextInputType.number,
                   decoration: new InputDecoration(labelText: "Capacity"),
+                  controller: controller2,
                 ),
               ),
               Padding(
@@ -64,13 +68,16 @@ class _FirstloginState extends State<Firstlogin> {
                     const EdgeInsets.only(right: 40.0, left: 40.0, top: 20.0),
                 child: TextField(
                   decoration: new InputDecoration(labelText: "Car Model"),
+                  controller: controller3,
                 ),
               ),
               new Padding(
                 padding: EdgeInsets.only(top: 60.0, left: 40.0, right: 20.0),
                 child: RaisedButton(
                   onPressed: () async {
-                    await crud.addData({"Name": user.displayName,"Phone No":controller.text});
+                    await cruduser.addDataU({"Name": user.displayName,"Phone No":controller1.text});
+                    await crudhost.addDataH({"Name": user.displayName,"Capacity":controller2.text,"Car Model":controller3.text});
+
                   },
                   color: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(

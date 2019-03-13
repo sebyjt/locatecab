@@ -23,12 +23,20 @@ dependencies:
   geolocator: 1.6.3
   firebase_auth: 0.7.0
   google_sign_in: ^4.0.1+1
+  cloud_firestore:
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_launcher_icons: "^0.7.0"
+
+flutter_icons:
+  image_path: "Assets/logo.png"
+  android: true
+  ios: true
 
 
 # For information on the generic Dart part of this file, see the
