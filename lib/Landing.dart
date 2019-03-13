@@ -14,6 +14,24 @@ class Landing extends StatefulWidget {
 
 class _LandingState extends State<Landing> {
   GoogleMapController mapController;
+  var currentlocation = {};
+  Position position;
+  TextEditingController controller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+    controller = new TextEditingController();
+  }
+
+  init() async {
+    position = await Geolocator().getCurrentPosition();
+    setState(() {
+      currentlocation["latitude"] = position.latitude;
+      currentlocation["longitude"] = position.longitude;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +65,25 @@ class _LandingState extends State<Landing> {
               color: Colors.orangeAccent,
             ),
             new Expanded(
-              child: MapsDemo(),
+              child: new Container(
+                child: currentlocation.isEmpty
+                    ? new Center(child: CircularProgressIndicator())
+                    : new Stack(
+                  children: <Widget>[
+                    new Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: new GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                            target: LatLng(currentlocation["latitude"],
+                                currentlocation["longitude"]),
+                            zoom: 15.0),
+                        onMapCreated: _onMapCreated,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             )
           ]),
           new Container(
@@ -107,10 +143,21 @@ class _LandingState extends State<Landing> {
         ]));
   }
 
+
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
+      mapController.addMarker(MarkerOptions(
+          position:
+          LatLng(currentlocation["latitude"], currentlocation["longitude"]),
+          infoWindowText: InfoWindowText("you are here", ""),
+          visible: true));
     });
+  }
+
+  void gotocurrent() {
+    mapController.animateCamera(CameraUpdate.newLatLng(
+        LatLng(currentlocation["latitude"], currentlocation["longitude"])));
   }
 }
 
@@ -241,72 +288,5 @@ class DrawerState extends State<Drawer> {
         ],
       ),
     );
-  }
-}
-
-class MapsDemo extends StatefulWidget {
-  @override
-  State createState() => MapsDemoState();
-}
-
-class MapsDemoState extends State<MapsDemo> {
-  var currentlocation = {};
-  GoogleMapController mapController;
-  Position position;
-  TextEditingController controller;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    init();
-    controller = new TextEditingController();
-  }
-
-  init() async {
-    position = await Geolocator().getCurrentPosition();
-    setState(() {
-      currentlocation["latitude"] = position.latitude;
-      currentlocation["longitude"] = position.longitude;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      child: currentlocation.isEmpty
-          ? new Center(child: CircularProgressIndicator())
-          : new Stack(
-              children: <Widget>[
-                new Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: new GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                        target: LatLng(currentlocation["latitude"],
-                            currentlocation["longitude"]),
-                        zoom: 15.0),
-                    onMapCreated: _onMapCreated,
-                  ),
-                ),
-              ],
-            ),
-    );
-  }
-
-  void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      mapController = controller;
-      mapController.addMarker(MarkerOptions(
-          position:
-              LatLng(currentlocation["latitude"], currentlocation["longitude"]),
-          infoWindowText: InfoWindowText("you are here", ""),
-          visible: true));
-    });
-  }
-
-  void gotocurrent() {
-    mapController.animateCamera(CameraUpdate.newLatLng(
-        LatLng(currentlocation["latitude"], currentlocation["longitude"])));
   }
 }
