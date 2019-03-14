@@ -15,6 +15,7 @@ class Landing extends StatefulWidget {
 
 class _LandingState extends State<Landing> {
   GoogleMapController mapController;
+  var source="My Location",destination="Destination";
   var currentlocation = {};
   Position position;
   TextEditingController controller;
@@ -94,35 +95,46 @@ class _LandingState extends State<Landing> {
                 child: new Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    TextField(
-                      style: TextStyle(fontSize: 25.0, color: Colors.black),
-                      decoration: InputDecoration(
-                          labelStyle: TextStyle(fontSize: 15.0),
-                          border: InputBorder.none,
-                          icon: Icon(Icons.location_on),
-                          labelText: "Current Location"),
-                        onTap: () {
-                          Navigator.push(
+                    ListTile(
+                      title: Text(source, style: TextStyle(fontSize: 20.0, color: Colors.black),),
+                      leading: Icon(Icons.location_on),
+
+                        onTap: () async{
+                          var response=await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SearchView()),
                           );
-                        }),
-                    TextField(
-                      style: TextStyle(fontSize: 25.0, color: Colors.black),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          icon: Icon(Icons.location_on),
-                          labelStyle: TextStyle(fontSize: 15.0),
-                          labelText: "Destination"),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchView()),
-                          );
+                          source=response["loc"];
+                          setState(() {
+
+                          });
+                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
+                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+
                         }
-                    )
+
+                    ),
+                    ListTile(
+                        title: Text(destination, style: TextStyle(fontSize: 20.0, color: Colors.black),),
+                        leading: Icon(Icons.location_on),
+
+                        onTap: () async{
+                          var response=await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchView()),
+                          );
+                          destination=response["loc"];
+                          setState(() {
+
+                          });
+                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
+                          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
+
+                        }
+
+                    ),
                   ],
                 ),
               ),
@@ -165,6 +177,8 @@ class _LandingState extends State<Landing> {
           position:
           LatLng(currentlocation["latitude"], currentlocation["longitude"]),
           infoWindowText: InfoWindowText("you are here", ""),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          
           visible: true));
     });
   }

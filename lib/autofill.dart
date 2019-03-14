@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'package:google_maps_webservice/places.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 const kGoogleApiKey = "AIzaSyCYovHQVIy52u4De26rse958g_-q5hdinY";
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class SearchView extends StatefulWidget {
   @override
@@ -26,12 +24,19 @@ class _SearchViewState extends State<SearchView> {
 
   Widget _buildBar(BuildContext context) {
     return new AppBar(
+      backgroundColor: Colors.orange,
       centerTitle: true,
       title: new TextField(
         controller: controller,
+        style: TextStyle(
+          color: Colors.white
+        ),
         decoration: new InputDecoration(
             //prefixIcon: new Icon(Icons.search),
             hintText: 'Search...',
+            hintStyle: TextStyle(
+              color: Colors.white
+            ),
             border: InputBorder.none),
       ),
       leading: new IconButton(
@@ -71,17 +76,21 @@ class _SearchViewState extends State<SearchView> {
                     var url =
                         "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${response["predictions"][i]["description"]}&key=AIzaSyCYovHQVIy52u4De26rse958g_-q5hdinY";
                     var response1 = await apiRequest(url);
-                    print(response1);
+                    print(response1["results"][0]["geometry"]["location"]["lat"]);
+                    Navigator.of(context).pop({"loc":response1["results"][0]["formatted_address"],"lat":response1["results"][0]["geometry"]["location"]["lat"],"long":response1["results"][0]["geometry"]["location"]["lng"]});
+
                   },
-                  child: Card(
-                    child: Container(
-                      height: 50.0,
-                      child: Center(
-                        child: new Text(
+                  child:Container(
+                    child: Column(
+                      children: [ListTile(
+                        leading: Icon(Icons.location_on),
+                        title: new Text(
                           response["predictions"][i]["description"],
                           style: TextStyle(color: Colors.black),
+
                         ),
                       ),
+                      new Divider()]
                     ),
                   ),
                 );
