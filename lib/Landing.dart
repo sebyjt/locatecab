@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/settings_page.dart';
 import 'package:locatecab/r_confirm.dart';
 import 'package:locatecab/Firstlogin.dart';
+import 'package:locatecab/autofill.dart';
 
 class Landing extends StatefulWidget {
   @override
@@ -100,7 +101,13 @@ class _LandingState extends State<Landing> {
                           border: InputBorder.none,
                           icon: Icon(Icons.location_on),
                           labelText: "Current Location"),
-                    ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchView()),
+                          );
+                        }),
                     TextField(
                       style: TextStyle(fontSize: 25.0, color: Colors.black),
                       decoration: InputDecoration(
@@ -108,6 +115,13 @@ class _LandingState extends State<Landing> {
                           icon: Icon(Icons.location_on),
                           labelStyle: TextStyle(fontSize: 15.0),
                           labelText: "Destination"),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchView()),
+                          );
+                        }
                     )
                   ],
                 ),
