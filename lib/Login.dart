@@ -4,6 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 import 'Landing.dart';
 
+import 'globals.dart' as globals;
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -50,6 +52,7 @@ class _LoginState extends State<Login> {
 
   Future getUser() async {
     user = await _auth.currentUser();
+    globals.receiverEmail = user.email;
     if (user != null) {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => new Landing()));

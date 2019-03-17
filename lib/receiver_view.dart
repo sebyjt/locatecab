@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/settings_page.dart';
 import 'package:locatecab/r_confirm.dart';
 import 'package:locatecab/Firstlogin.dart';
 import 'package:locatecab/autofill.dart';
+
+import 'globals.dart' as globals;
 
 class ReceiverView extends StatefulWidget {
   @override
@@ -19,6 +22,9 @@ class _ReceiverViewState extends State<ReceiverView> {
   var currentlocation = {};
   Position position;
   TextEditingController controller;
+
+  final databaseReference = FirebaseDatabase.instance.reference();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -149,9 +155,10 @@ class _ReceiverViewState extends State<ReceiverView> {
                 height: 45.0,
                 child: new RaisedButton(
                   onPressed: () {
+                    registerReceiver();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ConfirmR()),
+                      MaterialPageRoute(builder: (context) => ConfirmReceiver()),
                     );
                   },
                   splashColor: Colors.red.withAlpha(700),
@@ -167,6 +174,20 @@ class _ReceiverViewState extends State<ReceiverView> {
             ),
           )
         ]));
+  }
+
+  void registerReceiver(){
+    String userId = globals.receiverEmail;
+    userId = userId.replaceAll(".", "");
+
+    databaseReference.child("receiver")
+        .child(userId)
+        .set({
+      'my_location_latitude': 8.5341,
+      'my_location_longitude': 76.9366,
+      'destination_latitude': 9.5716,
+      'destination_longitude': 76.5222,
+    });
   }
 
 

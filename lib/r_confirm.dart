@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ConfirmR extends StatefulWidget {
+class ConfirmReceiver extends StatefulWidget {
   @override
-  _ConfirmRState createState() => _ConfirmRState();
+  _ConfirmReceiverState createState() => _ConfirmReceiverState();
 }
 
-class _ConfirmRState extends State<ConfirmR> {
+class _ConfirmReceiverState extends State<ConfirmReceiver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
