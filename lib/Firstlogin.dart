@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:locatecab/crud.dart';
+import 'package:locatecab/Landing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -77,7 +78,10 @@ class _FirstloginState extends State<Firstlogin> {
                   onPressed: () async {
                     await cruduser.addDataU({"Name": user.displayName,"Phone No":controller1.text});
                     await crudhost.addDataH({"Name": user.displayName,"Capacity":controller2.text,"Car Model":controller3.text});
-
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => Landing()),
+                    );
                   },
                   color: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(

@@ -7,14 +7,13 @@ import 'package:locatecab/settings_page.dart';
 import 'package:locatecab/r_confirm.dart';
 import 'package:locatecab/Firstlogin.dart';
 import 'package:locatecab/autofill.dart';
-import 'package:locatecab/receiver_view.dart';
 
-class Landing extends StatefulWidget {
+class ReceiverView extends StatefulWidget {
   @override
-  _LandingState createState() => _LandingState();
+  _ReceiverViewState createState() => _ReceiverViewState();
 }
 
-class _LandingState extends State<Landing> {
+class _ReceiverViewState extends State<ReceiverView> {
   GoogleMapController mapController;
   var source="My Location",destination="Destination";
   var currentlocation = {};
@@ -46,7 +45,7 @@ class _LandingState extends State<Landing> {
           elevation: 0.0,
           //leading: IconButton(icon: Icon(Icons.navigate_before,size: 35.0,),onPressed: ()=>Navigator.of(context).pop(),),
           title: Text(
-            "Host",
+            "Receiver",
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Gothic',
@@ -97,8 +96,8 @@ class _LandingState extends State<Landing> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                      title: Text(source, style: TextStyle(fontSize: 20.0, color: Colors.black),),
-                      leading: Icon(Icons.location_on),
+                        title: Text(source, style: TextStyle(fontSize: 20.0, color: Colors.black),),
+                        leading: Icon(Icons.location_on),
 
                         onTap: () async{
                           var response=await Navigator.push(
@@ -131,7 +130,7 @@ class _LandingState extends State<Landing> {
 
                           });
                           mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
+                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
 
                         }
 
@@ -179,7 +178,7 @@ class _LandingState extends State<Landing> {
           LatLng(currentlocation["latitude"], currentlocation["longitude"]),
           infoWindowText: InfoWindowText("you are here", ""),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          
+
           visible: true));
     });
   }
