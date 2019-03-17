@@ -106,17 +106,20 @@ class _ReceiverViewState extends State<ReceiverView> {
                         leading: Icon(Icons.location_on),
 
                         onTap: () async{
-                          var response=await Navigator.push(
+                          var response = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SearchView()),
                           );
-                          source=response["loc"];
+                          source = response["loc"];
                           setState(() {
 
                           });
                           mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
                               icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+
+                          globals.receiverLocationLatitude = response["lat"];
+                          globals.receiverLocationLongitude = response["long"];
 
                         }
 
@@ -138,6 +141,8 @@ class _ReceiverViewState extends State<ReceiverView> {
                           mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
                               icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
 
+                          globals.receiverDestinationLatitude = response["lat"];
+                          globals.receiverDestinationLongitude = response["long"];
                         }
 
                     ),
@@ -183,10 +188,10 @@ class _ReceiverViewState extends State<ReceiverView> {
     databaseReference.child("receiver")
         .child(userId)
         .set({
-      'my_location_latitude': 8.5341,
-      'my_location_longitude': 76.9366,
-      'destination_latitude': 9.5716,
-      'destination_longitude': 76.5222,
+      'my_location_latitude': globals.receiverLocationLatitude,
+      'my_location_longitude': globals.receiverLocationLongitude,
+      'destination_latitude': globals.receiverDestinationLatitude,
+      'destination_longitude': globals.receiverDestinationLongitude,
     });
   }
 
