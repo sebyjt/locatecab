@@ -58,7 +58,7 @@ class _LandingState extends State<Landing> {
         builder: (BuildContext bc){
           return Container(
             child: Padding(
-                padding: EdgeInsets.only(left: 30.0, top: 5.0, right: 30.0, bottom: 5.0),
+                padding: EdgeInsets.only(left: 30.0, top: 1.0, right: 30.0, bottom: 1.0),
                 child: Column(
                           children: <Widget>[
                             Container(
@@ -84,12 +84,12 @@ class _LandingState extends State<Landing> {
                             Row(
                               children: <Widget>[
                                 SizedBox(
-                                  height: 80,
+                                  height: 65,
                                   width: 100,
                                   child: Text("Pick up Location :"),
                                 ),
                                 SizedBox(
-                                  height: 80,
+                                  height: 65,
                                   width: 200,
                                   child: Text("Nellepalli, Punalur, Kerala 691305"),
                                 ),
@@ -98,17 +98,25 @@ class _LandingState extends State<Landing> {
                             Row(
                               children: <Widget>[
                                 SizedBox(
-                                  height: 80,
+                                  height: 65,
                                   width: 100,
                                   child: Text("Destination :"),
                                 ),
                                 SizedBox(
-                                  height: 80,
+                                  height: 65,
                                   width: 200,
                                   child: Text("AJCE, Koovappally P.O, Kanjirappally"),
                                 ),
                               ],
-                            )
+                            ),
+                            RaisedButton(
+                              child: new Text("Accept receiver"),
+                                color: Colors.orangeAccent,
+                                textColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0)),
+                                onPressed: (){}
+                                )
                           ],
                 ),),
           );
