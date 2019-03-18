@@ -4,10 +4,10 @@ A vehicle sharing app for Amal Jyothi College made with Flutter.
 
 ## Introduction
 
-Locate cab was very similar to Uber for reaching taxi services and was
+Locate cab is very similar to Uber for reaching taxi services and was
 successful in delivering the output connecting taxi owner, taxi driver and the
-passenger. The objective of the proposed system is it will provide easy transport
-for students and staff for the morning and the evening and useful for hostelers
+passenger. The objective of the proposed system is to provide easy transport
+for students and staff for everyday morning and evening and useful for hostelers
 during their journey from college to home and vice-versa and also for staff who
 uses private vehicles can provide lift to the students or staff.
 
