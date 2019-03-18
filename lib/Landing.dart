@@ -8,6 +8,7 @@ import 'package:locatecab/Firstlogin.dart';
 import 'package:locatecab/autofill.dart';
 import 'package:locatecab/receiver_view.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Landing extends StatefulWidget {
   @override
@@ -33,11 +34,95 @@ class _LandingState extends State<Landing> {
         .once().then((DataSnapshot snapshot){
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key,values) {
-        print(values["my_location_latitude"]);
-        mapController.addMarker(MarkerOptions(position: LatLng(values["my_location_latitude"], values["my_location_longitude"]),
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+        mapController.addMarker(
+            MarkerOptions(
+                position: LatLng(values["my_location_latitude"], values["my_location_longitude"]),
+                icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
       });
+      mapController.addMarker(
+          MarkerOptions(
+              position: LatLng(9.0, 75.0),
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+      mapController.onMarkerTapped.add(_onMarkerTapped);
     });
+  }
+
+  void _onMarkerTapped(Marker marker) {
+    print("HELLO INDIA");
+    _BottomSheet(context);
+  }
+
+  void _BottomSheet(context){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc){
+          return Container(
+            child: Padding(
+                padding: EdgeInsets.only(left: 30.0, top: 5.0, right: 30.0, bottom: 5.0),
+                child: Column(
+                          children: <Widget>[
+                            Container(
+                              width: 100.0,
+                              height: 100.0,
+                              decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                              fit: BoxFit.fill,
+                              image: new NetworkImage("https://i.pinimg.com/236x/eb/83/d1/eb83d194fd9ba8271cebe288b7af5f68.jpg")))),
+                            Padding(padding: EdgeInsets.all(5)),
+                            Text("Reena Maria"),
+                            Padding(padding: EdgeInsets.all(5)),
+                            GestureDetector(
+                                child: Text("reenamaria2020@cs.ajce.in", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                                onTap: () {
+                                  _launchURL();
+                                }
+                            ),
+                            Padding(padding: EdgeInsets.all(5)),
+                            Text("8943676929"),
+                            Padding(padding: EdgeInsets.all(5)),
+                            Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 80,
+                                  width: 100,
+                                  child: Text("Pick up Location :"),
+                                ),
+                                SizedBox(
+                                  height: 80,
+                                  width: 200,
+                                  child: Text("Nellepalli, Punalur, Kerala 691305"),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 80,
+                                  width: 100,
+                                  child: Text("Destination :"),
+                                ),
+                                SizedBox(
+                                  height: 80,
+                                  width: 200,
+                                  child: Text("AJCE, Koovappally P.O, Kanjirappally"),
+                                ),
+                              ],
+                            )
+                          ],
+                ),),
+          );
+        }
+    );
+  }
+
+  _launchURL() async {
+    const url = 'mailto:reenamaria2020@cs.ajce.in';
+    if (await canLaunch(url)) {
+      await launch(Uri.encodeFull(url));
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   init() async {
@@ -186,7 +271,7 @@ class _LandingState extends State<Landing> {
           LatLng(currentlocation["latitude"], currentlocation["longitude"]),
           infoWindowText: InfoWindowText("you are here", ""),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          
+
           visible: true));
     });
   }
