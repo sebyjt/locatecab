@@ -58,7 +58,7 @@ class _LandingState extends State<Landing> {
         builder: (BuildContext bc){
           return Container(
             child: Padding(
-                padding: EdgeInsets.only(left: 30.0, top: 1.0, right: 30.0, bottom: 1.0),
+                padding: EdgeInsets.only(left: 30.0, top: 10.0, right: 30.0, bottom: 1.0),
                 child: Column(
                           children: <Widget>[
                             Container(
@@ -78,8 +78,6 @@ class _LandingState extends State<Landing> {
                                   _launchURL();
                                 }
                             ),
-                            Padding(padding: EdgeInsets.all(5)),
-                            Text("8943676929"),
                             Padding(padding: EdgeInsets.all(5)),
                             Row(
                               children: <Widget>[
