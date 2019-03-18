@@ -4,10 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/settings_page.dart';
-import 'package:locatecab/r_confirm.dart';
 import 'package:locatecab/Firstlogin.dart';
 import 'package:locatecab/autofill.dart';
 import 'package:locatecab/receiver_view.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Landing extends StatefulWidget {
   @override
@@ -15,6 +15,8 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
+  final databaseReference = FirebaseDatabase.instance.reference();
+
   GoogleMapController mapController;
   var source="My Location",destination="Destination";
   var currentlocation = {};
@@ -26,6 +28,16 @@ class _LandingState extends State<Landing> {
     super.initState();
     init();
     controller = new TextEditingController();
+
+    databaseReference.child("receiver")
+        .once().then((DataSnapshot snapshot){
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key,values) {
+        print(values["my_location_latitude"]);
+        mapController.addMarker(MarkerOptions(position: LatLng(values["my_location_latitude"], values["my_location_longitude"]),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+      });
+    });
   }
 
   init() async {
