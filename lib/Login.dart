@@ -34,7 +34,11 @@ class _LoginState extends State<Login> {
 
       final FirebaseUser user = await _auth.signInWithCredential(credential);
       print("signed in " + user.displayName);
+
       globals.receiverEmail = user.email;
+      globals.receiverName = user.displayName;
+      globals.receiverEmailReal = user.email;
+
       var token=await user.getIdToken(refresh: false);
       print("token"+token.toString());
       return user;
@@ -46,7 +50,6 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUser();
   }
@@ -54,6 +57,8 @@ class _LoginState extends State<Login> {
   Future getUser() async {
     user = await _auth.currentUser();
     globals.receiverEmail = user.email;
+    globals.receiverName = user.displayName;
+    globals.receiverEmailReal = user.email;
     if (user != null) {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => new Landing()));

@@ -27,6 +27,7 @@ dependencies:
   firebase_database:
   http:
   url_launcher: 5.0.0
+  geocoder:
 
 
 

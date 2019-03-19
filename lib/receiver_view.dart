@@ -112,6 +112,7 @@ class _ReceiverViewState extends State<ReceiverView> {
                                 builder: (context) => SearchView()),
                           );
                           source = response["loc"];
+                          globals.receiverLocationAddress = response["loc"];
                           setState(() {
 
                           });
@@ -134,7 +135,8 @@ class _ReceiverViewState extends State<ReceiverView> {
                             MaterialPageRoute(
                                 builder: (context) => SearchView()),
                           );
-                          destination=response["loc"];
+                          destination = response["loc"];
+                          globals.receiverDestinationAddress = response["loc"];
                           setState(() {
 
                           });
@@ -188,10 +190,14 @@ class _ReceiverViewState extends State<ReceiverView> {
     databaseReference.child("receiver")
         .child(userId)
         .set({
+      'receiver_name' : globals.receiverName,
+      'receiver_email' : globals.receiverEmailReal,
       'my_location_latitude': globals.receiverLocationLatitude,
       'my_location_longitude': globals.receiverLocationLongitude,
       'destination_latitude': globals.receiverDestinationLatitude,
       'destination_longitude': globals.receiverDestinationLongitude,
+      'receiver_location_address' : globals.receiverLocationAddress,
+      'receiver_destination_address': globals.receiverDestinationAddress
     });
   }
 
