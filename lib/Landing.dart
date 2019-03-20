@@ -9,6 +9,8 @@ import 'package:locatecab/autofill.dart';
 import 'package:locatecab/receiver_view.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:location/location.dart';
+import 'dart:async';
 
 class Landing extends StatefulWidget {
   @override
@@ -16,22 +18,43 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
+
   final databaseReference = FirebaseDatabase.instance.reference();
+
+  Map<String, double> currentLocation = new Map();
+  StreamSubscription<Map<String, double>> locationSubcription;
+  Location location = new Location();
 
   GoogleMapController mapController;
   var map = <String, String> {};
 
-  var source="My Location",destination="Destination";
+  var source = "My Location", destination = "Destination";
   var currentlocation = {};
   Position position;
   TextEditingController controller;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     init();
     controller = new TextEditingController();
+
+    locationSubcription = location.onLocationChanged().listen((Map<String, double> result){
+      setState(() {
+        currentLocation = result;
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 17),
+          ),
+        );
+        mapController.addMarker(
+          MarkerOptions(
+            position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+          ),
+        );
+      });
+    });
 
     databaseReference.child("receiver")
         .once().then((DataSnapshot snapshot){
@@ -49,6 +72,7 @@ class _LandingState extends State<Landing> {
       mapController.onMarkerTapped.add(_onMarkerTapped);
     });
   }
+
 
   void _onMarkerTapped(Marker marker) {
     var selectedMarker = map[marker.id];
