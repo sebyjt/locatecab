@@ -45,7 +45,7 @@ class _LandingState extends State<Landing> {
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
-                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 17),
+                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 13),
           ),
         );
         mapController.addMarker(
