@@ -19,10 +19,13 @@ class _LandingState extends State<Landing> {
   final databaseReference = FirebaseDatabase.instance.reference();
 
   GoogleMapController mapController;
+  var map = <String, String> {};
+
   var source="My Location",destination="Destination";
   var currentlocation = {};
   Position position;
   TextEditingController controller;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -34,25 +37,26 @@ class _LandingState extends State<Landing> {
         .once().then((DataSnapshot snapshot){
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key,values) {
-        mapController.addMarker(
-            MarkerOptions(
-                position: LatLng(values["my_location_latitude"], values["my_location_longitude"]),
-                icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+        mapController.addMarker(new MarkerOptions(
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          position: LatLng(values["my_location_latitude"], values["my_location_longitude"]),
+        )).then((marker) {
+          map[marker.id] = values["my_location_latitude"]; // this will return when tap on marker
+          return marker;
+        });
+        print("LAT/LONG : "+values["my_location_latitude"].toString()+" , "+values["my_location_longitude"].toString());
       });
-      mapController.addMarker(
-          MarkerOptions(
-              position: LatLng(9.0, 75.0),
-              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
       mapController.onMarkerTapped.add(_onMarkerTapped);
     });
   }
 
   void _onMarkerTapped(Marker marker) {
-    print("HELLO INDIA");
-    _BottomSheet(context);
+    var selectedMarker = map[marker.id];
+    print(marker.id);
+    _BottomSheet(context, selectedMarker);
   }
 
-  void _BottomSheet(context){
+  void _BottomSheet(context, var marker){
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc){
@@ -273,11 +277,9 @@ class _LandingState extends State<Landing> {
     setState(() {
       mapController = controller;
       mapController.addMarker(MarkerOptions(
-          position:
-          LatLng(currentlocation["latitude"], currentlocation["longitude"]),
+          position: LatLng(currentlocation["latitude"], currentlocation["longitude"]),
           infoWindowText: InfoWindowText("you are here", ""),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-
           visible: true));
     });
   }
