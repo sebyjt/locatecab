@@ -51,6 +51,8 @@ class _LandingState extends State<Landing> {
         mapController.addMarker(
           MarkerOptions(
             position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+              infoWindowText: InfoWindowText("You are here", "Find receivers around you"),
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
           ),
         );
       });
