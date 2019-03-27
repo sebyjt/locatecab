@@ -118,7 +118,7 @@ class _LandingState extends State<Landing> {
                               decoration: TextDecoration.underline,
                               color: Colors.blue)),
                       onTap: () {
-                        _launchURL();
+                        _launchURL(data[index]["receiver_email"]);
                       }),
                   Padding(padding: EdgeInsets.all(5)),
                   Row(
@@ -164,8 +164,8 @@ class _LandingState extends State<Landing> {
         });
   }
 
-  _launchURL() async {
-    const url = 'mailto:reenamaria2020@cs.ajce.in';
+  _launchURL(String mailId) async {
+    String url = 'mailto:'+mailId;
     if (await canLaunch(url)) {
       await launch(Uri.encodeFull(url));
     } else {
