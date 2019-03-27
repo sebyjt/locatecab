@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:locatecab/crud.dart';
 import 'package:locatecab/Landing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
 
 class Firstlogin extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class Firstlogin extends StatefulWidget {
 class _FirstloginState extends State<Firstlogin> {
   TextEditingController controller1, controller2, controller3;
   CrudMethods cruduser, crudhost;
+  GlobalKey<ScaffoldState> key = new GlobalKey();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
 
@@ -33,6 +36,7 @@ class _FirstloginState extends State<Firstlogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: key,
         resizeToAvoidBottomPadding: true,
         body: Container(
             height: double.infinity,
@@ -85,10 +89,16 @@ class _FirstloginState extends State<Firstlogin> {
                       "Capacity": controller2.text,
                       "Car Model": controller3.text
                     });
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Landing()),
-                    );
+                    key.currentState.showSnackBar(SnackBar(
+                        content: Text(
+                            "Details have been added to Database")));
+                    var duration = const Duration(seconds: 2);
+                    Timer(duration, () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Landing()));
+                    });
                   },
                   color: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 import 'Landing.dart';
+import 'receiver_view.dart';
 
 import 'globals.dart' as globals;
 
@@ -52,6 +53,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     getUser();
+    new Landing();
   }
 
   Future getUser() async {
@@ -61,7 +63,7 @@ class _LoginState extends State<Login> {
     globals.receiverEmailReal = user.email;
     if (user != null) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => new Landing()));
+          .push(MaterialPageRoute(builder: (context) => new ReceiverView()));
     }
     setState(() {
       loadFlag = true;
@@ -124,7 +126,7 @@ class _LoginState extends State<Login> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => new Landing()));
+                                        builder: (context) => new ReceiverView()));
                               });
                             }
                           }).catchError((e) => print(e));
