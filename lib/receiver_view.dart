@@ -20,7 +20,7 @@ class ReceiverView extends StatefulWidget {
 
 class _ReceiverViewState extends State<ReceiverView> {
   GoogleMapController mapController;
-  var source="My Location",destination="Destination";
+  var source = "My Location", destination = "Destination";
   var currentlocation = {};
   Position position;
   TextEditingController controller;
@@ -79,20 +79,20 @@ class _ReceiverViewState extends State<ReceiverView> {
                 child: currentlocation.isEmpty
                     ? new Center(child: CircularProgressIndicator())
                     : new Stack(
-                  children: <Widget>[
-                    new Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: new GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                            target: LatLng(currentlocation["latitude"],
-                                currentlocation["longitude"]),
-                            zoom: 15.0),
-                        onMapCreated: _onMapCreated,
+                        children: <Widget>[
+                          new Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: new GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                                  target: LatLng(currentlocation["latitude"],
+                                      currentlocation["longitude"]),
+                                  zoom: 15.0),
+                              onMapCreated: _onMapCreated,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             )
           ]),
@@ -104,10 +104,12 @@ class _ReceiverViewState extends State<ReceiverView> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                        title: Text(source, style: TextStyle(fontSize: 20.0, color: Colors.black),),
+                        title: Text(
+                          source,
+                          style: TextStyle(fontSize: 20.0, color: Colors.black),
+                        ),
                         leading: Icon(Icons.location_on),
-
-                        onTap: () async{
+                        onTap: () async {
                           var response = await Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -115,40 +117,35 @@ class _ReceiverViewState extends State<ReceiverView> {
                           );
                           source = response["loc"];
                           globals.receiverLocationAddress = response["loc"];
-                          setState(() {
-
-                          });
+                          setState(() {});
 //                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
 //                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
 
                           globals.receiverLocationLatitude = response["lat"];
                           globals.receiverLocationLongitude = response["long"];
-                        }
-
-                    ),
+                        }),
                     ListTile(
-                        title: Text(destination, style: TextStyle(fontSize: 20.0, color: Colors.black),),
+                        title: Text(
+                          destination,
+                          style: TextStyle(fontSize: 20.0, color: Colors.black),
+                        ),
                         leading: Icon(Icons.location_on),
-
-                        onTap: () async{
-                          var response=await Navigator.push(
+                        onTap: () async {
+                          var response = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SearchView()),
                           );
                           destination = response["loc"];
                           globals.receiverDestinationAddress = response["loc"];
-                          setState(() {
-
-                          });
+                          setState(() {});
 //                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
 //                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
 
                           globals.receiverDestinationLatitude = response["lat"];
-                          globals.receiverDestinationLongitude = response["long"];
-                        }
-
-                    ),
+                          globals.receiverDestinationLongitude =
+                              response["long"];
+                        }),
                   ],
                 ),
               ),
@@ -166,7 +163,8 @@ class _ReceiverViewState extends State<ReceiverView> {
                     registerReceiver();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ConfirmReceiver()),
+                      MaterialPageRoute(
+                          builder: (context) => ConfirmReceiver()),
                     );
                   },
                   splashColor: Colors.red.withAlpha(700),
@@ -184,25 +182,22 @@ class _ReceiverViewState extends State<ReceiverView> {
         ]));
   }
 
-  void registerReceiver(){
+  void registerReceiver() {
     String userId = globals.receiverEmail;
     userId = userId.replaceAll(".", "");
 
-    databaseReference.child("receiver")
-        .child(userId)
-        .set({
-      'receiver_name' : globals.receiverName,
-      'receiver_email' : globals.receiverEmailReal,
+    databaseReference.child("receiver").child(userId).set({
+      'receiver_name': globals.receiverName,
+      'receiver_email': globals.receiverEmailReal,
       'my_location_latitude': globals.receiverLocationLatitude,
       'my_location_longitude': globals.receiverLocationLongitude,
       'destination_latitude': globals.receiverDestinationLatitude,
       'destination_longitude': globals.receiverDestinationLongitude,
-      'receiver_location_address' : globals.receiverLocationAddress,
+      'receiver_location_address': globals.receiverLocationAddress,
       'receiver_destination_address': globals.receiverDestinationAddress,
-      'imageURL' : fbuser.photoUrl
+      'imageURL': fbuser.photoUrl
     });
   }
-
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -303,12 +298,13 @@ class DrawerState extends State<Drawer> {
             ),
             leading: Image.asset("Assets/up.png",
                 height: 30, width: 30, color: Colors.black),
-            onTap: (){Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Firstlogin()),
-            );},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Firstlogin()),
+              );
+            },
           ),
-
           Divider(),
           ListTile(
             title: Text(

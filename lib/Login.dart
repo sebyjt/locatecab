@@ -39,8 +39,8 @@ class _LoginState extends State<Login> {
       globals.receiverName = user.displayName;
       globals.receiverEmailReal = user.email;
 
-      var token=await user.getIdToken(refresh: false);
-      print("token"+token.toString());
+      var token = await user.getIdToken(refresh: false);
+      print("token" + token.toString());
       return user;
     } else {
       _googleSignIn.signOut();
@@ -105,30 +105,30 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                   onPressed: loadFlag == true
-                      ? null : () {
-              //action
+                      ? null
+                      : () {
+                          //action
 
-              _handleSignIn().then((FirebaseUser user) {
-              if (user == null)
-              key.currentState.showSnackBar(SnackBar(
-              content: Text(
-              "Sign in with Amal Jyothi Credentials")));
-              else {
-              key.currentState.showSnackBar(SnackBar(
-              content: Text(
-              "Signed in as " + user.displayName)));
-              var duration = const Duration(seconds: 2);
+                          _handleSignIn().then((FirebaseUser user) {
+                            if (user == null)
+                              key.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Sign in with Amal Jyothi Credentials")));
+                            else {
+                              key.currentState.showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Signed in as " + user.displayName)));
+                              var duration = const Duration(seconds: 2);
 
-
-              Timer(duration, () {
-              Navigator.push(
-              context,
-              MaterialPageRoute(
-              builder: (context) => new Landing()));
-              });
-              }
-              }).catchError((e) => print(e));
-              }),
+                              Timer(duration, () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => new Landing()));
+                              });
+                            }
+                          }).catchError((e) => print(e));
+                        }),
             )
           ],
         )),

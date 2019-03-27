@@ -3,12 +3,10 @@ import 'package:locatecab/crud.dart';
 import 'package:locatecab/Landing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class Firstlogin extends StatefulWidget {
   @override
   _FirstloginState createState() => _FirstloginState();
 }
-
 
 class _FirstloginState extends State<Firstlogin> {
   TextEditingController controller1, controller2, controller3;
@@ -19,17 +17,19 @@ class _FirstloginState extends State<Firstlogin> {
   Future getUser() async {
     user = await _auth.currentUser();
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller1=new TextEditingController();
-    controller2=new TextEditingController();
-    controller3=new TextEditingController();
-    cruduser=new CrudMethods();
-    crudhost=new CrudMethods();
+    controller1 = new TextEditingController();
+    controller2 = new TextEditingController();
+    controller3 = new TextEditingController();
+    cruduser = new CrudMethods();
+    crudhost = new CrudMethods();
     getUser();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +50,9 @@ class _FirstloginState extends State<Firstlogin> {
                 padding:
                     const EdgeInsets.only(left: 40.0, right: 40.0, top: 20.0),
                 child: TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: new InputDecoration(labelText: "Contact no"),
-                    controller: controller1,
+                  keyboardType: TextInputType.number,
+                  decoration: new InputDecoration(labelText: "Contact no"),
+                  controller: controller1,
                 ),
               ),
               Padding(
@@ -76,8 +76,15 @@ class _FirstloginState extends State<Firstlogin> {
                 padding: EdgeInsets.only(top: 60.0, left: 40.0, right: 20.0),
                 child: RaisedButton(
                   onPressed: () async {
-                    await cruduser.addDataU({"Name": user.displayName,"Phone No":controller1.text});
-                    await crudhost.addDataH({"Name": user.displayName,"Capacity":controller2.text,"Car Model":controller3.text});
+                    await cruduser.addDataU({
+                      "Name": user.displayName,
+                      "Phone No": controller1.text
+                    });
+                    await crudhost.addDataH({
+                      "Name": user.displayName,
+                      "Capacity": controller2.text,
+                      "Car Model": controller3.text
+                    });
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Landing()),

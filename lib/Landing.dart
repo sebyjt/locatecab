@@ -18,17 +18,16 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
-
   final databaseReference = FirebaseDatabase.instance.reference();
-  Set <Marker> markerlist=new Set();
-  var data=[];
+  Set<Marker> markerlist = new Set();
+  var data = [];
 
-  Map<String, double> currentLocation= new Map();
+  Map<String, double> currentLocation = new Map();
   StreamSubscription<Map<String, double>> locationSubcription;
   Location location = new Location();
 
   GoogleMapController mapController;
-  var map = <String, String> {};
+  var map = <String, String>{};
 
   var source = "My Location", destination = "Destination";
   var currentlocation = {};
@@ -41,13 +40,16 @@ class _LandingState extends State<Landing> {
     init();
     controller = new TextEditingController();
 
-    locationSubcription = location.onLocationChanged().listen((Map<String, double> result){
+    locationSubcription =
+        location.onLocationChanged().listen((Map<String, double> result) {
       setState(() {
         currentLocation = result;
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
-                target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 13),
+                target: LatLng(
+                    currentLocation['latitude'], currentLocation['longitude']),
+                zoom: 13),
           ),
         );
         /*mapController.addMarker(
@@ -60,105 +62,106 @@ class _LandingState extends State<Landing> {
       });
     });
 
-    databaseReference.child("receiver")
-        .once().then((DataSnapshot snapshot){
+    databaseReference.child("receiver").once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
-      values.forEach((key,values) {
+      values.forEach((key, values) {
         data.add(values);
         print(values);
-        Marker marker=new Marker(markerId: MarkerId(values["receiver_email"]),
-            position: LatLng(values['my_location_latitude'], values['my_location_longitude']),
-        onTap:()=> _onMarkerTapped(MarkerId(values["receiver_email"])));
+        Marker marker = new Marker(
+            markerId: MarkerId(values["receiver_email"]),
+            position: LatLng(values['my_location_latitude'],
+                values['my_location_longitude']),
+            onTap: () => _onMarkerTapped(MarkerId(values["receiver_email"])));
         markerlist.add(marker);
-        setState(() {
-
-        });
-      //mapController.onMarkerTapped.add(_onMarkerTapped);
-        });
-  });}
-
+        setState(() {});
+        //mapController.onMarkerTapped.add(_onMarkerTapped);
+      });
+    });
+  }
 
   void _onMarkerTapped(MarkerId markerid) {
- var selectedMarker = markerid.value;  print(markerid.value);
+    var selectedMarker = markerid.value;
+    print(markerid.value);
     _BottomSheet(context, selectedMarker);
   }
 
-  void _BottomSheet(context, var marker){
+  void _BottomSheet(context, var marker) {
     int index;
-    for(int i=0;i<data.length;i++)
-      {
-        if(data[i]["receiver_email"]==marker)
-          index=i;
-      }
+    for (int i = 0; i < data.length; i++) {
+      if (data[i]["receiver_email"] == marker) index = i;
+    }
 
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext bc){
+        builder: (BuildContext bc) {
           return Container(
             child: Padding(
-                padding: EdgeInsets.only(left: 30.0, top: 10.0, right: 30.0, bottom: 1.0),
-                child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: 100.0,
-                              height: 100.0,
-                              decoration: new BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
+              padding: EdgeInsets.only(
+                  left: 30.0, top: 10.0, right: 30.0, bottom: 1.0),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
                               fit: BoxFit.fill,
-                              image: new NetworkImage(data[index]["imageURL"])))),
-                            Padding(padding: EdgeInsets.all(5)),
-                            Text(data[index]["receiver_name"]),
-                            Padding(padding: EdgeInsets.all(5)),
-                            GestureDetector(
-                                child: Text(data[index]["receiver_email"], style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
-
-                                onTap: () {
-                                  _launchURL();
-                                }
-                            ),
-                            Padding(padding: EdgeInsets.all(5)),
-                            Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 65,
-                                  width: 100,
-                                  child: Text("Pick up Location :"),
-                                ),
-                                SizedBox(
-                                  height: 65,
-                                  width: 200,
-                                  child: Text(data[index]["receiver_location_address"]),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 65,
-                                  width: 100,
-                                  child: Text("Destination :"),
-                                ),
-                                SizedBox(
-                                  height: 65,
-                                  width: 200,
-                                  child: Text(data[index]["receiver_destination_address"]),
-                                ),
-                              ],
-                            ),
-                            RaisedButton(
-                              child: new Text("Accept receiver"),
-                                color: Colors.orangeAccent,
-                                textColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)),
-                                onPressed: (){}
-                                )
-                          ],
-                ),),
+                              image:
+                                  new NetworkImage(data[index]["imageURL"])))),
+                  Padding(padding: EdgeInsets.all(5)),
+                  Text(data[index]["receiver_name"]),
+                  Padding(padding: EdgeInsets.all(5)),
+                  GestureDetector(
+                      child: Text(data[index]["receiver_email"],
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue)),
+                      onTap: () {
+                        _launchURL();
+                      }),
+                  Padding(padding: EdgeInsets.all(5)),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 65,
+                        width: 100,
+                        child: Text("Pick up Location :"),
+                      ),
+                      SizedBox(
+                        height: 65,
+                        width: 200,
+                        child: Text(data[index]["receiver_location_address"]),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 65,
+                        width: 100,
+                        child: Text("Destination :"),
+                      ),
+                      SizedBox(
+                        height: 65,
+                        width: 200,
+                        child:
+                            Text(data[index]["receiver_destination_address"]),
+                      ),
+                    ],
+                  ),
+                  RaisedButton(
+                      child: new Text("Accept receiver"),
+                      color: Colors.orangeAccent,
+                      textColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0)),
+                      onPressed: () {})
+                ],
+              ),
+            ),
           );
-        }
-    );
+        });
   }
 
   _launchURL() async {
@@ -172,7 +175,7 @@ class _LandingState extends State<Landing> {
 
   init() async {
     position = await Geolocator().getCurrentPosition();
-   setState(() {
+    setState(() {
       currentlocation["latitude"] = position.latitude;
       currentlocation["longitude"] = position.longitude;
     });
@@ -214,21 +217,21 @@ class _LandingState extends State<Landing> {
                 child: currentlocation.isEmpty
                     ? new Center(child: CircularProgressIndicator())
                     : new Stack(
-                  children: <Widget>[
-                    new Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: new GoogleMap(
-                        markers: markerlist,
-                        initialCameraPosition: CameraPosition(
-                            target: LatLng(currentlocation["latitude"],
-                                currentlocation["longitude"]),
-                            zoom: 15.0),
-                        onMapCreated: _onMapCreated,
+                        children: <Widget>[
+                          new Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: new GoogleMap(
+                              markers: markerlist,
+                              initialCameraPosition: CameraPosition(
+                                  target: LatLng(currentlocation["latitude"],
+                                      currentlocation["longitude"]),
+                                  zoom: 15.0),
+                              onMapCreated: _onMapCreated,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             )
           ]),
@@ -240,45 +243,39 @@ class _LandingState extends State<Landing> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     ListTile(
-                      title: Text(source, style: TextStyle(fontSize: 20.0, color: Colors.black),),
-                      leading: Icon(Icons.location_on),
-
-                        onTap: () async{
-                          var response=await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchView()),
-                          );
-                          source=response["loc"];
-                          setState(() {
-
-                          });
-                          //mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                             // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
-
-                        }
-
-                    ),
-                    ListTile(
-                        title: Text(destination, style: TextStyle(fontSize: 20.0, color: Colors.black),),
+                        title: Text(
+                          source,
+                          style: TextStyle(fontSize: 20.0, color: Colors.black),
+                        ),
                         leading: Icon(Icons.location_on),
-
-                        onTap: () async{
-                          var response=await Navigator.push(
+                        onTap: () async {
+                          var response = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SearchView()),
                           );
-                          destination=response["loc"];
-                          setState(() {
-
-                          });
+                          source = response["loc"];
+                          setState(() {});
+                          //mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
+                          // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+                        }),
+                    ListTile(
+                        title: Text(
+                          destination,
+                          style: TextStyle(fontSize: 20.0, color: Colors.black),
+                        ),
+                        leading: Icon(Icons.location_on),
+                        onTap: () async {
+                          var response = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchView()),
+                          );
+                          destination = response["loc"];
+                          setState(() {});
                           //mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
                           //icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
-
-                        }
-
-                    ),
+                        }),
                   ],
                 ),
               ),
@@ -307,7 +304,6 @@ class _LandingState extends State<Landing> {
           )
         ]));
   }
-
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -405,12 +401,13 @@ class DrawerState extends State<Drawer> {
             ),
             leading: Image.asset("Assets/up.png",
                 height: 30, width: 30, color: Colors.black),
-            onTap: (){Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => Firstlogin()),
-            );},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Firstlogin()),
+              );
+            },
           ),
-
           Divider(),
           ListTile(
             title: Text(
