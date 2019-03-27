@@ -20,8 +20,10 @@ class Landing extends StatefulWidget {
 class _LandingState extends State<Landing> {
 
   final databaseReference = FirebaseDatabase.instance.reference();
+  Set <Marker> markerlist=new Set();
+  var data=[];
 
-  Map<String, double> currentLocation = new Map();
+  Map<String, double> currentLocation= new Map();
   StreamSubscription<Map<String, double>> locationSubcription;
   Location location = new Location();
 
@@ -48,13 +50,13 @@ class _LandingState extends State<Landing> {
                 target: LatLng(currentLocation['latitude'], currentLocation['longitude']), zoom: 13),
           ),
         );
-        mapController.addMarker(
+        /*mapController.addMarker(
           MarkerOptions(
             position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
               infoWindowText: InfoWindowText("You are here", "Find receivers around you"),
               icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
           ),
-        );
+        );*/
       });
     });
 
@@ -62,27 +64,33 @@ class _LandingState extends State<Landing> {
         .once().then((DataSnapshot snapshot){
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key,values) {
-        mapController.addMarker(new MarkerOptions(
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-          position: LatLng(values["my_location_latitude"], values["my_location_longitude"]),
-        )).then((marker) {
-          map[marker.id] = values["my_location_latitude"]; // this will return when tap on marker
-          return marker;
+        data.add(values);
+        print(values);
+        Marker marker=new Marker(markerId: MarkerId(values["receiver_email"]),
+            position: LatLng(values['my_location_latitude'], values['my_location_longitude']),
+        onTap:()=> _onMarkerTapped(MarkerId(values["receiver_email"])));
+        markerlist.add(marker);
+        setState(() {
+
         });
-        print("LAT/LONG : "+values["my_location_latitude"].toString()+" , "+values["my_location_longitude"].toString());
-      });
-      mapController.onMarkerTapped.add(_onMarkerTapped);
-    });
-  }
+      //mapController.onMarkerTapped.add(_onMarkerTapped);
+        });
+  });}
 
 
-  void _onMarkerTapped(Marker marker) {
-    var selectedMarker = map[marker.id];
-    print(marker.id);
+  void _onMarkerTapped(MarkerId markerid) {
+ var selectedMarker = markerid.value;  print(markerid.value);
     _BottomSheet(context, selectedMarker);
   }
 
   void _BottomSheet(context, var marker){
+    int index;
+    for(int i=0;i<data.length;i++)
+      {
+        if(data[i]["receiver_email"]==marker)
+          index=i;
+      }
+
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc){
@@ -98,12 +106,13 @@ class _LandingState extends State<Landing> {
                               shape: BoxShape.circle,
                               image: new DecorationImage(
                               fit: BoxFit.fill,
-                              image: new NetworkImage("https://i.pinimg.com/236x/eb/83/d1/eb83d194fd9ba8271cebe288b7af5f68.jpg")))),
+                              image: new NetworkImage(data[index]["imageURL"])))),
                             Padding(padding: EdgeInsets.all(5)),
-                            Text("Reena Maria"),
+                            Text(data[index]["receiver_name"]),
                             Padding(padding: EdgeInsets.all(5)),
                             GestureDetector(
-                                child: Text("reenamaria2020@cs.ajce.in", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                                child: Text(data[index]["receiver_email"], style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+
                                 onTap: () {
                                   _launchURL();
                                 }
@@ -119,7 +128,7 @@ class _LandingState extends State<Landing> {
                                 SizedBox(
                                   height: 65,
                                   width: 200,
-                                  child: Text("Nellepalli, Punalur, Kerala 691305"),
+                                  child: Text(data[index]["receiver_location_address"]),
                                 ),
                               ],
                             ),
@@ -133,7 +142,7 @@ class _LandingState extends State<Landing> {
                                 SizedBox(
                                   height: 65,
                                   width: 200,
-                                  child: Text("AJCE, Koovappally P.O, Kanjirappally"),
+                                  child: Text(data[index]["receiver_destination_address"]),
                                 ),
                               ],
                             ),
@@ -163,7 +172,7 @@ class _LandingState extends State<Landing> {
 
   init() async {
     position = await Geolocator().getCurrentPosition();
-    setState(() {
+   setState(() {
       currentlocation["latitude"] = position.latitude;
       currentlocation["longitude"] = position.longitude;
     });
@@ -210,6 +219,7 @@ class _LandingState extends State<Landing> {
                       height: double.infinity,
                       width: double.infinity,
                       child: new GoogleMap(
+                        markers: markerlist,
                         initialCameraPosition: CameraPosition(
                             target: LatLng(currentlocation["latitude"],
                                 currentlocation["longitude"]),
@@ -243,8 +253,8 @@ class _LandingState extends State<Landing> {
                           setState(() {
 
                           });
-                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+                          //mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
+                             // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
 
                         }
 
@@ -263,8 +273,8 @@ class _LandingState extends State<Landing> {
                           setState(() {
 
                           });
-                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
+                          //mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
+                          //icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
 
                         }
 
@@ -302,11 +312,11 @@ class _LandingState extends State<Landing> {
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
-      mapController.addMarker(MarkerOptions(
+      /*mapController.addMarker(MarkerOptions(
           position: LatLng(currentlocation["latitude"], currentlocation["longitude"]),
           infoWindowText: InfoWindowText("you are here", ""),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          visible: true));
+          visible: true));*/
     });
   }
 

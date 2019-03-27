@@ -11,6 +11,8 @@ import 'package:locatecab/autofill.dart';
 
 import 'globals.dart' as globals;
 
+FirebaseUser fbuser;
+
 class ReceiverView extends StatefulWidget {
   @override
   _ReceiverViewState createState() => _ReceiverViewState();
@@ -116,12 +118,11 @@ class _ReceiverViewState extends State<ReceiverView> {
                           setState(() {
 
                           });
-                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
+//                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
+//                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
 
                           globals.receiverLocationLatitude = response["lat"];
                           globals.receiverLocationLongitude = response["long"];
-
                         }
 
                     ),
@@ -140,8 +141,8 @@ class _ReceiverViewState extends State<ReceiverView> {
                           setState(() {
 
                           });
-                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
+//                          mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
+//                              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
 
                           globals.receiverDestinationLatitude = response["lat"];
                           globals.receiverDestinationLongitude = response["long"];
@@ -197,7 +198,8 @@ class _ReceiverViewState extends State<ReceiverView> {
       'destination_latitude': globals.receiverDestinationLatitude,
       'destination_longitude': globals.receiverDestinationLongitude,
       'receiver_location_address' : globals.receiverLocationAddress,
-      'receiver_destination_address': globals.receiverDestinationAddress
+      'receiver_destination_address': globals.receiverDestinationAddress,
+      'imageURL' : fbuser.photoUrl
     });
   }
 
@@ -205,13 +207,13 @@ class _ReceiverViewState extends State<ReceiverView> {
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
-      mapController.addMarker(MarkerOptions(
-          position:
-          LatLng(currentlocation["latitude"], currentlocation["longitude"]),
-          infoWindowText: InfoWindowText("you are here", ""),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-
-          visible: true));
+//      mapController.addMarker(MarkerOptions(
+//          position:
+//          LatLng(currentlocation["latitude"], currentlocation["longitude"]),
+//          infoWindowText: InfoWindowText("you are here", ""),
+//          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+//
+//          visible: true));
     });
   }
 
@@ -243,6 +245,7 @@ class DrawerState extends State<Drawer> {
 
   Future getUser() async {
     user = await _auth.currentUser();
+    fbuser = user;
     setState(() {});
   }
 
