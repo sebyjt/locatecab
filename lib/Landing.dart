@@ -18,6 +18,10 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser user;
+
   final databaseReference = FirebaseDatabase.instance.reference();
   Set<Marker> markerlist = new Set();
   var data = [];
@@ -33,6 +37,27 @@ class _LandingState extends State<Landing> {
   var currentlocation = {};
   Position position;
   TextEditingController controller;
+
+  Future getUser() async {
+    user = await _auth.currentUser();
+    setState(() {});
+  }
+
+  void notifyReceiver(var data){
+    String userId = data['receiver_email'].replaceAll(".", "");
+    databaseReference.child("receiver").child(userId).set({
+      'receiver_name': data['receiver_name'],
+      'receiver_email': data['receiver_email'],
+      'my_location_latitude': data['my_location_latitude'],
+      'my_location_longitude': data['my_location_longitude'],
+      'destination_latitude': data['destination_latitude'],
+      'destination_longitude': data['destination_longitude'],
+      'receiver_location_address': data['receiver_location_address'],
+      'receiver_destination_address': data['receiver_destination_address'],
+      'imageURL': fbuser.photoUrl,
+      'receiver_status': "Your are accepted by host : "+user.displayName,
+    });
+  }
 
   @override
   void initState() {
@@ -156,7 +181,7 @@ class _LandingState extends State<Landing> {
                       textColor: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50.0)),
-                      onPressed: () {})
+                      onPressed: ()=> notifyReceiver(data[index]))
                 ],
               ),
             ),

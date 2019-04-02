@@ -164,7 +164,7 @@ class _ReceiverViewState extends State<ReceiverView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ConfirmReceiver()),
+                          builder: (context) => ConfirmReceiver(userId: globals.receiverEmail.replaceAll(".", ""))),
                     );
                   },
                   splashColor: Colors.red.withAlpha(700),
@@ -195,7 +195,8 @@ class _ReceiverViewState extends State<ReceiverView> {
       'destination_longitude': globals.receiverDestinationLongitude,
       'receiver_location_address': globals.receiverLocationAddress,
       'receiver_destination_address': globals.receiverDestinationAddress,
-      'imageURL': fbuser.photoUrl
+      'imageURL': fbuser.photoUrl,
+      'receiver_status': "Your location is live on the map please wait untill a host accepts you.",
     });
   }
 

@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class ConfirmReceiver extends StatefulWidget {
+  String userId;
+  ConfirmReceiver({Key key, @required this.userId}) : super(key: key);
   @override
-  _ConfirmReceiverState createState() => _ConfirmReceiverState();
+  _ConfirmReceiverState createState() => _ConfirmReceiverState(userId);
 }
 
 class _ConfirmReceiverState extends State<ConfirmReceiver> {
+
+  String receiverStatus;
+
+  String userId;
+  _ConfirmReceiverState(this.userId);
+
+  final databaseReference = FirebaseDatabase.instance.reference();
+
+  @override
+  void initState() {
+
+    databaseReference.child("receiver").child(userId).child('receiver_status').onValue.listen((Event status){
+      print(status.snapshot.value.toString());
+      setState(() {
+        receiverStatus = status.snapshot.value.toString();
+      });
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +53,9 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+              padding: const EdgeInsets.all(50),
               child: new Text(
-                "Your Location is live on the Map\n"
-                    "Please wait until a host accepts you\n",
+                receiverStatus,
                 textAlign: TextAlign.center,
               ),
             ),
