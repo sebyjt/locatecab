@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:locatecab/crud.dart';
 import 'package:locatecab/Landing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
@@ -14,7 +13,6 @@ class Firstlogin extends StatefulWidget {
 
 class _FirstloginState extends State<Firstlogin> {
   TextEditingController controller1, controller2, controller3;
-  CrudMethods cruduser, crudhost;
   GlobalKey<ScaffoldState> key = new GlobalKey();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
@@ -30,8 +28,6 @@ class _FirstloginState extends State<Firstlogin> {
     controller1 = new TextEditingController();
     controller2 = new TextEditingController();
     controller3 = new TextEditingController();
-    cruduser = new CrudMethods();
-    crudhost = new CrudMethods();
     getUser();
   }
 
@@ -82,18 +78,9 @@ class _FirstloginState extends State<Firstlogin> {
                 padding: EdgeInsets.only(top: 60.0, left: 40.0, right: 20.0),
                 child: RaisedButton(
                   onPressed: () async {
-                    await cruduser.addDataU({
-                      "Name": user.displayName,
-                      "Phone No": controller1.text
-                    });
-                    await crudhost.addDataH({
-                      "Name": user.displayName,
-                      "Capacity": controller2.text,
-                      "Car Model": controller3.text
-                    });
                     key.currentState.showSnackBar(SnackBar(
                         content: Text(
-                            "Details have been added to Database")));
+                            "Details have been saved")));
                     globals.mobileNo = controller1.text;
                     globals.capacity = controller2.text;
                     globals.model = controller3.text;
