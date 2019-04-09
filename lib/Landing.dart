@@ -12,9 +12,16 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'dart:async';
 
+import 'globals.dart' as globals;
+
+
 class Landing extends StatefulWidget {
+//  String mob_no, capacity, model;
+//  Landing(this.mob_no, this.capacity, this.model);
+
   @override
   _LandingState createState() => _LandingState();
+
 }
 
 class _LandingState extends State<Landing> {
@@ -315,7 +322,9 @@ class _LandingState extends State<Landing> {
                 width: 250.0,
                 height: 45.0,
                 child: new RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    registerHost();
+                  },
                   splashColor: Colors.red.withAlpha(700),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(70.0)),
@@ -329,6 +338,29 @@ class _LandingState extends State<Landing> {
             ),
           )
         ]));
+  }
+
+  void registerHost() async {
+    user = await _auth.currentUser();
+    String userId = user.email;
+    userId = userId.replaceAll(".", "");
+
+
+    databaseReference.child("host").child(userId).set({
+      'host_name': user.displayName,
+      'host_email': user.email,
+      'mobile_no' : globals.mobileNo,
+      'model' : globals.model,
+      'capacity' : globals.capacity,
+//      'my_location_latitude': globals.receiverLocationLatitude,
+//      'my_location_longitude': globals.receiverLocationLongitude,
+//      'destination_latitude': globals.receiverDestinationLatitude,
+//      'destination_longitude': globals.receiverDestinationLongitude,
+//      'receiver_location_address': globals.receiverLocationAddress,
+//      'receiver_destination_address': globals.receiverDestinationAddress,
+//      'imageURL': fbuser.photoUrl,
+//      'receiver_status': "Your location is live on the map please wait until a host accepts you.",
+    });
   }
 
   void _onMapCreated(GoogleMapController controller) {

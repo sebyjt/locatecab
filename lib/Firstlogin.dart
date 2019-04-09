@@ -4,6 +4,8 @@ import 'package:locatecab/Landing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
+import 'globals.dart' as globals;
+
 
 class Firstlogin extends StatefulWidget {
   @override
@@ -92,11 +94,15 @@ class _FirstloginState extends State<Firstlogin> {
                     key.currentState.showSnackBar(SnackBar(
                         content: Text(
                             "Details have been added to Database")));
+                    globals.mobileNo = controller1.text;
+                    globals.capacity = controller2.text;
+                    globals.model = controller3.text;
                     var duration = const Duration(seconds: 2);
                     Timer(duration, () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
+//                              builder: (context) => Landing(controller1.text, controller2.text, controller3.text)));
                               builder: (context) => Landing()));
                     });
                   },

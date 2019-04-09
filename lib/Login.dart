@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     getUser();
-    new Landing();
+    //new Landing();
   }
 
   Future getUser() async {
