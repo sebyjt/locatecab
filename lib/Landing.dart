@@ -43,7 +43,8 @@ class _LandingState extends State<Landing> {
     setState(() {});
   }
 
-  void notifyReceiver(var data){
+  void notifyReceiver(var data) async{
+    await getUser();
     String userId = data['receiver_email'].replaceAll(".", "");
     databaseReference.child("receiver").child(userId).set({
       'receiver_name': data['receiver_name'],
