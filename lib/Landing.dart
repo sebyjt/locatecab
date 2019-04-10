@@ -53,6 +53,7 @@ class _LandingState extends State<Landing> {
   void notifyReceiver(var data) async{
     await getUser();
     String userId = data['receiver_email'].replaceAll(".", "");
+
     databaseReference.child("receiver").child(userId).set({
       'receiver_name': data['receiver_name'],
       'receiver_email': data['receiver_email'],
@@ -64,6 +65,7 @@ class _LandingState extends State<Landing> {
       'receiver_destination_address': data['receiver_destination_address'],
       'imageURL': data['imageURL'],
       'receiver_status': "Your are accepted by host : "+user.displayName,
+      'accepted_host': user.email.replaceAll(".", ""),
     });
   }
 

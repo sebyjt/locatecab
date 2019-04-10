@@ -15,10 +15,11 @@ class ModelReceiver{
   String _receiverDestinationAddress;
 
   String _receiverStatus;
+  String _acceptedHost;
 
   ModelReceiver(this._receiverName, this._receiverEmail, this._myLocationLatitude, this._myLocationLongitude,
       this._destinationLatitude, this._destinationLongitude,
-      this._receiverLocationAddress, this._receiverDestinationAddress, this._receiverStatus);
+      this._receiverLocationAddress, this._receiverDestinationAddress, this._receiverStatus, this._acceptedHost);
 
   ModelReceiver.map(dynamic obj) {
     this._id = obj['id'];
@@ -31,6 +32,7 @@ class ModelReceiver{
     this._receiverLocationAddress = obj['receiver_location_address'];
     this._receiverDestinationAddress = obj['receiver_destination_address'];
     this._receiverStatus = obj['receiver_status'];
+    this._acceptedHost = obj ['accepted_host'];
   }
 
   String get receiverName => _receiverName;
@@ -42,6 +44,7 @@ class ModelReceiver{
   String get receiverLocationAddress => _receiverLocationAddress;
   String get receiverDestinationAddress => _receiverDestinationAddress;
   String get receiverStatus => _receiverStatus;
+  String get acceptedHost => _acceptedHost;
 
   ModelReceiver.fromSnapshot(DataSnapshot snapshot) {
     _id = snapshot.key;
@@ -54,6 +57,6 @@ class ModelReceiver{
     _receiverLocationAddress = snapshot.value['receiver_location_address'];
     _receiverDestinationAddress = snapshot.value['receiver_destination_address'];
     _receiverStatus = snapshot.value['receiver_status'];
-
+    _acceptedHost = snapshot.value['accepted_host'];
   }
 }
