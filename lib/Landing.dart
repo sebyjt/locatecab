@@ -62,7 +62,7 @@ class _LandingState extends State<Landing> {
       'destination_longitude': data['destination_longitude'],
       'receiver_location_address': data['receiver_location_address'],
       'receiver_destination_address': data['receiver_destination_address'],
-      'imageURL': fbuser.photoUrl,
+      'imageURL': data['imageURL'],
       'receiver_status': "Your are accepted by host : "+user.displayName,
     });
   }
@@ -211,6 +211,8 @@ class _LandingState extends State<Landing> {
     setState(() {
       currentlocation["latitude"] = position.latitude;
       currentlocation["longitude"] = position.longitude;
+      globals.hostLocationLatitude = position.latitude;
+      globals.hostLocationLongitude = position.longitude;
     });
   }
 
@@ -352,8 +354,8 @@ class _LandingState extends State<Landing> {
       'mobile_no' : globals.mobileNo,
       'model' : globals.model,
       'capacity' : globals.capacity,
-//      'my_location_latitude': globals.receiverLocationLatitude,
-//      'my_location_longitude': globals.receiverLocationLongitude,
+      'host_location_latitude': globals.hostLocationLatitude,
+      'host_location_longitude': globals.hostLocationLongitude,
 //      'destination_latitude': globals.receiverDestinationLatitude,
 //      'destination_longitude': globals.receiverDestinationLongitude,
 //      'receiver_location_address': globals.receiverLocationAddress,

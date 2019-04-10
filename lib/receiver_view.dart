@@ -27,6 +27,7 @@ class _ReceiverViewState extends State<ReceiverView> {
 
   final databaseReference = FirebaseDatabase.instance.reference();
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -123,6 +124,8 @@ class _ReceiverViewState extends State<ReceiverView> {
 
                           globals.receiverLocationLatitude = response["lat"];
                           globals.receiverLocationLongitude = response["long"];
+                          globals.receiverPhotoURL = fbuser.photoUrl;
+
                         }),
                     ListTile(
                         title: Text(
@@ -195,7 +198,7 @@ class _ReceiverViewState extends State<ReceiverView> {
       'destination_longitude': globals.receiverDestinationLongitude,
       'receiver_location_address': globals.receiverLocationAddress,
       'receiver_destination_address': globals.receiverDestinationAddress,
-      'imageURL': fbuser.photoUrl,
+      'imageURL': globals.receiverPhotoURL,
       'receiver_status': "Your location is live on the map please wait untill a host accepts you.",
     });
   }
@@ -237,6 +240,7 @@ class DrawerState extends State<Drawer> {
     // TODO: implement initState
     super.initState();
     getUser();
+    globals.receiverPhotoURL = fbuser.photoUrl;
   }
 
   Future getUser() async {

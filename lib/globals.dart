@@ -1,6 +1,7 @@
 library my_prj.globals;
 
 String receiverEmail;
+String receiverPhotoURL;
 
 String receiverName;
 String receiverEmailReal;
@@ -18,3 +19,6 @@ String hostEmail;
 String mobileNo;
 String model;
 String capacity;
+
+double hostLocationLatitude;
+double hostLocationLongitude;

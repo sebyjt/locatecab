@@ -9,8 +9,8 @@ class ModelHost{
   String _model;
   String _capacity;
 
-//  double _myLocationLatitude;
-//  double _myLocationLongitude;
+  double _hostLocationLatitude;
+  double _hostLocationLongitude;
 //  double _destinationLatitude;
 //  double _destinationLongitude;
 //
@@ -30,8 +30,8 @@ class ModelHost{
     this._mobileNo = obj['mobile_no'];
     this._model = obj['model'];
     this._capacity = obj ['capacity'];
-//    this._myLocationLatitude = obj['my_location_latitude'];
-//    this._myLocationLongitude = obj['my_location_longitude'];
+    this._hostLocationLatitude = obj['my_location_latitude'];
+    this._hostLocationLongitude = obj['my_location_longitude'];
 //    this._destinationLatitude = obj['destination_latitude'];
 //    this._destinationLongitude = obj['destination_longitude'];
 //    this._hostLocationAddress = obj['host_location_address'];
@@ -44,8 +44,8 @@ class ModelHost{
   String get mobile_no => _mobileNo;
   String get model => _model;
   String get capacity => _capacity;
-//  double get myLocationLatitude => _myLocationLatitude;
-//  double get myLocationLongitude => _myLocationLongitude;
+  double get hostLocationLatitude => _hostLocationLatitude;
+  double get hostLocationLongitude => _hostLocationLongitude;
 //  double get destinationLatitude => _destinationLatitude;
 //  double get destinationLongitude => _destinationLongitude;
 //  String get hostLocationAddress => _hostLocationAddress;
@@ -59,8 +59,8 @@ class ModelHost{
     _mobileNo = snapshot.value['mobile_no'];
     _model = snapshot.value['model'];
     _capacity = snapshot.value['capacity'];
-//    _myLocationLatitude = snapshot.value['my_location_latitude'];
-//    _myLocationLongitude = snapshot.value['my_location_longitude'];
+    _hostLocationLatitude = snapshot.value['host_location_latitude'];
+    _hostLocationLongitude = snapshot.value['host_location_longitude'];
 //    _destinationLatitude = snapshot.value['destination_latitude'];
 //    _destinationLongitude = snapshot.value['destination_longitude'];
 //    _hostLocationAddress = snapshot.value['host_location_address'];
