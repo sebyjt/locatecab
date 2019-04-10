@@ -21,6 +21,7 @@ class _HostDetails extends State<HostDetails> {
   String mobileNo;
   String model;
   String capacity;
+  int flag=0;
 
   @override
   void initState() {
@@ -28,13 +29,19 @@ class _HostDetails extends State<HostDetails> {
       Map<dynamic, dynamic> values = snapshot.value;
       data=values;
       //print(values);
+      print (data);
       print(data['mobile_no']);
       hostName = data['host_name'];
       hostEmail = data['host_email'];
       mobileNo = data['mobile_no'];
       model = data['model'];
       capacity = data['capacity'];
+      print(model);
+      setState(() {
+
+      });
     });
+
   }
 
 
@@ -52,7 +59,65 @@ class _HostDetails extends State<HostDetails> {
         centerTitle:true,
         elevation: 0.0,
       ),
+      body: Container(
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: 30.0, top: 10.0, right: 30.0, bottom: 1.0),
+          child: Column(
+            children: <Widget>[
+//              Container(
+//                  width: 100.0,
+//                  height: 100.0,
+//                  decoration: new BoxDecoration(
+//                      shape: BoxShape.circle,
+//                      image: new DecorationImage(
+//                          fit: BoxFit.fill,
+//                          image:
+//                          new NetworkImage(data["imageURL"])))),
+              Padding(padding: EdgeInsets.all(5)),
+              Text(hostName!=null?hostName:" "),
+              Padding(padding: EdgeInsets.all(5)),
+              Text(mobileNo),
+              Padding(padding: EdgeInsets.all(5)),
+              Text(hostEmail,
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.blue)),
+              Padding(padding: EdgeInsets.all(5)),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 65,
+                    width: 100,
+                    child: Text("Car Model :"),
+                  ),
+                  SizedBox(
+                    height: 65,
+                    width: 200,
+                    child: Text(model),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 65,
+                    width: 100,
+                    child: Text("Capacity :"),
+                  ),
+                  SizedBox(
+                    height: 65,
+                    width: 200,
+                    child:
+                    Text(data[capacity]),
+                  ),
+                ],
+              ),
 
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
