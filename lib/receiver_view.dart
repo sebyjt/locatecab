@@ -200,6 +200,7 @@ class _ReceiverViewState extends State<ReceiverView> {
       'receiver_destination_address': globals.receiverDestinationAddress,
       'imageURL': globals.receiverPhotoURL,
       'receiver_status': "Your location is live on the map please wait untill a host accepts you.",
+      'accepted_host': "",
     });
   }
 

@@ -13,6 +13,7 @@ double receiverDestinationLongitude;
 String receiverLocationAddress;
 String receiverDestinationAddress;
 String receiverStatus;
+String acceptedHost;
 
 String hostName;
 String hostEmail;

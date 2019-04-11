@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'hostdetails.dart';
 
 class ConfirmReceiver extends StatefulWidget {
   String userId;
@@ -10,8 +11,8 @@ class ConfirmReceiver extends StatefulWidget {
 
 class _ConfirmReceiverState extends State<ConfirmReceiver> {
 
-  String receiverStatus;
-
+  String receiverStatus, acceptedHost;
+  int i=0;
   String userId;
   _ConfirmReceiverState(this.userId);
 
@@ -19,16 +20,24 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
 
   @override
   void initState() {
-
     databaseReference.child("receiver").child(userId).child('receiver_status').onValue.listen((Event status){
       print(status.snapshot.value.toString());
+      i++;
       setState(() {
         receiverStatus = status.snapshot.value.toString();
       });
     });
 
+    databaseReference.child("receiver").child(userId).child('accepted_host').onValue.listen((Event status){
+      print(status.snapshot.value.toString());
+      setState(() {
+        acceptedHost = status.snapshot.value.toString();
+      });
+    });
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +79,19 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
                 width: 250.0,
                 height: 45.0,
                 child: new RaisedButton(
+                  onPressed: i>1? ()=>
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HostDetails(acceptedHost)),
+                    ):null
+                  ,
                   splashColor: Colors.red.withAlpha(700),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(70.0)),
                   color: Colors.orangeAccent.withAlpha(700),
                   child: Text(
-                    "Done",
+                    "Get Host Details",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
