@@ -21,6 +21,8 @@ class _HostDetails extends State<HostDetails> {
   String mobileNo;
   String model;
   String capacity;
+  String colour;
+  String regNo;
   int flag=0;
 
   @override
@@ -37,6 +39,8 @@ class _HostDetails extends State<HostDetails> {
       mobileNo = data['mobile_no'];
       model = data['model'];
       capacity = data['capacity'];
+      colour = data['car_colour'];
+      regNo = data['reg_no'];
       print(model);
       setState(() {
 
@@ -114,7 +118,36 @@ class _HostDetails extends State<HostDetails> {
                   ),
                 ],
               ),
-
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 65,
+                    width: 100,
+                    child: Text("Colour :"),
+                  ),
+                  SizedBox(
+                    height: 65,
+                    width: 200,
+                    child:
+                    Text(colour!=null?colour:" "),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 65,
+                    width: 100,
+                    child: Text("Registration No :"),
+                  ),
+                  SizedBox(
+                    height: 65,
+                    width: 200,
+                    child:
+                    Text(regNo!=null?regNo:" "),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

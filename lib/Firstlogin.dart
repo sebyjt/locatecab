@@ -63,8 +63,7 @@ class _FirstloginState extends State<Firstlogin> {
                 padding:
                     const EdgeInsets.only(left: 40.0, right: 40.0, top: 20.0),
                 child: TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: new InputDecoration(labelText: "Capacity"),
+                  decoration: new InputDecoration(labelText: "Car Model"),
                   controller: controller2,
                 ),
               ),
@@ -72,7 +71,7 @@ class _FirstloginState extends State<Firstlogin> {
                 padding:
                     const EdgeInsets.only(right: 40.0, left: 40.0, top: 20.0),
                 child: TextField(
-                  decoration: new InputDecoration(labelText: "Car Model"),
+                  decoration: new InputDecoration(labelText: "Car Colour"),
                   controller: controller3,
                 ),
               ),
@@ -89,7 +88,8 @@ class _FirstloginState extends State<Firstlogin> {
                 padding:
                 const EdgeInsets.only(right: 40.0, left: 40.0, top: 20.0),
                 child: TextField(
-                  decoration: new InputDecoration(labelText: "Colour"),
+                  keyboardType: TextInputType.number,
+                  decoration: new InputDecoration(labelText: "Capacity"),
                   controller: controller5,
                 ),
               ),
@@ -101,8 +101,10 @@ class _FirstloginState extends State<Firstlogin> {
                         content: Text(
                             "Details have been saved")));
                     globals.mobileNo = controller1.text;
-                    globals.capacity = controller2.text;
-                    globals.model = controller3.text;
+                    globals.capacity = controller5.text;
+                    globals.model = controller2.text;
+                    globals.regNo = controller4.text;
+                    globals.carColour = controller3.text;
                     var duration = const Duration(seconds: 2);
                     Timer(duration, () {
                       Navigator.push(

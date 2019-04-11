@@ -8,6 +8,9 @@ class ModelHost{
   String _mobileNo;
   String _model;
   String _capacity;
+  String _regNo;
+  String _carColour;
+
 
   double _hostLocationLatitude;
   double _hostLocationLongitude;
@@ -32,6 +35,8 @@ class ModelHost{
     this._capacity = obj ['capacity'];
     this._hostLocationLatitude = obj['my_location_latitude'];
     this._hostLocationLongitude = obj['my_location_longitude'];
+    this._regNo = obj ['reg_no'];
+    this._carColour = obj ['car_colour'];
 //    this._destinationLatitude = obj['destination_latitude'];
 //    this._destinationLongitude = obj['destination_longitude'];
 //    this._hostLocationAddress = obj['host_location_address'];
@@ -46,6 +51,8 @@ class ModelHost{
   String get capacity => _capacity;
   double get hostLocationLatitude => _hostLocationLatitude;
   double get hostLocationLongitude => _hostLocationLongitude;
+  String get regNo =>_regNo;
+  String get carColour => _carColour;
 //  double get destinationLatitude => _destinationLatitude;
 //  double get destinationLongitude => _destinationLongitude;
 //  String get hostLocationAddress => _hostLocationAddress;
@@ -61,6 +68,8 @@ class ModelHost{
     _capacity = snapshot.value['capacity'];
     _hostLocationLatitude = snapshot.value['host_location_latitude'];
     _hostLocationLongitude = snapshot.value['host_location_longitude'];
+    _regNo = snapshot.value['reg_no'];
+    _carColour = snapshot.value['car_colour'];
 //    _destinationLatitude = snapshot.value['destination_latitude'];
 //    _destinationLongitude = snapshot.value['destination_longitude'];
 //    _hostLocationAddress = snapshot.value['host_location_address'];

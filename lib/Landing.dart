@@ -40,6 +40,9 @@ class _LandingState extends State<Landing> {
   GoogleMapController mapController;
   var map = <String, String>{};
 
+  GlobalKey<ScaffoldState> key = new GlobalKey();
+
+
   var source = "My Location", destination = "Destination";
   var currentlocation = {};
   Position position;
@@ -221,6 +224,7 @@ class _LandingState extends State<Landing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: key,
         drawer: Drawer(),
         appBar: AppBar(
           backgroundColor: Colors.orangeAccent,
@@ -328,6 +332,9 @@ class _LandingState extends State<Landing> {
                 child: new RaisedButton(
                   onPressed: () {
                     registerHost();
+                    key.currentState.showSnackBar(SnackBar(
+                        content: Text(
+                            "You are now registered as a Host. Details are added. You can now accept Recievers.")));
                   },
                   splashColor: Colors.red.withAlpha(700),
                   shape: RoundedRectangleBorder(
@@ -358,11 +365,13 @@ class _LandingState extends State<Landing> {
       'capacity' : globals.capacity,
       'host_location_latitude': globals.hostLocationLatitude,
       'host_location_longitude': globals.hostLocationLongitude,
+      'reg_no': globals.regNo,
+      'car_colour': globals.carColour,
 //      'destination_latitude': globals.receiverDestinationLatitude,
 //      'destination_longitude': globals.receiverDestinationLongitude,
 //      'receiver_location_address': globals.receiverLocationAddress,
 //      'receiver_destination_address': globals.receiverDestinationAddress,
-//      'imageURL': fbuser.photoUrl,
+      'imageURL': fbuser.photoUrl,
 //      'receiver_status': "Your location is live on the map please wait until a host accepts you.",
     });
   }

@@ -17,9 +17,12 @@ String acceptedHost;
 
 String hostName;
 String hostEmail;
+
 String mobileNo;
 String model;
 String capacity;
+String regNo;
+String carColour;
 
 double hostLocationLatitude;
 double hostLocationLongitude;
