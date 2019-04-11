@@ -12,7 +12,7 @@ class Firstlogin extends StatefulWidget {
 }
 
 class _FirstloginState extends State<Firstlogin> {
-  TextEditingController controller1, controller2, controller3;
+  TextEditingController controller1, controller2, controller3,controller4,controller5;
   GlobalKey<ScaffoldState> key = new GlobalKey();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
@@ -28,6 +28,8 @@ class _FirstloginState extends State<Firstlogin> {
     controller1 = new TextEditingController();
     controller2 = new TextEditingController();
     controller3 = new TextEditingController();
+    controller4 = new TextEditingController();
+    controller5 = new TextEditingController();
     getUser();
   }
 
@@ -72,6 +74,23 @@ class _FirstloginState extends State<Firstlogin> {
                 child: TextField(
                   decoration: new InputDecoration(labelText: "Car Model"),
                   controller: controller3,
+                ),
+              ),
+              Padding(
+                padding:
+                const EdgeInsets.only(right: 40.0, left: 40.0, top: 20.0),
+                child: TextField(
+
+                  decoration: new InputDecoration(labelText: "Registration no"),
+                  controller: controller4,
+                ),
+              ),
+              Padding(
+                padding:
+                const EdgeInsets.only(right: 40.0, left: 40.0, top: 20.0),
+                child: TextField(
+                  decoration: new InputDecoration(labelText: "Colour"),
+                  controller: controller5,
                 ),
               ),
               new Padding(
