@@ -25,6 +25,7 @@ class _HostDetails extends State<HostDetails> {
 
   @override
   void initState() {
+    super.initState();
     databaseReference.child("host").child(widget.acceptedHost).once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       data=values;
@@ -65,21 +66,21 @@ class _HostDetails extends State<HostDetails> {
               left: 30.0, top: 10.0, right: 30.0, bottom: 1.0),
           child: Column(
             children: <Widget>[
-//              Container(
-//                  width: 100.0,
-//                  height: 100.0,
-//                  decoration: new BoxDecoration(
-//                      shape: BoxShape.circle,
-//                      image: new DecorationImage(
-//                          fit: BoxFit.fill,
-//                          image:
-//                          new NetworkImage(data["imageURL"])))),
+              Container(
+                  width: 100.0,
+                  height: 100.0,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image:
+                          new NetworkImage(data["imageURL"])))),
               Padding(padding: EdgeInsets.all(5)),
               Text(hostName!=null?hostName:" "),
               Padding(padding: EdgeInsets.all(5)),
-              Text(mobileNo),
+              Text(mobileNo!=null?mobileNo:" "),
               Padding(padding: EdgeInsets.all(5)),
-              Text(hostEmail,
+              Text(hostEmail!=null?hostEmail:" ",
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Colors.blue)),
@@ -94,7 +95,7 @@ class _HostDetails extends State<HostDetails> {
                   SizedBox(
                     height: 65,
                     width: 200,
-                    child: Text(model),
+                    child: Text(model!=null?model:" "),
                   ),
                 ],
               ),
@@ -109,7 +110,7 @@ class _HostDetails extends State<HostDetails> {
                     height: 65,
                     width: 200,
                     child:
-                    Text(data[capacity]),
+                    Text(capacity!=null?capacity:" "),
                   ),
                 ],
               ),
