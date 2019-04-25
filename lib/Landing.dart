@@ -78,8 +78,7 @@ class _LandingState extends State<Landing> {
     init();
     controller = new TextEditingController();
 
-    locationSubcription =
-        location.onLocationChanged().listen((Map<String, double> result) {
+    locationSubcription = location.onLocationChanged().listen((Map<String, double> result) {
       setState(() {
         currentLocation = result;
         mapController.animateCamera(
@@ -98,6 +97,7 @@ class _LandingState extends State<Landing> {
           ),
         );*/
       });
+      updateHostLocation(currentLocation['latitude'], currentLocation['longitude']);
     });
 
     databaseReference.child("receiver").once().then((DataSnapshot snapshot) {
@@ -212,6 +212,7 @@ class _LandingState extends State<Landing> {
   }
 
   init() async {
+    user = await _auth.currentUser();
     position = await Geolocator().getCurrentPosition();
     setState(() {
       currentlocation["latitude"] = position.latitude;
@@ -349,6 +350,23 @@ class _LandingState extends State<Landing> {
             ),
           )
         ]));
+  }
+
+  void updateHostLocation(double latitude, double longitude) {
+    String userId = user.email;
+    userId = userId.replaceAll(".", "");
+
+    databaseReference.child("host").child(userId).set({
+      'host_name': user.displayName,
+      'host_email': user.email,
+      'mobile_no' : globals.mobileNo,
+      'model' : globals.model,
+      'capacity' : globals.capacity,
+      'host_location_latitude': latitude,
+      'host_location_longitude': longitude,
+      'reg_no': globals.regNo,
+      'car_colour': globals.carColour,
+    });
   }
 
   void registerHost() async {
