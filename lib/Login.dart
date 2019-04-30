@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
     globals.receiverEmailReal = user.email;
     if (user != null) {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => new ReceiverView()));
+          .push(MaterialPageRoute(builder: (context) => new ReceiverView(false,null)));
     }
     setState(() {
       loadFlag = true;
@@ -126,7 +126,7 @@ class _LoginState extends State<Login> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => new ReceiverView()));
+                                        builder: (context) => new ReceiverView(false,null)));
                               });
                             }
                           }).catchError((e) => print(e));

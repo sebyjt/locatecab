@@ -67,8 +67,8 @@ class _LandingState extends State<Landing> {
       'receiver_location_address': data['receiver_location_address'],
       'receiver_destination_address': data['receiver_destination_address'],
       'imageURL': data['imageURL'],
-      'receiver_status': "You are accepted by "+data['receiver_name'],
-      'accepted_host': userId,
+      'receiver_status': "You are accepted by "+user.displayName,
+      'accepted_host': user.email.replaceAll(".", ""),
     });
   }
 
@@ -477,7 +477,7 @@ class DrawerState extends State<Drawer> {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => ReceiverView()),
+                MaterialPageRoute(builder: (context) => ReceiverView(false, null)),
               );
             },
           ),

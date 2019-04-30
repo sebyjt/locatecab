@@ -15,11 +15,21 @@ import 'globals.dart' as globals;
 FirebaseUser fbuser;
 
 class ReceiverView extends StatefulWidget {
+
+  bool trackHost;
+  String acceptedHost;
+  ReceiverView(this.trackHost, this.acceptedHost);
+
   @override
-  _ReceiverViewState createState() => _ReceiverViewState();
+  _ReceiverViewState createState() => _ReceiverViewState(trackHost, acceptedHost);
 }
 
 class _ReceiverViewState extends State<ReceiverView> {
+
+  bool trackHost;
+  String acceptedHost;
+  _ReceiverViewState(this.trackHost, this.acceptedHost);
+
   GoogleMapController mapController;
   var source = "My Location", destination = "Destination";
   var currentlocation = {};
@@ -39,17 +49,22 @@ class _ReceiverViewState extends State<ReceiverView> {
   void initState() {
     init();
     controller = new TextEditingController();
+
+    if(trackHost){
+      trackHostFunction();
+    }
+
     super.initState();
   }
 
-  void trackHost(){
+  void trackHostFunction(){
     //getUser();
     //String userId = user.email;
     //userId = userId.replaceAll(".", "");
     subscription = FirebaseDatabase.instance
         .reference()
         .child("host")
-        .child("jithinkjose2020@csajcein")
+        .child(acceptedHost)
         .onValue
         .listen((event) {
       mapController.animateCamera(
@@ -326,7 +341,7 @@ class DrawerState extends State<Drawer> {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => ReceiverView()),
+                MaterialPageRoute(builder: (context) => ReceiverView(false,null)),
               );
             },
           ),

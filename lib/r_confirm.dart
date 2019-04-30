@@ -77,7 +77,7 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
               child: Container(
                 width: 250.0,
                 height: 45.0,
-                child: new RaisedButton(
+                child: RaisedButton(
                   onPressed: acceptedHost != "null"? ()=>
                     Navigator.push(
                       context,

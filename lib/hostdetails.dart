@@ -1,18 +1,18 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
-
-
+import 'receiver_view.dart';
 
 class HostDetails extends StatefulWidget {
   String acceptedHost;
   HostDetails(this.acceptedHost);
 
   @override
-  _HostDetails createState() => _HostDetails();
+  _HostDetails createState() => _HostDetails(acceptedHost);
 }
 
 class _HostDetails extends State<HostDetails> {
+  String acceptedHost;
+  _HostDetails(this.acceptedHost);
   var data = {};
   final databaseReference = FirebaseDatabase.instance.reference();
 
@@ -148,6 +148,23 @@ class _HostDetails extends State<HostDetails> {
                   ),
                 ],
               ),
+              RaisedButton(
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ReceiverView(true,acceptedHost)),
+                  );
+                },
+                splashColor: Colors.red.withAlpha(700),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(70.0)),
+                color: Colors.orangeAccent.withAlpha(700),
+                child: Text(
+                  "Get Host's live location",
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
             ],
           ),
         ),
