@@ -67,8 +67,8 @@ class _LandingState extends State<Landing> {
       'receiver_location_address': data['receiver_location_address'],
       'receiver_destination_address': data['receiver_destination_address'],
       'imageURL': data['imageURL'],
-      'receiver_status': "Your are accepted by host : "+user.displayName,
-      'accepted_host': user.email.replaceAll(".", ""),
+      'receiver_status': "You are accepted by "+data['receiver_name'],
+      'accepted_host': userId,
     });
   }
 
@@ -364,6 +364,7 @@ class _LandingState extends State<Landing> {
       'capacity' : globals.capacity,
       'host_location_latitude': latitude,
       'host_location_longitude': longitude,
+      'imageURL':globals.receiverPhotoURL,
       'reg_no': globals.regNo,
       'car_colour': globals.carColour,
     });

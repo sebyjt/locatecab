@@ -8,6 +8,7 @@ import 'package:locatecab/settings_page.dart';
 import 'package:locatecab/r_confirm.dart';
 import 'package:locatecab/Firstlogin.dart';
 import 'package:locatecab/autofill.dart';
+import 'dart:async';
 
 import 'globals.dart' as globals;
 
@@ -25,15 +26,50 @@ class _ReceiverViewState extends State<ReceiverView> {
   Position position;
   TextEditingController controller;
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser user;
+
   final databaseReference = FirebaseDatabase.instance.reference();
+
+  Map<String, double> currentLocation = new Map();
+  StreamSubscription subscription;
 
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     init();
     controller = new TextEditingController();
+    super.initState();
+  }
+
+  void trackHost(){
+    //getUser();
+    //String userId = user.email;
+    //userId = userId.replaceAll(".", "");
+    subscription = FirebaseDatabase.instance
+        .reference()
+        .child("host")
+        .child("jithinkjose2020@csajcein")
+        .onValue
+        .listen((event) {
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom: 17),
+        ),
+      );
+/*      mapController.addMarker(
+        MarkerOptions(
+          position: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']),
+        ),
+      );*/
+    });
+  }
+
+  Future getUser() async {
+    user = await _auth.currentUser();
+    fbuser = user;
+    setState(() {});
   }
 
   init() async {
@@ -200,7 +236,7 @@ class _ReceiverViewState extends State<ReceiverView> {
       'receiver_destination_address': globals.receiverDestinationAddress,
       'imageURL': globals.receiverPhotoURL,
       'receiver_status': "Your location is live on the map please wait untill a host accepts you.",
-      'accepted_host': "",
+      'accepted_host': "null",
     });
   }
 

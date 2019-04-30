@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
-import 'Landing.dart';
+import 'host_view.dart';
 import 'receiver_view.dart';
 
 import 'globals.dart' as globals;

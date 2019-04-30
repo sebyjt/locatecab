@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:locatecab/Landing.dart';
+import 'package:locatecab/host_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 

@@ -22,7 +22,6 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
   void initState() {
     databaseReference.child("receiver").child(userId).child('receiver_status').onValue.listen((Event status){
       print(status.snapshot.value.toString());
-      i++;
       setState(() {
         receiverStatus = status.snapshot.value.toString();
       });
@@ -79,7 +78,7 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
                 width: 250.0,
                 height: 45.0,
                 child: new RaisedButton(
-                  onPressed: i>1? ()=>
+                  onPressed: acceptedHost != "null"? ()=>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
