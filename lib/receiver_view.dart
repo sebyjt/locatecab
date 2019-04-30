@@ -30,6 +30,8 @@ class _ReceiverViewState extends State<ReceiverView> {
   String acceptedHost;
   _ReceiverViewState(this.trackHost, this.acceptedHost);
 
+  Set<Marker> markerlist = new Set();
+
   GoogleMapController mapController;
   var source = "My Location", destination = "Destination";
   var currentlocation = {};
@@ -73,21 +75,24 @@ class _ReceiverViewState extends State<ReceiverView> {
               target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom: 17),
         ),
       );
-/*      mapController.addMarker(
-        MarkerOptions(
-          position: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']),
-        ),
-      );*/
+      Marker marker = new Marker(
+          position: LatLng(event.snapshot.value['host_location_latitude'],
+              event.snapshot.value['host_location_longitude']),
+      );
+      markerlist.add(marker);
     });
   }
 
   Future getUser() async {
     user = await _auth.currentUser();
     fbuser = user;
-    setState(() {});
+    setState(() {
+      globals.receiverPhotoURL = fbuser.photoUrl;
+    });
   }
 
   init() async {
+    getUser();
     position = await Geolocator().getCurrentPosition();
     setState(() {
       currentlocation["latitude"] = position.latitude;
@@ -136,6 +141,7 @@ class _ReceiverViewState extends State<ReceiverView> {
                             height: double.infinity,
                             width: double.infinity,
                             child: new GoogleMap(
+                              markers: markerlist,
                               initialCameraPosition: CameraPosition(
                                   target: LatLng(currentlocation["latitude"],
                                       currentlocation["longitude"]),
@@ -292,13 +298,14 @@ class DrawerState extends State<Drawer> {
     // TODO: implement initState
     super.initState();
     getUser();
-    globals.receiverPhotoURL = fbuser.photoUrl;
   }
 
   Future getUser() async {
     user = await _auth.currentUser();
     fbuser = user;
-    setState(() {});
+    setState(() {
+      globals.receiverPhotoURL = fbuser.photoUrl;
+    });
   }
 
   @override
