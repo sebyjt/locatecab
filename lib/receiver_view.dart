@@ -31,6 +31,7 @@ class _ReceiverViewState extends State<ReceiverView> {
   _ReceiverViewState(this.trackHost, this.acceptedHost);
 
   Set<Marker> markerlist = new Set();
+  int mid;
 
   GoogleMapController mapController;
   var source = "My Location", destination = "Destination";
@@ -53,6 +54,7 @@ class _ReceiverViewState extends State<ReceiverView> {
     controller = new TextEditingController();
 
     if(trackHost){
+      mid = 0;
       trackHostFunction();
     }
 
@@ -74,12 +76,15 @@ class _ReceiverViewState extends State<ReceiverView> {
           CameraPosition(
               target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom: 13),
         ),
-      );/*
+      );
       Marker marker = new Marker(
-          position: LatLng(event.snapshot.value['host_location_latitude'],
+        markerId: MarkerId("marker_id_"+mid.toString()),
+        position: LatLng(event.snapshot.value['host_location_latitude'],
               event.snapshot.value['host_location_longitude']),
       );
-      markerlist.add(marker);*/
+      markerlist.add(marker);
+      mid++;
+      setState(() {});
     });
   }
 
