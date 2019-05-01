@@ -258,8 +258,18 @@ class _HostViewState extends State<HostView> {
         body: Stack(children: [
           new Column(children: <Widget>[
             new Container(
-              height: 50.0,
+              padding: EdgeInsets.only(bottom: 10),
+              height: 30.0,
               color: Colors.orangeAccent,
+              child: new SizedBox.expand(
+                child: Center(
+                  child: Text("Tap on markers for receiver detials",
+                    style: TextStyle(
+                        color: Colors.white,fontFamily: 'Gothic',
+                    ),
+                  ),
+                ),
+              ),
             ),
             new Expanded(
               child: new Container(
@@ -285,77 +295,8 @@ class _HostViewState extends State<HostView> {
             )
           ]),
           new Container(
-            child: new Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ListTile(
-                        title: Text(
-                          source,
-                          style: TextStyle(fontSize: 20.0, color: Colors.black),
-                        ),
-                        leading: Icon(Icons.location_on),
-                        onTap: () async {
-                          var response = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchView()),
-                          );
-                          source = response["loc"];
-                          setState(() {});
-                          //mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                          // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange)));
-                        }),
-                    ListTile(
-                        title: Text(
-                          destination,
-                          style: TextStyle(fontSize: 20.0, color: Colors.black),
-                        ),
-                        leading: Icon(Icons.location_on),
-                        onTap: () async {
-                          var response = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchView()),
-                          );
-                          destination = response["loc"];
-                          setState(() {});
-                          //mapController.addMarker(MarkerOptions(position: LatLng(response["lat"], response["long"]),
-                          //icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)));
-                        }),
-                  ],
-                ),
-              ),
-            ),
+            child: new Card(),
           ),
-          new Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: Container(
-                width: 250.0,
-                height: 45.0,
-                child: new RaisedButton(
-                  onPressed: () {
-                    registerHost();
-                    key.currentState.showSnackBar(SnackBar(
-                        content: Text(
-                            "You are now registered as a Host. Details are added. You can now accept Recievers.")));
-                  },
-                  splashColor: Colors.red.withAlpha(700),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(70.0)),
-                  color: Colors.orangeAccent.withAlpha(700),
-                  child: Text(
-                    "Set Location",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          )
         ]));
   }
 
