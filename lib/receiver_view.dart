@@ -4,10 +4,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:locatecab/settings_page.dart';
+import 'package:locatecab/about_page.dart';
 import 'package:locatecab/r_confirm.dart';
-import 'package:locatecab/Firstlogin.dart';
-import 'package:locatecab/autofill.dart';
+import 'package:locatecab/get_host_details.dart';
+import 'package:locatecab/search_view.dart';
 import 'dart:async';
 
 import 'globals.dart' as globals;
@@ -365,14 +365,14 @@ class DrawerState extends State<Drawer> {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Firstlogin()),
+                MaterialPageRoute(builder: (context) => GetHostDetails()),
               );
             },
           ),
           Divider(),
           ListTile(
             title: Text(
-              "Settings",
+              "About",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
@@ -385,7 +385,7 @@ class DrawerState extends State<Drawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings()),
+                MaterialPageRoute(builder: (context) => About()),
               );
             },
           ),

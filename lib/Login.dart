@@ -62,8 +62,9 @@ class _LoginState extends State<Login> {
     globals.receiverName = user.displayName;
     globals.receiverEmailReal = user.email;
     if (user != null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => new ReceiverView(false,null)));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ReceiverView(false,null)),);
     }
     setState(() {
       loadFlag = true;
@@ -123,10 +124,9 @@ class _LoginState extends State<Login> {
                               var duration = const Duration(seconds: 2);
 
                               Timer(duration, () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => new ReceiverView(false,null)));
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ReceiverView(false,null)),);
                               });
                             }
                           }).catchError((e) => print(e));

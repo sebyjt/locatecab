@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class Settings extends StatefulWidget {
+class About extends StatefulWidget {
   @override
-  _SettingsState createState() => _SettingsState();
+  _AboutState createState() => _AboutState();
 }
 
-class _SettingsState extends State<Settings> {
+class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Settings',style: TextStyle(
+          title: const Text('About',style: TextStyle(
               color: Colors.white,fontFamily: 'Gothic',
               fontWeight:FontWeight.bold
           ),
