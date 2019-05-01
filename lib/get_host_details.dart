@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 import 'package:locatecab/about_page.dart';
 import 'package:locatecab/receiver_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'globals.dart' as globals;
 
@@ -15,10 +16,12 @@ class GetHostDetails extends StatefulWidget {
 }
 
 class _GetHostDetailsState extends State<GetHostDetails> {
-  TextEditingController controller1, controller2, controller3,controller4,controller5;
+  TextEditingController controllerContactNo, controllerCarModel, controllerCarColor,controllerRegNo,controllerCapacity;
   GlobalKey<ScaffoldState> key = new GlobalKey();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
+
+  SharedPreferences sharedPreferences;
 
   Future getUser() async {
     user = await _auth.currentUser();
@@ -26,14 +29,36 @@ class _GetHostDetailsState extends State<GetHostDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    loadLocallySavedHostData();
     super.initState();
-    controller1 = new TextEditingController();
-    controller2 = new TextEditingController();
-    controller3 = new TextEditingController();
-    controller4 = new TextEditingController();
-    controller5 = new TextEditingController();
+    controllerContactNo = new TextEditingController();
+    controllerCarModel = new TextEditingController();
+    controllerCarColor = new TextEditingController();
+    controllerRegNo = new TextEditingController();
+    controllerCapacity = new TextEditingController();
     getUser();
+  }
+
+  saveHostDetailsLocally() async{
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      sharedPreferences.setString("host_contact_no", controllerContactNo.text);
+      sharedPreferences.setString("host_car_model", controllerCarModel.text);
+      sharedPreferences.setString("host_car_color", controllerCarColor.text);
+      sharedPreferences.setString("host_reg_no", controllerRegNo.text);
+      sharedPreferences.setString("host_car_capacity", controllerCapacity.text);
+    });
+  }
+
+  loadLocallySavedHostData() async{
+    sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      controllerContactNo.text = sharedPreferences.getString("host_contact_no");
+      controllerCarModel.text = sharedPreferences.getString("host_car_model");
+      controllerCarColor.text = sharedPreferences.getString("host_car_color");
+      controllerRegNo.text = sharedPreferences.getString("host_reg_no");
+      controllerCapacity.text = sharedPreferences.getString("host_car_capacity");
+    });
   }
 
   @override
@@ -70,7 +95,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
                 child: TextField(
                   keyboardType: TextInputType.number,
                   decoration: new InputDecoration(labelText: "Contact no"),
-                  controller: controller1,
+                  controller: controllerContactNo,
                 ),
               ),
               Padding(
@@ -78,7 +103,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
                     const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
                 child: TextField(
                   decoration: new InputDecoration(labelText: "Car Model"),
-                  controller: controller2,
+                  controller: controllerCarModel,
                 ),
               ),
               Padding(
@@ -86,7 +111,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
                     const EdgeInsets.only(right: 40.0, left: 40.0, top: 10.0),
                 child: TextField(
                   decoration: new InputDecoration(labelText: "Car Colour"),
-                  controller: controller3,
+                  controller: controllerCarColor,
                 ),
               ),
               Padding(
@@ -95,7 +120,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
                 child: TextField(
 
                   decoration: new InputDecoration(labelText: "Registration no"),
-                  controller: controller4,
+                  controller: controllerRegNo,
                 ),
               ),
               Padding(
@@ -104,7 +129,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
                 child: TextField(
                   keyboardType: TextInputType.number,
                   decoration: new InputDecoration(labelText: "Capacity"),
-                  controller: controller5,
+                  controller: controllerCapacity,
                 ),
               ),
               new Padding(
@@ -114,11 +139,14 @@ class _GetHostDetailsState extends State<GetHostDetails> {
                     key.currentState.showSnackBar(SnackBar(
                         content: Text(
                             "Details have been saved")));
-                    globals.mobileNo = controller1.text;
-                    globals.capacity = controller5.text;
-                    globals.model = controller2.text;
-                    globals.regNo = controller4.text;
-                    globals.carColour = controller3.text;
+                    globals.mobileNo = controllerContactNo.text;
+                    globals.capacity = controllerCapacity.text;
+                    globals.model = controllerCarModel.text;
+                    globals.regNo = controllerRegNo.text;
+                    globals.carColour = controllerCarColor.text;
+
+                    saveHostDetailsLocally();
+
                     var duration = const Duration(seconds: 2);
                     Timer(duration, () {
                       Navigator.push(
