@@ -59,24 +59,24 @@ flutter:
   fonts:
     - family: Gothic
       fonts:
-        - asset: Assets/yugothib.ttf
+        - asset: assets/fonts/yugothib.ttf
 
     - family: Montserrat
       fonts:
-        - asset: Assets/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets :
-    - Assets/logo.png
-    - Assets/g.png
-    - Assets/myava.jpg
-    - Assets/up.png
-    - Assets/down.png
-    - Assets/ajce.png
-    - Assets/movingcar.gif
+    - assets/images/logo.png
+    - assets/images/g.png
+    - assets/images/myava.jpg
+    - assets/images/up.png
+    - assets/images/down.png
+    - assets/images/ajce.png
+    - assets/images/movingcar.gif
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 

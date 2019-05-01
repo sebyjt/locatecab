@@ -83,7 +83,7 @@ class _LoginState extends State<Login> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              "Assets/logo.png",
+              "assets/images/logo.png",
               height: 100.0,
               width: 100.0,
             ),
@@ -98,7 +98,7 @@ class _LoginState extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       new Image.asset(
-                        "Assets/g.png",
+                        "assets/images/g.png",
                         height: 50.0,
                         width: 50.0,
                       ),

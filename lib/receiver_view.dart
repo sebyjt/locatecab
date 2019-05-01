@@ -343,7 +343,7 @@ class DrawerState extends State<Drawer> {
                   fontWeight: FontWeight.w400,
                   color: Color(0xff000000)),
             ),
-            leading: Image.asset("Assets/down.png",
+            leading: Image.asset("assets/images/down.png",
                 height: 30, width: 30, color: Colors.black),
             onTap: () {
               Navigator.pushReplacement(
@@ -360,7 +360,7 @@ class DrawerState extends State<Drawer> {
                   fontWeight: FontWeight.w400,
                   color: Color(0xff000000)),
             ),
-            leading: Image.asset("Assets/up.png",
+            leading: Image.asset("assets/images/up.png",
                 height: 30, width: 30, color: Colors.black),
             onTap: () {
               Navigator.pushReplacement(
@@ -410,7 +410,7 @@ class DrawerState extends State<Drawer> {
             },
           ),
           Image.asset(
-            "Assets/ajce.png",
+            "assets/images/ajce.png",
             height: 80.0,
             width: 80.0,
           )

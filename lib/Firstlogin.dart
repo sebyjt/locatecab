@@ -46,7 +46,7 @@ class _FirstloginState extends State<Firstlogin> {
             child: Center(
                 child: new ListView(children: <Widget>[
               Image.asset(
-                "Assets/logo.png",
+                "assets/images/logo.png",
                 height: 100.0,
                 width: 100.0,
               ),
@@ -111,7 +111,7 @@ class _FirstloginState extends State<Firstlogin> {
                           context,
                           MaterialPageRoute(
 //                              builder: (context) => Landing(controller1.text, controller2.text, controller3.text)));
-                              builder: (context) => Landing()));
+                              builder: (context) => HostView()));
                     });
                   },
                   color: Colors.orangeAccent,

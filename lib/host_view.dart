@@ -15,16 +15,16 @@ import 'dart:async';
 import 'globals.dart' as globals;
 
 
-class Landing extends StatefulWidget {
+class HostView extends StatefulWidget {
 //  String mob_no, capacity, model;
 //  Landing(this.mob_no, this.capacity, this.model);
 
   @override
-  _LandingState createState() => _LandingState();
+  _HostViewState createState() => _HostViewState();
 
 }
 
-class _LandingState extends State<Landing> {
+class _HostViewState extends State<HostView> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
@@ -472,7 +472,7 @@ class DrawerState extends State<Drawer> {
                   fontWeight: FontWeight.w400,
                   color: Color(0xff000000)),
             ),
-            leading: Image.asset("Assets/down.png",
+            leading: Image.asset("assets/images/down.png",
                 height: 30, width: 30, color: Colors.black),
             onTap: () {
               Navigator.pushReplacement(
@@ -489,7 +489,7 @@ class DrawerState extends State<Drawer> {
                   fontWeight: FontWeight.w400,
                   color: Color(0xff000000)),
             ),
-            leading: Image.asset("Assets/up.png",
+            leading: Image.asset("assets/images/up.png",
                 height: 30, width: 30, color: Colors.black),
             onTap: () {
               Navigator.pushReplacement(
@@ -539,7 +539,7 @@ class DrawerState extends State<Drawer> {
             },
           ),
           Image.asset(
-            "Assets/ajce.png",
+            "assets/images/ajce.png",
             height: 80.0,
             width: 80.0,
           )

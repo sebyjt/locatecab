@@ -69,7 +69,7 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-              child: new Image.asset('Assets/movingcar.gif',
+              child: new Image.asset('assets/images/movingcar.gif',
                   alignment: Alignment.center),
             ),
             Padding(
