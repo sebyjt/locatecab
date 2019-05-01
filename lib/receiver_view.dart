@@ -72,14 +72,14 @@ class _ReceiverViewState extends State<ReceiverView> {
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-              target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom: 17),
+              target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom: 13),
         ),
-      );
+      );/*
       Marker marker = new Marker(
           position: LatLng(event.snapshot.value['host_location_latitude'],
               event.snapshot.value['host_location_longitude']),
       );
-      markerlist.add(marker);
+      markerlist.add(marker);*/
     });
   }
 
@@ -116,14 +116,6 @@ class _ReceiverViewState extends State<ReceiverView> {
                 fontFamily: 'Gothic',
                 fontWeight: FontWeight.bold),
           ),
-          actions: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(right: 10.0),
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ))
-          ],
         ),
         body: Stack(children: [
           new Column(children: <Widget>[

@@ -242,10 +242,17 @@ class _HostViewState extends State<HostView> {
           actions: <Widget>[
             Padding(
                 padding: EdgeInsets.only(right: 10.0),
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ))
+                child: IconButton(
+                    icon: new Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                    ),
+                    onPressed: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HostView()),
+                      );
+                    }))
           ],
         ),
         body: Stack(children: [
