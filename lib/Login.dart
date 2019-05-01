@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:locatecab/Tracking.dart';
+import 'package:locatecab/journey.dart';
+import 'package:locatecab/r_confirm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'host_view.dart';
 import 'receiver_view.dart';
@@ -62,9 +66,34 @@ class _LoginState extends State<Login> {
     globals.receiverName = user.displayName;
     globals.receiverEmailReal = user.email;
     if (user != null) {
-      Navigator.pushReplacement(
+      SharedPreferences prefs= await SharedPreferences.getInstance();
+      var status=await prefs.getString(user.email);
+      if(status==null)
+      
+    {  Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ReceiverView(false,null)),);
+        MaterialPageRoute(builder: (context) => ReceiverView()),);
+    }
+    else if (status=="1")
+      {
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ConfirmReceiver(userId: user.email.replaceAll(".", ""),email:user.email)));
+        
+      }
+      else if(status=="journey"){
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Journey()),
+        );
+      }
+      else{
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Tracking(true,prefs.getString(user.email))));
+      }
     }
     setState(() {
       loadFlag = true;
@@ -126,7 +155,7 @@ class _LoginState extends State<Login> {
                               Timer(duration, () {
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (context) => ReceiverView(false,null)),);
+                                  MaterialPageRoute(builder: (context) => ReceiverView()),);
                               });
                             }
                           }).catchError((e) => print(e));

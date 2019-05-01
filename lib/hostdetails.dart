@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:locatecab/Tracking.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'receiver_view.dart';
 
 class HostDetails extends StatefulWidget {
-  String acceptedHost;
-  HostDetails(this.acceptedHost);
+  String acceptedHost,email;
+  HostDetails(this.acceptedHost,this.email);
 
   @override
   _HostDetails createState() => _HostDetails(acceptedHost);
@@ -78,7 +82,7 @@ class _HostDetails extends State<HostDetails> {
                       image: new DecorationImage(
                           fit: BoxFit.fill,
                           image:
-                          new NetworkImage(data["imageURL"])))),
+                          new NetworkImage(data["imageURL"]!=null?data["imageURL"]:" ")))),
               Padding(padding: EdgeInsets.all(5)),
               Text(hostName!=null?hostName:" "),
               Padding(padding: EdgeInsets.all(5)),
@@ -149,11 +153,15 @@ class _HostDetails extends State<HostDetails> {
                 ],
               ),
               RaisedButton(
-                onPressed: (){
+                onPressed: () async{
+                  SharedPreferences prefs= await SharedPreferences.getInstance();
+
+                  await prefs.setString(widget.email, acceptedHost);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ReceiverView(true,acceptedHost)),
+
+                        builder: (context) => Tracking(true,acceptedHost)),
                   );
                 },
                 splashColor: Colors.red.withAlpha(700),

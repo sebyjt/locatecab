@@ -4,7 +4,8 @@ import 'hostdetails.dart';
 
 class ConfirmReceiver extends StatefulWidget {
   String userId;
-  ConfirmReceiver({Key key, @required this.userId}) : super(key: key);
+  String email;
+  ConfirmReceiver({Key key, @required this.userId,@required this.email}) : super(key: key);
   @override
   _ConfirmReceiverState createState() => _ConfirmReceiverState(userId);
 }
@@ -20,6 +21,8 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
 
   @override
   void initState() {
+    super.initState();
+
     databaseReference.child("receiver").child(userId).child('receiver_status').onValue.listen((Event status){
       print(status.snapshot.value.toString());
       setState(() {
@@ -33,7 +36,6 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
         acceptedHost = status.snapshot.value.toString();
       });
     });
-    super.initState();
   }
 
 
@@ -82,7 +84,7 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HostDetails(acceptedHost)),
+                          builder: (context) => HostDetails(acceptedHost,widget.email)),
                     ):null
                   ,
                   splashColor: Colors.red.withAlpha(700),

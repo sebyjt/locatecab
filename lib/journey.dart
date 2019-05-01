@@ -6,28 +6,22 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/about_page.dart';
 import 'package:locatecab/accepted_receivers.dart';
 import 'package:locatecab/get_host_details.dart';
-import 'package:locatecab/journey.dart';
+import 'package:locatecab/host_view.dart';
 import 'package:locatecab/receiver_view.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'dart:async';
 
 import 'globals.dart' as globals;
 
-
-class HostView extends StatefulWidget {
-//  String mob_no, capacity, model;
-//  Landing(this.mob_no, this.capacity, this.model);
-
+import 'globals.dart' as globals;
+class Journey extends StatefulWidget {
   @override
-  _HostViewState createState() => _HostViewState();
-
+  _JourneyState createState() => _JourneyState();
 }
 
-class _HostViewState extends State<HostView> {
-
+class _JourneyState extends State<Journey> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
 
@@ -55,25 +49,6 @@ class _HostViewState extends State<HostView> {
     setState(() {});
   }
 
-  void notifyReceiver(var data) async{
-    await getUser();
-    String userId = data['receiver_email'].replaceAll(".", "");
-
-    databaseReference.child("receiver").child(userId).set({
-      'receiver_name': data['receiver_name'],
-      'receiver_email': data['receiver_email'],
-      'my_location_latitude': data['my_location_latitude'],
-      'my_location_longitude': data['my_location_longitude'],
-      'destination_latitude': data['destination_latitude'],
-      'destination_longitude': data['destination_longitude'],
-      'receiver_location_address': data['receiver_location_address'],
-      'receiver_destination_address': data['receiver_destination_address'],
-      'imageURL': data['imageURL'],
-      'receiver_status': "You are accepted by "+user.displayName,
-      'accepted_host': user.email.replaceAll(".", ""),
-    });
-    getMarkers();
-  }
 
   @override
   void initState() {
@@ -81,48 +56,74 @@ class _HostViewState extends State<HostView> {
     init();
     controller = new TextEditingController();
 
+    locationSubcription = location.onLocationChanged().listen((Map<String, double> result) {
+      setState(() {
+        currentLocation = result;
+       mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(
+                    currentLocation['latitude'], currentLocation['longitude']),
+                zoom: 13),
+          ),
 
+        );
+        /*mapController.addMarker(
+          MarkerOptions(
+            position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+              infoWindowText: InfoWindowText("You are here", "Find receivers around you"),
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
+          ),
+        );*/
+      });
+      updateHostLocation(currentLocation['latitude'], currentLocation['longitude']);
+    });
 
-   getMarkers();
+    getMarkers();
   }
-void getMarkers(){
+  void getMarkers(){
     markerlist.clear();
-  databaseReference.child("receiver").once().then((DataSnapshot snapshot) {
-    Map<dynamic, dynamic> values = snapshot.value;
-    values.forEach((key, values) {
-      data.add(values);
-      print(values);
-      TimeOfDay timeOfDay=new TimeOfDay.now();
-      print(timeOfDay.toString());
-      if(values["accepted_host"]!="null")
+   Marker marker = new Marker(
+     icon: BitmapDescriptor.fromAsset("assets/images/car_icon.png"),
+
+     markerId: MarkerId("self"),
+        position: LatLng(currentLocation['latitude'],
+            currentLocation['longitude']),);
+   markerlist.add(marker);
+    databaseReference.child("receiver").once().then((DataSnapshot snapshot) {
+      Map<dynamic, dynamic> values = snapshot.value;
+      values.forEach((key, values) {
+        data.add(values);
+        print(values);
+        TimeOfDay timeOfDay=new TimeOfDay.now();
+        print(timeOfDay.toString());
+        if((values as Map).containsKey("accepted_host")&&values["accepted_host"]==user.email.replaceAll(".", ""))
         {
           Marker marker;
 
 
-      if(timeOfDay.hour>=TimeOfDay(hour: 12, minute: 0).hour)
-      {
-        marker = new Marker(
-
-            markerId: MarkerId(values["receiver_email"]),
-            position: LatLng(values['destination_latitude'],
-                values['destination_longitude']),
-            onTap: () => _onMarkerTapped(MarkerId(values["receiver_email"])));
-      }
-      else
-      {
-        marker = new Marker(
-
-            markerId: MarkerId(values["receiver_email"]),
-            position: LatLng(values['my_location_latitude'],
-                values['my_location_longitude']),
-            onTap: () => _onMarkerTapped(MarkerId(values["receiver_email"])));}
-      markerlist.add(marker);
-      setState(() {});}
-      //mapController.onMarkerTapped.add(_onMarkerTapped);
+          if(timeOfDay.hour>=TimeOfDay(hour: 12, minute: 0).hour)
+          {
+            marker = new Marker(
+                markerId: MarkerId(values["receiver_email"]),
+                position: LatLng(values['destination_latitude'],
+                    values['destination_longitude']),
+                onTap: () => _onMarkerTapped(MarkerId(values["receiver_email"])));
+          }
+          else
+          {
+            marker = new Marker(
+                markerId: MarkerId(values["receiver_email"]),
+                position: LatLng(values['my_location_latitude'],
+                    values['my_location_longitude']),
+                onTap: () => _onMarkerTapped(MarkerId(values["receiver_email"])));}
+          markerlist.add(marker);
+          setState(() {});}
+        //mapController.onMarkerTapped.add(_onMarkerTapped);
+      });
     });
-  });
-  print(data);
-}
+    print(data);
+  }
   void _onMarkerTapped(MarkerId markerid) {
     var selectedMarker = markerid.value;
     print(markerid.value);
@@ -152,7 +153,7 @@ void getMarkers(){
                           image: new DecorationImage(
                               fit: BoxFit.fill,
                               image:
-                                  new NetworkImage(data[index]["imageURL"])))),
+                              new NetworkImage(data[index]["imageURL"])))),
                   Padding(padding: EdgeInsets.all(5)),
                   Text(data[index]["receiver_name"]),
                   Padding(padding: EdgeInsets.all(5)),
@@ -190,17 +191,11 @@ void getMarkers(){
                         height: 65,
                         width: 200,
                         child:
-                            Text(data[index]["receiver_destination_address"]),
+                        Text(data[index]["receiver_destination_address"]),
                       ),
                     ],
                   ),
-                  RaisedButton(
-                      child: new Text("Accept receiver"),
-                      color: Colors.orangeAccent,
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0)),
-                      onPressed: (){ notifyReceiver(data[index]);Navigator.pop(context);})
+
                 ],
               ),
             ),
@@ -232,8 +227,8 @@ void getMarkers(){
   Widget build(BuildContext context) {
     return Scaffold(
         key: key,
-        drawer: Drawer(),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.orangeAccent,
           centerTitle: true,
           elevation: 0.0,
@@ -245,18 +240,7 @@ void getMarkers(){
                 fontFamily: 'Gothic',
                 fontWeight: FontWeight.bold),
           ),
-          actions: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(right: 10.0),
-                child: IconButton(
-                    icon: new Icon(
-                      Icons.refresh,
-                      color: Colors.white,
-                    ),
-                    onPressed: (){
-                     getMarkers();
-                    }))
-          ],
+
         ),
         body: Stack(children: [
           new Column(children: <Widget>[
@@ -266,9 +250,9 @@ void getMarkers(){
               color: Colors.orangeAccent,
               child: new SizedBox.expand(
                 child: Center(
-                  child: Text("Tap on markers for receiver detials",
+                  child: Text("Your journey has started",
                     style: TextStyle(
-                        color: Colors.white,fontFamily: 'Gothic',
+                      color: Colors.white,fontFamily: 'Gothic',
                     ),
                   ),
                 ),
@@ -279,21 +263,21 @@ void getMarkers(){
                 child: currentlocation.isEmpty
                     ? new Center(child: CircularProgressIndicator())
                     : new Stack(
-                        children: <Widget>[
-                          new Container(
-                            height: double.infinity,
-                            width: double.infinity,
-                            child: new GoogleMap(
-                              markers: markerlist,
-                              initialCameraPosition: CameraPosition(
-                                  target: LatLng(currentlocation["latitude"],
-                                      currentlocation["longitude"]),
-                                  zoom: 10.0),
-                              onMapCreated: _onMapCreated,
-                            ),
-                          ),
-                        ],
+                  children: <Widget>[
+                    new Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: new GoogleMap(
+                        markers: markerlist,
+                        initialCameraPosition: CameraPosition(
+                            target: LatLng(currentlocation["latitude"],
+                                currentlocation["longitude"]),
+                            zoom: 10.0),
+                        onMapCreated: _onMapCreated,
                       ),
+                    ),
+                  ],
+                ),
               ),
             )
           ]),
@@ -305,14 +289,11 @@ void getMarkers(){
                 width: 250.0,
                 height: 45.0,
                 child: new RaisedButton(
-                  onPressed: () async {
-                    SharedPreferences prefs= await SharedPreferences.getInstance();
-
-                    await prefs.setString(user.email, "journey");
-                    Navigator.pushReplacement(
+                  onPressed: () {
+                         Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Journey()),
+                          builder: (context) => HostView()),
                     );
                   },
                   splashColor: Colors.red.withAlpha(700),
@@ -320,7 +301,7 @@ void getMarkers(){
                       borderRadius: BorderRadius.circular(70.0)),
                   color: Colors.orangeAccent.withAlpha(700),
                   child: Text(
-                    "Start Journey",
+                    "Stop Journey",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -387,163 +368,5 @@ void getMarkers(){
   void gotocurrent() {
     mapController.animateCamera(CameraUpdate.newLatLng(
         LatLng(currentlocation["latitude"], currentlocation["longitude"])));
-  }
-}
-
-class Drawer extends StatefulWidget {
-  @override
-  DrawerState createState() {
-    return new DrawerState();
-  }
-}
-
-class DrawerState extends State<Drawer> {
-  GoogleSignIn _googleSignIn = GoogleSignIn();
-
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseUser user;
-
-  @override
-  void initState() {
-    getUser();
-    super.initState();
-  }
-
-  Future getUser() async {
-    user = await _auth.currentUser();
-    fbuser = user;
-    setState(() {
-      globals.receiverPhotoURL = fbuser.photoUrl;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * .6,
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.deepOrangeAccent, Colors.orangeAccent])),
-            height: MediaQuery.of(context).size.height * .3,
-            alignment: Alignment.center,
-            child: ListTile(
-              leading: ClipOval(
-                child: Image.network(
-                  "${user.photoUrl}",
-                  fit: BoxFit.fill,
-                  height: 40.0,
-                  width: 40.0,
-                ),
-              ),
-              title: Text("${user.displayName}"),
-              subtitle: Text("${user.email}"),
-            ),
-          ),
-          ListTile(
-            title: Text(
-              "Receiver",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff000000)),
-            ),
-            leading: Image.asset("assets/images/down.png",
-                height: 30, width: 30, color: Colors.black),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => ReceiverView()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              "Host",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff000000)),
-            ),
-            leading: Image.asset("assets/images/up.png",
-                height: 30, width: 30, color: Colors.black),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => GetHostDetails()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              "Accepted",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff000000)),
-            ),
-            leading: Icon(
-              Icons.people,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Accepted()),
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text(
-              "About",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff000000)),
-            ),
-            leading: Icon(
-              Icons.settings,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => About()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              "Logout",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff000000)),
-            ),
-            leading: Icon(
-              Icons.power_settings_new,
-              color: Colors.black,
-            ),
-            onTap: () async {
-              await _auth.signOut();
-              await _googleSignIn.signOut();
-
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/', (Route<dynamic> route) => false);
-            },
-          ),
-          Image.asset(
-            "assets/images/ajce.png",
-            height: 80.0,
-            width: 80.0,
-          )
-        ],
-      ),
-    );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -5,33 +7,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/about_page.dart';
+import 'package:locatecab/accepted_receivers.dart';
 import 'package:locatecab/r_confirm.dart';
 import 'package:locatecab/get_host_details.dart';
 import 'package:locatecab/search_view.dart';
 import 'dart:async';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'globals.dart' as globals;
 
 FirebaseUser fbuser;
 
 class ReceiverView extends StatefulWidget {
 
-  bool trackHost;
-  String acceptedHost;
-  ReceiverView(this.trackHost, this.acceptedHost);
+
+  ReceiverView();
 
   @override
-  _ReceiverViewState createState() => _ReceiverViewState(trackHost, acceptedHost);
+  _ReceiverViewState createState() => _ReceiverViewState();
 }
 
 class _ReceiverViewState extends State<ReceiverView> {
 
-  bool trackHost;
-  String acceptedHost;
-  _ReceiverViewState(this.trackHost, this.acceptedHost);
+
+  _ReceiverViewState();
 
   Set<Marker> markerlist = new Set();
   int mid;
+  GlobalKey<ScaffoldState> key = new GlobalKey();
 
   GoogleMapController mapController;
   var source = "My Location", destination = "Destination";
@@ -53,40 +55,12 @@ class _ReceiverViewState extends State<ReceiverView> {
     init();
     controller = new TextEditingController();
 
-    if(trackHost){
-      mid = 0;
-      trackHostFunction();
-    }
+
 
     super.initState();
   }
 
-  void trackHostFunction(){
-    //getUser();
-    //String userId = user.email;
-    //userId = userId.replaceAll(".", "");
-    subscription = FirebaseDatabase.instance
-        .reference()
-        .child("host")
-        .child(acceptedHost)
-        .onValue
-        .listen((event) {
-      mapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom: 13),
-        ),
-      );
-      Marker marker = new Marker(
-        markerId: MarkerId("marker_id_"+mid.toString()),
-        position: LatLng(event.snapshot.value['host_location_latitude'],
-              event.snapshot.value['host_location_longitude']),
-      );
-      markerlist.add(marker);
-      mid++;
-      setState(() {});
-    });
-  }
+
 
   Future getUser() async {
     user = await _auth.currentUser();
@@ -122,6 +96,7 @@ class _ReceiverViewState extends State<ReceiverView> {
                 fontWeight: FontWeight.bold),
           ),
         ),
+        key: key,
         body: Stack(children: [
           new Column(children: <Widget>[
             new Container(
@@ -216,13 +191,20 @@ class _ReceiverViewState extends State<ReceiverView> {
                 width: 250.0,
                 height: 45.0,
                 child: new RaisedButton(
-                  onPressed: () {
-                    registerReceiver();
+                  onPressed: () async {
+                    if(globals.receiverDestinationLatitude!=null&&globals.receiverLocationLatitude!=null)
+                    {registerReceiver();
+                    SharedPreferences prefs= await SharedPreferences.getInstance();
+
+                    await prefs.setString(user.email, "1");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ConfirmReceiver(userId: globals.receiverEmail.replaceAll(".", ""))),
-                    );
+                          builder: (context) => ConfirmReceiver(userId: globals.receiverEmail.replaceAll(".", ""),email:user.email)),
+                    );}
+                    else{
+                      key.currentState.showSnackBar(SnackBar(content: Text("Please enter your pick up point and destination")));
+                    }
                   },
                   splashColor: Colors.red.withAlpha(700),
                   shape: RoundedRectangleBorder(
@@ -345,7 +327,7 @@ class DrawerState extends State<Drawer> {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => ReceiverView(false,null)),
+                MaterialPageRoute(builder: (context) => ReceiverView()),
               );
             },
           ),
@@ -363,6 +345,25 @@ class DrawerState extends State<Drawer> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => GetHostDetails()),
+              );
+            },
+          ),
+          ListTile(
+            title: Text(
+              "Accepted",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff000000)),
+            ),
+            leading: Icon(
+              Icons.people,
+              color: Colors.black,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Accepted()),
               );
             },
           ),

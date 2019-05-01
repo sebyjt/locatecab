@@ -78,6 +78,7 @@ flutter:
     - assets/images/down.png
     - assets/images/ajce.png
     - assets/images/movingcar.gif
+    - assets/images/car_icon.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
