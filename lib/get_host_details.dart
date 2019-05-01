@@ -61,6 +61,41 @@ class _GetHostDetailsState extends State<GetHostDetails> {
     });
   }
 
+  validate(){
+    if(
+        controllerContactNo.text.isEmpty ||
+        controllerCarModel.text.isEmpty ||
+        controllerCarColor.text.isEmpty ||
+        controllerRegNo.text.isEmpty ||
+        controllerCapacity.text.isEmpty
+    ){
+      showSnackbar("All fields are mandatory");
+    }else{
+      globals.mobileNo = controllerContactNo.text;
+      globals.capacity = controllerCapacity.text;
+      globals.model = controllerCarModel.text;
+      globals.regNo = controllerRegNo.text;
+      globals.carColour = controllerCarColor.text;
+
+      saveHostDetailsLocally();
+      showSnackbar("Details have been saved");
+
+      var duration = const Duration(seconds: 2);
+      Timer(duration, () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HostView()));
+      });
+    }
+  }
+
+  showSnackbar(String msg)async{
+    key.currentState.showSnackBar(SnackBar(
+        content: Text(
+            msg)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,26 +170,8 @@ class _GetHostDetailsState extends State<GetHostDetails> {
               new Padding(
                 padding: EdgeInsets.only(top: 40.0, left: 40.0, right: 40.0),
                 child: RaisedButton(
-                  onPressed: () async {
-                    key.currentState.showSnackBar(SnackBar(
-                        content: Text(
-                            "Details have been saved")));
-                    globals.mobileNo = controllerContactNo.text;
-                    globals.capacity = controllerCapacity.text;
-                    globals.model = controllerCarModel.text;
-                    globals.regNo = controllerRegNo.text;
-                    globals.carColour = controllerCarColor.text;
-
-                    saveHostDetailsLocally();
-
-                    var duration = const Duration(seconds: 2);
-                    Timer(duration, () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-//                              builder: (context) => Landing(controller1.text, controller2.text, controller3.text)));
-                              builder: (context) => HostView()));
-                    });
+                  onPressed: () {
+                    validate();
                   },
                   color: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(
