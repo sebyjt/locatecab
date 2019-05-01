@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:locatecab/about_page.dart';
 import 'package:locatecab/get_host_details.dart';
-import 'package:locatecab/search_view.dart';
 import 'package:locatecab/receiver_view.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -285,7 +284,7 @@ class _HostViewState extends State<HostView> {
                               initialCameraPosition: CameraPosition(
                                   target: LatLng(currentlocation["latitude"],
                                       currentlocation["longitude"]),
-                                  zoom: 15.0),
+                                  zoom: 10.0),
                               onMapCreated: _onMapCreated,
                             ),
                           ),
