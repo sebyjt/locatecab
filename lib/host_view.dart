@@ -348,31 +348,6 @@ void getMarkers(){
     });
   }
 
-  void registerHost() async {
-    user = await _auth.currentUser();
-    String userId = user.email;
-    userId = userId.replaceAll(".", "");
-
-
-    databaseReference.child("host").child(userId).set({
-      'host_name': user.displayName,
-      'host_email': user.email,
-      'mobile_no' : globals.mobileNo,
-      'model' : globals.model,
-      'capacity' : globals.capacity,
-      'host_location_latitude': globals.hostLocationLatitude,
-      'host_location_longitude': globals.hostLocationLongitude,
-      'reg_no': globals.regNo,
-      'car_colour': globals.carColour,
-//      'destination_latitude': globals.receiverDestinationLatitude,
-//      'destination_longitude': globals.receiverDestinationLongitude,
-//      'receiver_location_address': globals.receiverLocationAddress,
-//      'receiver_destination_address': globals.receiverDestinationAddress,
-      'imageURL': fbuser.photoUrl,
-//      'receiver_status': "Your location is live on the map please wait until a host accepts you.",
-    });
-  }
-
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;

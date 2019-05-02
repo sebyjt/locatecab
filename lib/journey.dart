@@ -9,6 +9,7 @@ import 'package:locatecab/get_host_details.dart';
 import 'package:locatecab/host_view.dart';
 import 'package:locatecab/receiver_view.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'dart:async';
@@ -40,7 +41,7 @@ class _JourneyState extends State<Journey> {
 
 
   var source = "My Location", destination = "Destination";
-  var currentlocation = {'latitude':0.0,'longitude':0.0};
+  var currentlocation = {};
   Position position;
   TextEditingController controller;
 
@@ -48,8 +49,16 @@ class _JourneyState extends State<Journey> {
     user = await _auth.currentUser();
     setState(() {});
   }
+@override
+  void dispose(){
+    // TODO: implement dispose
+    super.dispose();
+    unsubscribe();
+  }
+unsubscribe() async{
+  await locationSubcription.cancel();
 
-
+}
   @override
   void initState() {
     super.initState();
@@ -95,6 +104,15 @@ class _JourneyState extends State<Journey> {
                     values['my_location_longitude']),
                 onTap: () => _onMarkerTapped(MarkerId(values["receiver_email"])));}
           markerlist.add(marker);
+          mapController.animateCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
+                  target: LatLng(
+                      currentLocation['latitude']!=null?currentLocation['latitude']:0.0, currentLocation['longitude']!=null?currentLocation['longitude']:0.0),
+                  zoom: 17),
+            ),
+
+          );
           setState(() {});}
         //mapController.onMarkerTapped.add(_onMarkerTapped);
       });
@@ -202,15 +220,7 @@ class _JourneyState extends State<Journey> {
       setState(() {
         currentLocation = result;
         print(mapController);
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-                target: LatLng(
-                    currentLocation['latitude']!=null?currentlocation['latitude']:0.0, currentLocation['longitude']!=null?currentlocation['longitude']:0.0),
-                zoom: 13),
-          ),
 
-        );
         /*mapController.addMarker(
           MarkerOptions(
             position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
@@ -219,6 +229,8 @@ class _JourneyState extends State<Journey> {
           ),
         );*/
       });
+      getMarkers();
+
       updateHostLocation(currentLocation['latitude'], currentLocation['longitude']);
     });
 
@@ -290,7 +302,12 @@ class _JourneyState extends State<Journey> {
                 width: 250.0,
                 height: 45.0,
                 child: new RaisedButton(
-                  onPressed: () {
+
+                  onPressed: () async {
+                    await locationSubcription.cancel();
+                    SharedPreferences prefs= await SharedPreferences.getInstance();
+
+                    await prefs.remove(user.email);
                          Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -328,7 +345,6 @@ class _JourneyState extends State<Journey> {
       'reg_no': globals.regNo,
       'car_colour': globals.carColour,
     });
-     getMarkers();
 
   }
 

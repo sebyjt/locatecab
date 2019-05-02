@@ -13,7 +13,7 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   TextEditingController controller;
   Map response = {};
-
+ GlobalKey<ScaffoldState> key=new GlobalKey();
   @override
   void initState() {
     // TODO: implement initState
@@ -37,7 +37,12 @@ class _SearchViewState extends State<SearchView> {
       ),
       leading: new IconButton(
         icon: new Icon(Icons.search),
-        onPressed: () => Search(controller.text),
+        onPressed: () {
+          if(controller.text.isNotEmpty)
+          Search(controller.text);
+          else
+            key.currentState.showSnackBar(SnackBar(content: Text("please enter a place")));}
+          ,
       ),
     );
   }
@@ -61,6 +66,7 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     if (response.isNotEmpty) print(response["predictions"][0]["description"]);
     return Scaffold(
+      key: key,
       appBar: _buildBar(context),
       body: (response.isNotEmpty)
           ? ListView.builder(

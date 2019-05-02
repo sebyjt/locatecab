@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:locatecab/host_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
   GlobalKey<ScaffoldState> key = new GlobalKey();
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser user;
+  final databaseReference = FirebaseDatabase.instance.reference();
 
   SharedPreferences sharedPreferences;
 
@@ -29,7 +31,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
 
   @override
   void initState() {
-    loadLocallySavedHostData();
+    //loadLocallySavedHostData();
     super.initState();
     controllerContactNo = new TextEditingController();
     controllerCarModel = new TextEditingController();
@@ -39,7 +41,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
     getUser();
   }
 
-  saveHostDetailsLocally() async{
+ /* saveHostDetailsLocally() async{
     sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       sharedPreferences.setString("host_contact_no", controllerContactNo.text);
@@ -48,9 +50,9 @@ class _GetHostDetailsState extends State<GetHostDetails> {
       sharedPreferences.setString("host_reg_no", controllerRegNo.text);
       sharedPreferences.setString("host_car_capacity", controllerCapacity.text);
     });
-  }
+  }*/
 
-  loadLocallySavedHostData() async{
+/*  loadLocallySavedHostData() async{
     sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       controllerContactNo.text = sharedPreferences.getString("host_contact_no");
@@ -59,9 +61,9 @@ class _GetHostDetailsState extends State<GetHostDetails> {
       controllerRegNo.text = sharedPreferences.getString("host_reg_no");
       controllerCapacity.text = sharedPreferences.getString("host_car_capacity");
     });
-  }
+  }*/
 
-  validate(){
+  validate() async{
     if(
         controllerContactNo.text.isEmpty ||
         controllerCarModel.text.isEmpty ||
@@ -77,7 +79,8 @@ class _GetHostDetailsState extends State<GetHostDetails> {
       globals.regNo = controllerRegNo.text;
       globals.carColour = controllerCarColor.text;
 
-      saveHostDetailsLocally();
+      //saveHostDetailsLocally();
+      await registerHost();
       showSnackbar("Details have been saved");
 
       var duration = const Duration(seconds: 2);
@@ -94,6 +97,31 @@ class _GetHostDetailsState extends State<GetHostDetails> {
     key.currentState.showSnackBar(SnackBar(
         content: Text(
             msg)));
+  }
+
+  Future registerHost() async {
+    user = await _auth.currentUser();
+    String userId = user.email;
+    userId = userId.replaceAll(".", "");
+
+
+    databaseReference.child("host").child(userId).set({
+      'host_name': user.displayName,
+      'host_email': user.email,
+      'mobile_no' : globals.mobileNo,
+      'model' : globals.model,
+      'capacity' : globals.capacity,
+      'host_location_latitude': globals.hostLocationLatitude,
+      'host_location_longitude': globals.hostLocationLongitude,
+      'reg_no': globals.regNo,
+      'car_colour': globals.carColour,
+//      'destination_latitude': globals.receiverDestinationLatitude,
+//      'destination_longitude': globals.receiverDestinationLongitude,
+//      'receiver_location_address': globals.receiverLocationAddress,
+//      'receiver_destination_address': globals.receiverDestinationAddress,
+      'imageURL': fbuser.photoUrl,
+//      'receiver_status': "Your location is live on the map please wait until a host accepts you.",
+    });
   }
 
   @override

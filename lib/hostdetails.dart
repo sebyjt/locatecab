@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -19,7 +20,7 @@ class _HostDetails extends State<HostDetails> {
   _HostDetails(this.acceptedHost);
   var data = {};
   final databaseReference = FirebaseDatabase.instance.reference();
-
+ bool live=false;
   String hostName;
   String hostEmail;
   String mobileNo;
@@ -28,10 +29,13 @@ class _HostDetails extends State<HostDetails> {
   String colour;
   String regNo;
   int flag=0;
+  StreamSubscription subscription;
 
   @override
   void initState() {
     super.initState();
+    print(live);
+    trackHostFunction();
     databaseReference.child("host").child(widget.acceptedHost).once().then((DataSnapshot snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       data=values;
@@ -53,7 +57,24 @@ class _HostDetails extends State<HostDetails> {
 
   }
 
-
+  void trackHostFunction(){
+    int i=0;
+    //getUser();
+    //String userId = user.email;
+    //userId = userId.replaceAll(".", "");
+    subscription = FirebaseDatabase.instance
+        .reference()
+        .child("host")
+        .child(acceptedHost)
+        .onValue
+        .listen((event) {
+i++;
+if(i>1)
+      live=true;
+      print(live);
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context){
     print (widget.acceptedHost);
@@ -153,7 +174,7 @@ class _HostDetails extends State<HostDetails> {
                 ],
               ),
               RaisedButton(
-                onPressed: () async{
+                onPressed:live? () async{
                   SharedPreferences prefs= await SharedPreferences.getInstance();
 
                   await prefs.setString(widget.email, acceptedHost);
@@ -163,7 +184,7 @@ class _HostDetails extends State<HostDetails> {
 
                         builder: (context) => Tracking(true,acceptedHost)),
                   );
-                },
+                }:null,
                 splashColor: Colors.red.withAlpha(700),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(70.0)),

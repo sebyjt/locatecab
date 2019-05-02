@@ -51,39 +51,48 @@ class _TrackingState extends State<Tracking> {
 
     super.initState();
   }
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    unsubscribe();
+  }
+  unsubscribe() async{
+    await subscription.cancel();
 
+  }
   void trackHostFunction(){
-    //getUser();
-    //String userId = user.email;
-    //userId = userId.replaceAll(".", "");
-    subscription = FirebaseDatabase.instance
-        .reference()
-        .child("host")
-        .child(acceptedHost)
-        .onValue
-        .listen((event) {
-      mapController.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom:17),
-        ),
-      );
-      Marker marker = new Marker(
-        icon: BitmapDescriptor.fromAsset("assets/images/car_icon.png"),
+      //getUser();
+      //String userId = user.email;
+      //userId = userId.replaceAll(".", "");
+      subscription = FirebaseDatabase.instance
+          .reference()
+          .child("host")
+          .child(acceptedHost)
+          .onValue
+          .listen((event) {
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom:17),
+          ),
+        );
+        Marker marker = new Marker(
+          icon: BitmapDescriptor.fromAsset("assets/images/car_icon.png"),
 
-        markerId: MarkerId("marker_id_"+mid.toString()),
-        position: LatLng(event.snapshot.value['host_location_latitude'],
-            event.snapshot.value['host_location_longitude']),
-      );
-      print(markerlist);
-      markerlist.clear();
-      setState(() {
+          markerId: MarkerId("marker_id_"+mid.toString()),
+          position: LatLng(event.snapshot.value['host_location_latitude'],
+              event.snapshot.value['host_location_longitude']),
+        );
+        print(markerlist);
+        markerlist.clear();
+        setState(() {
 
+        });
+        markerlist.add(marker);
+        mid++;
+        setState(() {});
       });
-      markerlist.add(marker);
-      mid++;
-      setState(() {});
-    });
   }
 
   Future getUser() async {
@@ -158,6 +167,7 @@ class _TrackingState extends State<Tracking> {
                 height: 45.0,
                 child: new RaisedButton(
                   onPressed: () async {
+                    await subscription.cancel();
                     SharedPreferences prefs= await SharedPreferences.getInstance();
 
                     await prefs.remove(user.email);
