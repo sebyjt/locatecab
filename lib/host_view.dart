@@ -87,6 +87,11 @@ class _HostViewState extends State<HostView> {
   }
 void getMarkers(){
     markerlist.clear();
+    data=[];
+    setState(() {
+
+    });
+    print(data);
   databaseReference.child("receiver").once().then((DataSnapshot snapshot) {
     Map<dynamic, dynamic> values = snapshot.value;
     values.forEach((key, values) {
