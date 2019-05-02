@@ -169,6 +169,8 @@ class _TrackingState extends State<Tracking> {
                   height: 45.0,
                   child: new RaisedButton(
                     onPressed: () async {
+                      await databaseReference.child('receiver').child(user.email.replaceAll(".", "")).remove();
+
                       await subscription.cancel();
                       SharedPreferences prefs= await SharedPreferences.getInstance();
 

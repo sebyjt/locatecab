@@ -47,7 +47,7 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop:acceptedHost!="null"?(){}:() async {
-        databaseReference.child('receiver').child(userId).remove();
+        await databaseReference.child('receiver').child(userId).remove();
         SharedPreferences prefs= await SharedPreferences.getInstance();
 
         await prefs.remove(widget.email);

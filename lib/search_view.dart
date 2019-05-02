@@ -12,8 +12,9 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   TextEditingController controller;
-  Map response = {};
- GlobalKey<ScaffoldState> key=new GlobalKey();
+  Map     response={"predictions":[]};
+
+  GlobalKey<ScaffoldState> key=new GlobalKey();
   @override
   void initState() {
     // TODO: implement initState
