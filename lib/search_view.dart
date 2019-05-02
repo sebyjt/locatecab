@@ -64,11 +64,12 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    if (response.isNotEmpty) print(response["predictions"][0]["description"]);
+    print(response);
+    if (response["predictions"].isNotEmpty) print(response["predictions"][0]["description"]);
     return Scaffold(
       key: key,
       appBar: _buildBar(context),
-      body: (response.isNotEmpty)
+      body: (response["predictions"].isNotEmpty)
           ? ListView.builder(
               itemBuilder: (context, i) {
                 return GestureDetector(

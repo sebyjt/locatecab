@@ -238,95 +238,98 @@ unsubscribe() async{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: key,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.orangeAccent,
-          centerTitle: true,
-          elevation: 0.0,
-          //leading: IconButton(icon: Icon(Icons.navigate_before,size: 35.0,),onPressed: ()=>Navigator.of(context).pop(),),
-          title: Text(
-            "Host",
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Gothic',
-                fontWeight: FontWeight.bold),
-          ),
+    return WillPopScope(
+      onWillPop: (){},
+      child: Scaffold(
+          key: key,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.orangeAccent,
+            centerTitle: true,
+            elevation: 0.0,
+            //leading: IconButton(icon: Icon(Icons.navigate_before,size: 35.0,),onPressed: ()=>Navigator.of(context).pop(),),
+            title: Text(
+              "Host",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Gothic',
+                  fontWeight: FontWeight.bold),
+            ),
 
-        ),
-        body: Stack(children: [
-          new Column(children: <Widget>[
-            new Container(
-              padding: EdgeInsets.only(bottom: 10),
-              height: 30.0,
-              color: Colors.orangeAccent,
-              child: new SizedBox.expand(
-                child: Center(
-                  child: Text("Your journey has started",
-                    style: TextStyle(
-                      color: Colors.white,fontFamily: 'Gothic',
+          ),
+          body: Stack(children: [
+            new Column(children: <Widget>[
+              new Container(
+                padding: EdgeInsets.only(bottom: 10),
+                height: 30.0,
+                color: Colors.orangeAccent,
+                child: new SizedBox.expand(
+                  child: Center(
+                    child: Text("Your journey has started",
+                      style: TextStyle(
+                        color: Colors.white,fontFamily: 'Gothic',
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            new Expanded(
-              child: new Container(
-                child: currentlocation.isEmpty
-                    ? new Center(child: CircularProgressIndicator())
-                    : new Stack(
-                  children: <Widget>[
-                    new Container(
-                      height: double.infinity,
-                      width: double.infinity,
-                      child: new GoogleMap(
-                        markers: markerlist,
-                        initialCameraPosition: CameraPosition(
-                            target: LatLng(currentlocation["latitude"],
-                                currentlocation["longitude"]),
-                            zoom: 10.0),
-                        onMapCreated: _onMapCreated,
+              new Expanded(
+                child: new Container(
+                  child: currentlocation.isEmpty
+                      ? new Center(child: CircularProgressIndicator())
+                      : new Stack(
+                    children: <Widget>[
+                      new Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        child: new GoogleMap(
+                          markers: markerlist,
+                          initialCameraPosition: CameraPosition(
+                              target: LatLng(currentlocation["latitude"],
+                                  currentlocation["longitude"]),
+                              zoom: 10.0),
+                          onMapCreated: _onMapCreated,
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+              )
+            ]),
+            new Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Container(
+                  width: 250.0,
+                  height: 45.0,
+                  child: new RaisedButton(
+
+                    onPressed: () async {
+                      await locationSubcription.cancel();
+                      SharedPreferences prefs= await SharedPreferences.getInstance();
+
+                      await prefs.remove(user.email);
+                           Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HostView()),
+                      );
+                    },
+                    splashColor: Colors.red.withAlpha(700),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(70.0)),
+                    color: Colors.orangeAccent.withAlpha(700),
+                    child: Text(
+                      "Stop Journey",
+                      style: TextStyle(color: Colors.white),
                     ),
-                  ],
+                  ),
                 ),
               ),
             )
-          ]),
-          new Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
-              child: Container(
-                width: 250.0,
-                height: 45.0,
-                child: new RaisedButton(
-
-                  onPressed: () async {
-                    await locationSubcription.cancel();
-                    SharedPreferences prefs= await SharedPreferences.getInstance();
-
-                    await prefs.remove(user.email);
-                         Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HostView()),
-                    );
-                  },
-                  splashColor: Colors.red.withAlpha(700),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(70.0)),
-                  color: Colors.orangeAccent.withAlpha(700),
-                  child: Text(
-                    "Stop Journey",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          )
-        ]));
+          ])),
+    );
   }
 
   void updateHostLocation(double latitude, double longitude) {
