@@ -293,7 +293,7 @@ void getMarkers(){
                               initialCameraPosition: CameraPosition(
                                   target: LatLng(currentlocation["latitude"],
                                       currentlocation["longitude"]),
-                                  zoom: 10.0),
+                                  zoom: 12.0),
                               onMapCreated: _onMapCreated,
                             ),
                           ),

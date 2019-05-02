@@ -117,7 +117,7 @@ class _ReceiverViewState extends State<ReceiverView> {
                               initialCameraPosition: CameraPosition(
                                   target: LatLng(currentlocation["latitude"],
                                       currentlocation["longitude"]),
-                                  zoom: 15.0),
+                                  zoom: 17.0),
                               onMapCreated: _onMapCreated,
                             ),
                           ),
