@@ -30,6 +30,7 @@ dependencies:
   url_launcher: 5.0.0
   geocoder:
   shared_preferences: ^0.4.2
+  local_notifications: any
 
 
 

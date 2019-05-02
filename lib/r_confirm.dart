@@ -4,6 +4,7 @@ import 'package:locatecab/host_view.dart';
 import 'package:locatecab/receiver_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'hostdetails.dart';
+import 'package:local_notifications/local_notifications.dart';
 
 class ConfirmReceiver extends StatefulWidget {
   String userId;
@@ -22,15 +23,38 @@ class _ConfirmReceiverState extends State<ConfirmReceiver> {
 
   final databaseReference = FirebaseDatabase.instance.reference();
 
+
+
+
   @override
-  void initState() {
+  Future initState() {
     super.initState();
 
-    databaseReference.child("receiver").child(userId).child('receiver_status').onValue.listen((Event status){
+    const AndroidNotificationChannel channel = const AndroidNotificationChannel(
+        id: 'default_notification',
+        name: 'Default',
+        description: 'Grant this app the ability to show notifications',
+        importance: AndroidNotificationChannelImportance.HIGH
+    );
+
+    LocalNotifications.createAndroidNotificationChannel(channel: channel);
+
+
+    databaseReference.child("receiver").child(userId).child('receiver_status').onValue.listen((Event status) async {
       print(status.snapshot.value.toString());
       setState(() {
         receiverStatus = status.snapshot.value.toString();
+
       });
+      if (acceptedHost!=null) {
+        await LocalNotifications.createNotification(
+            title: "Host Available",
+            content: "You have been accepted by a host. Click to view Host details.",
+            id: 0,
+            androidSettings: new AndroidSettings(
+                channel: channel
+            ));
+      }
     });
 
     databaseReference.child("receiver").child(userId).child('accepted_host').onValue.listen((Event status){
