@@ -65,7 +65,7 @@ class _TrackingState extends State<Tracking> {
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-              target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom: 13),
+              target: LatLng(event.snapshot.value['host_location_latitude'], event.snapshot.value['host_location_longitude']), zoom:17),
         ),
       );
       Marker marker = new Marker(

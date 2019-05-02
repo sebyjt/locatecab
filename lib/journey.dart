@@ -40,7 +40,7 @@ class _JourneyState extends State<Journey> {
 
 
   var source = "My Location", destination = "Destination";
-  var currentlocation = {};
+  var currentlocation = {'latitude':0.0,'longitude':0.0};
   Position position;
   TextEditingController controller;
 
@@ -56,30 +56,7 @@ class _JourneyState extends State<Journey> {
     init();
     controller = new TextEditingController();
 
-    locationSubcription = location.onLocationChanged().listen((Map<String, double> result) {
-      setState(() {
-        currentLocation = result;
-       mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-                target: LatLng(
-                    currentLocation['latitude'], currentLocation['longitude']),
-                zoom: 13),
-          ),
 
-        );
-        /*mapController.addMarker(
-          MarkerOptions(
-            position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
-              infoWindowText: InfoWindowText("You are here", "Find receivers around you"),
-              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
-          ),
-        );*/
-      });
-      updateHostLocation(currentLocation['latitude'], currentLocation['longitude']);
-    });
-
-    getMarkers();
   }
   void getMarkers(){
     markerlist.clear();
@@ -221,6 +198,30 @@ class _JourneyState extends State<Journey> {
       globals.hostLocationLatitude = position.latitude;
       globals.hostLocationLongitude = position.longitude;
     });
+    locationSubcription = location.onLocationChanged().listen((Map<String, double> result) {
+      setState(() {
+        currentLocation = result;
+        print(mapController);
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(
+                    currentLocation['latitude']!=null?currentlocation['latitude']:0.0, currentLocation['longitude']!=null?currentlocation['longitude']:0.0),
+                zoom: 13),
+          ),
+
+        );
+        /*mapController.addMarker(
+          MarkerOptions(
+            position: LatLng(currentLocation['latitude'], currentLocation['longitude']),
+              infoWindowText: InfoWindowText("You are here", "Find receivers around you"),
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue)
+          ),
+        );*/
+      });
+      updateHostLocation(currentLocation['latitude'], currentLocation['longitude']);
+    });
+
   }
 
   @override
@@ -327,6 +328,8 @@ class _JourneyState extends State<Journey> {
       'reg_no': globals.regNo,
       'car_colour': globals.carColour,
     });
+     getMarkers();
+
   }
 
   void registerHost() async {
@@ -355,6 +358,7 @@ class _JourneyState extends State<Journey> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
+
     setState(() {
       mapController = controller;
       /*mapController.addMarker(MarkerOptions(
