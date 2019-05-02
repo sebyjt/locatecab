@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="iodev.in.locatecab">
+    package=" ">
 
     <!-- The INTERNET permission is required for development. Specifically,
          flutter needs it to communicate with the running application
@@ -19,7 +19,7 @@
         android:label="locatecab"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyASVyBpDBBjAxSfjTekxwfOIIQ9FinTzg4"/>
+            android:value="AIzaSyCSTgxJNNErEAMLRgu9TAsgDx_OJeSTjZo"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

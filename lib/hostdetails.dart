@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:locatecab/Tracking.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'receiver_view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HostDetails extends StatefulWidget {
   String acceptedHost,email;
@@ -107,12 +108,37 @@ if(i>1)
               Padding(padding: EdgeInsets.all(5)),
               Text(hostName!=null?hostName:" "),
               Padding(padding: EdgeInsets.all(5)),
-              Text(mobileNo!=null?mobileNo:" "),
+              GestureDetector(
+                onTap: () async{
+                  String url = 'tel:'+mobileNo;
+                  if (await canLaunch(url)) {
+                    await launch(Uri.encodeFull(url));
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+
+                },
+                child: Text(mobileNo!=null?mobileNo:" ", style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.blue)),
+              ),
               Padding(padding: EdgeInsets.all(5)),
-              Text(hostEmail!=null?hostEmail:" ",
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.blue)),
+              GestureDetector(
+                onTap: () async{
+
+                    String url = 'mailto:'+hostEmail;
+                    if (await canLaunch(url)) {
+                      await launch(Uri.encodeFull(url));
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+
+                },
+                child: Text(hostEmail!=null?hostEmail:" ",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue)),
+              ),
               Padding(padding: EdgeInsets.all(5)),
               Row(
                 children: <Widget>[

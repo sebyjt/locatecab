@@ -87,7 +87,6 @@ class _HostViewState extends State<HostView> {
   }
 void getMarkers(){
     markerlist.clear();
-    data=[];
     setState(() {
 
     });
@@ -126,6 +125,7 @@ void getMarkers(){
       //mapController.onMarkerTapped.add(_onMarkerTapped);
     });
   });
+
   print(data);
 }
   void _onMarkerTapped(MarkerId markerid) {
