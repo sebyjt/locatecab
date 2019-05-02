@@ -94,7 +94,7 @@ void getMarkers(){
       print(values);
       TimeOfDay timeOfDay=new TimeOfDay.now();
       print(timeOfDay.toString());
-      if(values["accepted_host"]!="null")
+      if(values["accepted_host"]=="null")
         {
           Marker marker;
 
