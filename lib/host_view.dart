@@ -163,12 +163,12 @@ void getMarkers(){
                           image: new DecorationImage(
                               fit: BoxFit.fill,
                               image:
-                                  new NetworkImage(data[index]["imageURL"])))),
+                                  new NetworkImage(data.isNotEmpty?data[index]["imageURL"]:" ")))),
                   Padding(padding: EdgeInsets.all(5)),
-                  Text(data[index]["receiver_name"]),
+                  Text(data.isNotEmpty?data[index]["receiver_name"]:" "),
                   Padding(padding: EdgeInsets.all(5)),
                   GestureDetector(
-                      child: Text(data[index]["receiver_email"],
+                      child: Text(data.isNotEmpty?data[index]["receiver_email"]:" ",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.blue)),
@@ -186,7 +186,7 @@ void getMarkers(){
                       SizedBox(
                         height: 65,
                         width: 200,
-                        child: Text(data[index]["receiver_location_address"]),
+                        child: Text(data.isNotEmpty?data[index]["receiver_location_address"]:" "),
                       ),
                     ],
                   ),
@@ -201,7 +201,7 @@ void getMarkers(){
                         height: 65,
                         width: 200,
                         child:
-                            Text(data[index]["receiver_destination_address"]),
+                            Text(data.isNotEmpty?data[index]["receiver_destination_address"]:" "),
                       ),
                     ],
                   ),

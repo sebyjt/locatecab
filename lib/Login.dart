@@ -89,6 +89,12 @@ class _LoginState extends State<Login> {
               builder: (context) => Journey()),
         );
       }
+      else if(status=="3")
+        {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HostView()));
+        }
       else{
         Navigator.pushReplacement(
             context,

@@ -336,17 +336,10 @@ unsubscribe() async{
     String userId = user.email;
     userId = userId.replaceAll(".", "");
 
-    databaseReference.child("host").child(userId).set({
-      'host_name': user.displayName,
-      'host_email': user.email,
-      'mobile_no' : globals.mobileNo,
-      'model' : globals.model,
-      'capacity' : globals.capacity,
+    databaseReference.child("host").child(userId).update({
+
       'host_location_latitude': latitude,
       'host_location_longitude': longitude,
-      'imageURL':globals.receiverPhotoURL,
-      'reg_no': globals.regNo,
-      'car_colour': globals.carColour,
     });
 
   }
