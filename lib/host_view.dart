@@ -91,13 +91,19 @@ void getMarkers(){
 
     });
     print(data);
-  databaseReference.child("receiver").once().then((DataSnapshot snapshot) {
+  databaseReference.child("receiver").once().then((DataSnapshot snapshot)  {
     Map<dynamic, dynamic> values = snapshot.value;
-    values.forEach((key, values) {
+    values.forEach((key, values) async{
       data.add(values);
       print(values);
       TimeOfDay timeOfDay=new TimeOfDay.now();
       print(timeOfDay.toString());
+      if(values["accepted_host"]==user.email.replaceAll(".", ""))
+
+        {
+          SharedPreferences preferences= await SharedPreferences.getInstance();
+         await preferences.setString(user.email, "3");
+        }
       if(values["accepted_host"]=="null")
         {
           Marker marker;
