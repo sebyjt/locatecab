@@ -23,3 +23,6 @@ Back-end: Google Cloud Platform Services such as Firebase and Maps/Places API ar
 Firebase Realtime Database is used for storing location and other details of the users. 
 Firebase Auth is used for authenticating users using Amal Jyothi Credentials. 
 Maps/Places API for location based services.
+
+
+![locate_cab_ajce_i2u_poster](https://user-images.githubusercontent.com/20029287/57427881-7bfc0500-7243-11e9-80c4-989d4f3c3595.png)
