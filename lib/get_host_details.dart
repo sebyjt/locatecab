@@ -27,18 +27,20 @@ class _GetHostDetailsState extends State<GetHostDetails> {
 
   Future getUser() async {
     user = await _auth.currentUser();
+    loadLocallySavedHostData();
+
   }
 
   @override
   void initState() {
-    //loadLocallySavedHostData();
+    getUser();
+
     super.initState();
     controllerContactNo = new TextEditingController();
     controllerCarModel = new TextEditingController();
     controllerCarColor = new TextEditingController();
     controllerRegNo = new TextEditingController();
     controllerCapacity = new TextEditingController();
-    getUser();
   }
 
   saveHostDetailsLocally() async{
