@@ -41,27 +41,27 @@ class _GetHostDetailsState extends State<GetHostDetails> {
     getUser();
   }
 
- /* saveHostDetailsLocally() async{
+  saveHostDetailsLocally() async{
     sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      sharedPreferences.setString("host_contact_no", controllerContactNo.text);
-      sharedPreferences.setString("host_car_model", controllerCarModel.text);
-      sharedPreferences.setString("host_car_color", controllerCarColor.text);
-      sharedPreferences.setString("host_reg_no", controllerRegNo.text);
-      sharedPreferences.setString("host_car_capacity", controllerCapacity.text);
+      sharedPreferences.setString(user.email.replaceAll(".","")+"host_contact_no", controllerContactNo.text);
+      sharedPreferences.setString(user.email.replaceAll(".","")+"host_car_model", controllerCarModel.text);
+      sharedPreferences.setString(user.email.replaceAll(".","")+"host_car_color", controllerCarColor.text);
+      sharedPreferences.setString(user.email.replaceAll(".","")+"host_reg_no", controllerRegNo.text);
+      sharedPreferences.setString(user.email.replaceAll(".","")+"host_car_capacity", controllerCapacity.text);
     });
-  }*/
+  }
 
-/*  loadLocallySavedHostData() async{
+  loadLocallySavedHostData() async{
     sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
-      controllerContactNo.text = sharedPreferences.getString("host_contact_no");
-      controllerCarModel.text = sharedPreferences.getString("host_car_model");
-      controllerCarColor.text = sharedPreferences.getString("host_car_color");
-      controllerRegNo.text = sharedPreferences.getString("host_reg_no");
-      controllerCapacity.text = sharedPreferences.getString("host_car_capacity");
+      controllerContactNo.text = sharedPreferences.getString(user.email.replaceAll(".","")+"host_contact_no");
+      controllerCarModel.text = sharedPreferences.getString(user.email.replaceAll(".","")+"host_car_model");
+      controllerCarColor.text = sharedPreferences.getString(user.email.replaceAll(".","")+"host_car_color");
+      controllerRegNo.text = sharedPreferences.getString(user.email.replaceAll(".","")+"host_reg_no");
+      controllerCapacity.text = sharedPreferences.getString(user.email.replaceAll(".","")+"host_car_capacity");
     });
-  }*/
+  }
 
   validate() async{
     if(
@@ -79,7 +79,7 @@ class _GetHostDetailsState extends State<GetHostDetails> {
       globals.regNo = controllerRegNo.text;
       globals.carColour = controllerCarColor.text;
 
-      //saveHostDetailsLocally();
+      saveHostDetailsLocally();
       await registerHost();
       showSnackbar("Details have been saved");
 
